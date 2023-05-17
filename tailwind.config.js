@@ -13,6 +13,10 @@ module.exports = {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                roboto : ['Roboto', 'sans-serif'],
+                kanit : ['Kanit','sans-serif'],
+                Pt : ['PT Serif', 'serif'],
+                Libre : [ 'Libre Baskerville', 'serif']
             },
             colors: {
                 PrimaryBg : 'var(--PrimaryBg)',

@@ -16,8 +16,11 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
     </head>
-    <body class="font-sans antialiased"
-    x-data="{ color: localStorage.getItem('theme') || 'light' }" x-bind:class="'theme-' +color">
+    <body class="antialiased "
+    x-data="{ color: localStorage.getItem('theme') || 'light',font: localStorage.getItem('font') || 'Libre' }"
+    x-init="{ color: localStorage.getItem('theme') || 'light',font: localStorage.getItem('font') || 'Libre' }"
+    x-bind:class="'theme-' +color + ' ' + 'font-' + font" x-cloak>
+
         <div class="min-h-screen flex ">
             <div class="w-[20%] border-r-2 text-PrimaryText bg-PrimaryBg border-gray-100">
                 @include('layouts.sidebar')

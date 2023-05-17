@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+
 [x-cloak] { display: none !important; }
 @layer base {
+    @import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@1,500&family=Noto+Sans:ital,wght@1,200&family=Roboto:ital@1&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital@1&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@1&display=swap');
     :root {
         --color-primary-50 :theme('colors.gray.50');
         --color-primary-100 :theme('colors.gray.100');
@@ -69,3 +73,5 @@
     --SoftBg : var(--color-primary-800);
     --SoftText : var(--color-primary-200);
 }
+
+
