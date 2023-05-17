@@ -19,7 +19,6 @@
                     <h3>Interface Theme</h3>
                     <p class="text-SecondaryText">Select your interface color schema</p>
                 </div>
-
                 <div class="text-PrimaryText">
                     <div class="relative inline-block text-left">
                         <div class="relative" x-data="{ isOpen: false }">
