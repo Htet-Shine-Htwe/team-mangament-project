@@ -1,18 +1,28 @@
 <div class="w-full bg-SecondaryBg h-full pt-3">
 
     <div class="top-bar pl-3 pr-2 flex justify-between items-center">
-        <a href="{{ route('dashboard') }}" class="flex gap-x-2 items-center">
-            <img src ="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc35c7t6vW9J0qnXnorC-rqRBCJL2AWgYLJvkS2FE_&s"
-            class="w-10 h-10 object-contain" />
-            <p>Nova</p>
+        <a href="{{ route('dashboard') }}" class="flex gap-x-1 items-center">
+            <img src ="{{ getLogo() }}" class="w-8 h-8 fill-current text-gray-500" />
+            <p class="font-Kanit font-medium">{{ Auth::user()->name }}</p>
         </a>
         <div class="">
-            <div class="bg-green-300 w-6 h-6 rounded-full ">
-            </div>
+            <a href="{{ route('profile.edit') }}" class=" ">
+                <img src = "{{ Auth::user()->profile_photo_path }}" class="w-6 h-6 object-cover rounded-full" />
+            </a>
         </div>
     </div>
 
     <div class="mt-4 flex flex-col gap-y-5">
         <x-layouts.sidebar-item name="setting" iconClass="fa-solid fa-gear" />
+    </div>
+
+    <div class="mt-4 flex flex-col gap-y-5">
+        <form action="{{ route('logout') }}" method="POST" >
+            @csrf
+            <button class="flex gap-x-3 items-center w-full hover:bg-HoverBg capitalize transition pl-3 pr-2 py-2 ">
+                <i class="fa-solid fa-gear"></i>
+                <p>logout</p>
+            </button>
+        </form>
     </div>
 </div>

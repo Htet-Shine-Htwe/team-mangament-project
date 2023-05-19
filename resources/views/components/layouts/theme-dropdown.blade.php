@@ -10,7 +10,7 @@
         </svg>
     </button>
     <ul x-show="isOpen" @click.away="isOpen = false" x-cloak
-        class="absolute font-normal bg-SoftBg shadow overflow-hidden rounded w-36 border mt-2 py-3 right-0 z-20">
+        class="absolute font-normal bg-SoftBg shadow overflow-hidden rounded w-36 border mt-2 py-3 right-0 z-40">
         <li class="flex gap-x-8 items-start">
             <button value="dark" class="theme-switch w-full flex hover:cursor-pointer px-4 py-1 hover:bg-HoverBg hover:text-HoverText ">
                 <i></i>

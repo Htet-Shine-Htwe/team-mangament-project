@@ -1,4 +1,4 @@
-<div class="relative" x-data="{ isOpen: false }">
+<div class="relative z-30" x-data="{ isOpen: false }">
     <button @click="isOpen = !isOpen" @keydown.escape="isOpen = false"
         class="flex items-center">
         <p>Select Font</p>

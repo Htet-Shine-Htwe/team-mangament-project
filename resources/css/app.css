@@ -23,9 +23,9 @@
         --PrimaryText  : var(--color-primary-800);
         --SecondaryBg :var(--color-primary-100);
         --SecondaryText :var(--color-primary-500);
-        --HoverBg :var(--color-primary-200);
+        --HoverBg :var(--color-primary-300);
         --HoverText :var(--color-primary-700);
-        --SoftBg : var(--color-primary-800);
+        --SoftBg : var(--color-primary-200);
         --SoftText : var(--color-primary-200);
 
     }
@@ -48,7 +48,7 @@
     --SecondaryText :var(--color-primary-300);
     --HoverBg :var(--color-primary-700);
     --HoverText :var(--color-primary-200);
-    --SoftBg : var(--color-primary-800);
+    --SoftBg : rgb(33, 35, 46);
     --SoftText : var(--color-primary-200);
 }
 
@@ -62,16 +62,23 @@
     --color-primary-500 :theme('colors.gray.500');
     --color-primary-600 :theme('colors.gray.600');
     --color-primary-700 :theme('colors.gray.700');
-    --color-primary-700 :theme('colors.gray.800');
-    --color-primary-700 :theme('colors.gray.900');
+    --color-primary-800 :theme('colors.gray.800');
+    --color-primary-900 :theme('colors.gray.900');
     --PrimaryBg  : var(--color-primary-50);
     --PrimaryText  : var(--color-primary-800);
     --SecondaryBg :var(--color-primary-100);
     --SecondaryText :var(--color-primary-500);
     --HoverBg :var(--color-primary-200);
     --HoverText :var(--color-primary-700);
-    --SoftBg : var(--color-primary-800);
+    --SoftBg : #f8f8f8;
     --SoftText : var(--color-primary-200);
 }
 
+
+@layer components
+{
+    .text-input {
+        @apply border-gray-300 text-black focus:border-indigo-500 py-2 px-2 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full;
+      }
+}
 
