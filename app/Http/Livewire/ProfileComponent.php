@@ -2,49 +2,61 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Icon;
 use App\Models\User;
+use App\Traits\UsePhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class ProfileComponent extends Component
 {
+    use UsePhoto,WithFileUploads;
     public $user;
     public $user_name;
 
-    public $disable_delete = true;
+    public $profile_photo ;
+
+    public $tmp_photo;
     public $confirm_user_name;
+
+    public $icons;
+
+    public $selectedIcon="";
     public function mount(Request $request)
     {
         $this->user =  $request->user();
         if(!$this->user == null)
         {
             $this->user_name = $this->user->name;
+            $this->profile_photo = $this->user->profile_photo_path;
+            $this->profile_photo = $this->getPhoto($this->profile_photo,'profile');
         }
+        $this->icons = Icon::all();
     }
 
     public function render()
     {
-        return view('profile.edit');
+        return view('livewire.profile-component');
     }
 
     public function updateProfile()
     {
         $updated_user = User::where('id',Auth::id())->first();
-        // dd($updated_user);
+        // dd($updated_user)
+        if($this->tmp_photo)
+        {
+            storageCreate('profile');
+            $photoName = $this->storePhotos($this->tmp_photo,'profile');
+            $updated_user->profile_photo_path = $photoName;
+        }
+
         $updated_user->name = $this->user_name;
         $updated_user->update();
 
-        session()->flash('status', 'profile successfully updated.');
-    }
-
-    public function updatedConfirmUserName()
-    {
-        if($this->confirm_user_name == $this->user_name)
-        {
-            $this->disable_delete = false;
-        }
-        $this->disable_delete = true;
+        session()->flash('status', 'profile-updated');
+        return redirect()->to('/profile');
     }
 
     public function deleteProfile()
@@ -64,9 +76,9 @@ class ProfileComponent extends Component
 
             session()->invalidate();
             session()->regenerateToken();
-
-            redirect()->to('/login');
+            return redirect()->to('/login');
         }
+        dd('here');
         session()->flash('confirm','name is not matched');
     }
 }

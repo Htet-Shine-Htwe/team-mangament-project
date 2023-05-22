@@ -26,5 +26,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'hsh@gmail.com',
             'password' => Hash::make('asdffdsa')
         ]);
+
+        $this->call([
+            IconSeeder::class,
+        ]);
     }
 }
