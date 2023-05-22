@@ -12,6 +12,9 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/f39d469662.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
     <!-- Scriptssss -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -19,7 +22,6 @@
 
 <body class="antialiased" x-data="{ color: localStorage.getItem('theme') || 'light', font: localStorage.getItem('font') || 'Libre' }" x-init="{ color: localStorage.getItem('theme') || 'light', font: localStorage.getItem('font') || 'Libre' }"
     x-bind:class="'theme-' + color + ' ' + 'font-' + font" x-cloak>
-
     <div class="min-h-[100vh] flex ">
         <div class="w-[20%] border-r-2 text-PrimaryText bg-PrimaryBg border-gray-100">
             @include('layouts.sidebar')

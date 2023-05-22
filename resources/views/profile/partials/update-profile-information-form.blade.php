@@ -33,37 +33,31 @@
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
-            <input name="name" class="text-input" wire:model.defer='user_name' />
+            <input name="name" class="text-input mt-2" wire:model.defer='user_name' />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
-        <i class="{{ $icons[0]->prefix . $icons[0]->icon_name }}"></i>
 
         <div>
-            <div class="flex items-center">
-                <div class="">
-                    <!-- Replace "icon-placeholder" with your desired icon component or class -->
-                    <span class="icon-placeholder"></span>
-                </div>
-                <select wire:model="selectedIcon" class="block text-black bg-gray-400 w-full px-4 py-2 rounded-md border border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
-                    <option value="">Select an icon</option>
-                    <option value="fa fa-bell" class="fa">&#xf2bb; bell</option>
-                    @foreach ($icons as $icon)
-
-                    <option value="{{ $icon->prefix . $icon->icon_name }}" class="fa">&#x{{ $icon->unicode }} {{$icon->icon_name}}
-                    </option>
-
-                    @endforeach
-
-                </select>
-            </div>
+            <x-input-label for="bio" :value="__('Bio')" />
+            <textarea name="bio" class="text-input mt-2" wire:model.defer='bio'></textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('bio')" />
         </div>
 
-        <div class="flex items-center gap-4">
+        {{-- Status Part --}}
+        <div>
+                <x-input-label for="status_string" :value="__('Status')" />
+                <div class="flex items-center mt-2">
+                    @include('components.layouts.emoji-box')
+                    <input name="status_string" class="rounded-r-md border-gray-300 text-black focus:border-indigo-500 py-2 px-2 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600  shadow-sm  block w-full" wire:model.defer='status' />
+                </div>
+        </div>
+
+        <div class="flex items-center gap-4" wire:ignore >
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
                 <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400">{{ __('Saved.') }}</p>
+                    class="text-sm text-gray-600 dark:text-gray-400">{{ __('Saved') }}</p>
             @endif
         </div>
     </form>
@@ -80,6 +74,12 @@
             proflie_photo_inputs.click(() => {
                 profile.click();
             })
+
+                Livewire.hook('element.updated', function (el, component) {
+                    console.log(component)
+                    // Livewire.emitTo('profile-component', 'selectedEmoji', emoji);
+                });
+
         })
     </script>
 @endpush

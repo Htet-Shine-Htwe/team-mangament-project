@@ -9,14 +9,14 @@
     @import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital@1&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@1&display=swap');
 
-    select{
-		font-family: fontAwesome
-	}
+
     .fa {
         font-family: 'Lato', 'Font Awesome 6 Free', 'Font Awesome 6 Brands','Font Awesome 6 Solid';
-
-
      }
+     .select-inline {
+        column-count: 5; /* Number of items per row */
+        column-gap: 10px; /* Gap between items */
+    }
 
     :root {
         --color-primary-50 :theme('colors.gray.50');
@@ -89,7 +89,7 @@
 @layer components
 {
     .text-input {
-        @apply border-gray-300 text-black focus:border-indigo-500 py-2 px-2 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full;
+        @apply border-gray-300 text-black focus:border-indigo-500 py-2 px-2 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm  block w-full;
       }
 }
 
