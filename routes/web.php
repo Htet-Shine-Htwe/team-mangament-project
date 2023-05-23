@@ -30,10 +30,15 @@ Route::get('/dashboard', function () {
 })->middleware(['auth:sanctum', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', ProfileComponent::class)->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/counter',Counter::class);
+
+
+    Route::prefix('profile')->group(function()
+    {
+        $profileClass = "App\Http\Livewire\Profile\\";
+        Route::get('/', $profileClass.Index::class)->name('profile.index');
+        Route::get('/show',$profileClass.Show::class)->name('profile.show');
+    });
+
 });
 
 Route::get('login/{provider}',[SocialiteController::class,'redirectToProvider'])->name('social.login');

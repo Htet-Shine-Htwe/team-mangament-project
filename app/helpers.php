@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -42,5 +44,22 @@ if(!function_exists('getProfilePhoto'))
             // $imageSrc = Storage::url($image_path . $photo);
             return $imageSrc;
 
+    }
+}
+
+if(!function_exists('getEmojis'))
+{
+    function getEmojis($limit)
+    {
+        return Cache::remember('emojis', 3600, function () use ($limit) {
+            $response = Http::get('https://unpkg.com/emoji.json/emoji.json');
+
+            if ($response->ok()) {
+                $emojis = $response->json();
+                $emojis = array_slice($emojis, 0, $limit);
+
+                return $emojis;
+            }
+        });
     }
 }
