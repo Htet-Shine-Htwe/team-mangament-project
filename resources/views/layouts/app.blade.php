@@ -22,8 +22,8 @@
 
 <body class="antialiased" x-data="{ color: localStorage.getItem('theme') || 'light', font: localStorage.getItem('font') || 'Libre' }" x-init="{ color: localStorage.getItem('theme') || 'light', font: localStorage.getItem('font') || 'Libre' }"
     x-bind:class="'theme-' + color + ' ' + 'font-' + font" x-cloak>
-    <div class="min-h-[100vh] flex font-medium">
-        <div class="w-[20%] border-r-[1px] text-PrimaryText bg-PrimaryBg border-gray-100">
+    <div class="min-h-screen flex font-medium">
+        <div class="w-[20%] border-r-[1px] text-PrimaryText bg-PrimaryBg border-SeparateBorder">
             @include('layouts.sidebar')
         </div>
         <main class="w-full bg-PrimaryBg text-PrimaryText">

@@ -1,20 +1,15 @@
 
-<x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-        {{ __('Profile') }}
-    </h2>
-</x-slot>
 
-<div class="py-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-        <div class="p-8 sm:p-12 bg-SoftBg text-PrimaryText shadow sm:rounded-lg">
-            <div class="max-w-xl">
+<div class="">
+    <div class="space-y-4">
+        <div class=" text-PrimaryText  border-b-[1px] w-full border-SeparateBorder">
+            <div class="p-8 sm:px-24">
                 @include('profile.partials.update-profile-information-form')
             </div>
         </div>
 
-        <div class="p-8 sm:p-12 bg-SoftBg text-PrimaryText shadow sm:rounded-lg">
-            <div class="max-w-xl">
+        <div class="py-4  text-PrimaryText  sm:rounded-lg">
+            <div class="px-8 pb-8 sm:px-24">
                 @include('profile.partials.delete-user-form')
             </div>
         </div>
