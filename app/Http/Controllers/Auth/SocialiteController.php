@@ -25,7 +25,7 @@ class SocialiteController extends Controller
                 'provider_id' => $socialiteUser->getId(),
                 'avatar' => $socialiteUser->avatar
             ], [
-                'name' => $socialiteUser->getName(),
+                'name' => $socialiteUser->getName() ?? $socialiteUser->nickname,
                 'email' => $socialiteUser->getEmail(),
             ]);
 

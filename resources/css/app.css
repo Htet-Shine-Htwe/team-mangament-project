@@ -18,6 +18,7 @@
         column-gap: 10px; /* Gap between items */
     }
 
+
     :root {
         --color-primary-50 :theme('colors.gray.50');
         --color-primary-100 :theme('colors.gray.100');
@@ -37,7 +38,10 @@
         --HoverText :var(--color-primary-700);
         --SoftBg : var(--color-primary-200);
         --SoftText : var(--color-primary-200);
-
+        --SeparateBorder : #2C2D3C;
+        --ButtonBg : rgb(87, 91, 199);
+        --ButtonFocus : #6c79ff;
+        --ButtonBorder : rgb(87, 91, 199);
     }
 }
 .theme-dark
@@ -55,11 +59,14 @@
     --PrimaryBg  : #191A23;
     --PrimaryText  : var(--color-primary-100);
     --SecondaryBg :#191a23c3;
-    --SecondaryText :var(--color-primary-300);
+    --SecondaryText :var(--color-primary-400);
     --HoverBg :var(--color-primary-700);
     --HoverText :var(--color-primary-200);
     --SoftBg : rgb(33, 35, 46);
     --SoftText : var(--color-primary-200);
+    --SeparateBorder : #303141;
+    --BackdropBg : rgba(29, 30, 43, 0.498);
+    --blur-deep : 10px;
 }
 
 .theme-light
@@ -78,18 +85,32 @@
     --PrimaryText  : var(--color-primary-800);
     --SecondaryBg :var(--color-primary-100);
     --SecondaryText :var(--color-primary-500);
-    --HoverBg :var(--color-primary-200);
+    --HoverBg :var(--color-primary-300);
     --HoverText :var(--color-primary-700);
     --SoftBg : #f8f8f8;
     --SoftText : var(--color-primary-200);
+    --SeparateBorder : #e8e8e8f8;
+    --BackdropBg : rgba(255, 255, 255, 0.799);
+    --blur-deep : 20px;
+
+}
+.backdrop-filter{
+    backdrop-filter: blur(var( --blur-deep)) saturate(190%) contrast(70%) brightness(80%);
+    border: 0.5px solid var(--SeparateBorder);
 }
 
+.input-bg
+{
+    background-color: var(--SecondaryBg);
+    color : var(--PrimaryText);
+    border: 1px solid var(--SeparateBorder)
+}
 
 
 @layer components
 {
     .text-input {
-        @apply border-gray-300 text-black focus:border-indigo-500 py-2 px-2 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm  block w-full;
+        @apply border-gray-300 w-full text-black input-bg focus:border-indigo-500 py-2 px-2 dark:focus:border-indigo-600 focus:ring-indigo-500 rounded-md block shadow-sm ;
       }
 
     .hover-circle-indigo

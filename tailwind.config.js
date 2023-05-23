@@ -27,6 +27,11 @@ module.exports = {
                 HoverText : 'var(--HoverText)',
                 SoftBg : 'var(--SoftBg)',
                 SoftText : 'var(--SoftText)',
+                SeparateBorder :"var(--SeparateBorder)",
+                BackdropBg : "var(--BackdropBg)",
+                ButtonBg : "var(--ButtonBg)",
+                ButtonFocus : "var(--ButtonFocus)",
+                ButtonBorder : "var(--ButtonBorder)",
             }
         },
     },
