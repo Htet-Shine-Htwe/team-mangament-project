@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('provider_id')->nullable();
             $table->string('password')->nullable();
             $table->string('status')->nullable();
-            $table->string('status_emoji')->default("1F600")->nullable();
+            $table->string('status_emoji')->nullable();
             $table->string('bio')->nullable();
             $table->rememberToken();
             $table->timestamps();

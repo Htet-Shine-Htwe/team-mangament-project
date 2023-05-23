@@ -30,17 +30,17 @@
         <x-input-error class="mt-2" :messages="$errors->get('profile')" />
     </div>
 
-    <form wire:submit.prevent='updateProfile' class="mt-6 space-y-6  w-3/6" >
+    <form wire:submit.prevent='updateProfile' class="mt-6 space-y-6">
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
-            <input name="name" id="name" class="text-input mt-2" wire:model.defer='user_name' />
+            <input name="name" class="text-input mt-2" wire:model.defer='user_name' />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
         <div>
             <x-input-label for="bio" :value="__('Bio')" />
-            <textarea name="bio" id="bio" class="text-input mt-2 " wire:model.defer='bio'></textarea>
+            <textarea name="bio" id="bio" class="text-input mt-2" wire:model.defer='bio'></textarea>
             <x-input-error class="mt-2" :messages="$errors->get('bio')" />
         </div>
 
@@ -50,13 +50,13 @@
             <div class="flex items-center mt-2">
                 @include('components.layouts.emoji-box')
                 <input name="status_string"
-                    class="rounded-r-md input-bg !border-[1px] border-gray-300 text-black focus:border-indigo-500 py-2 px-2  focus:ring-indigo-500  shadow-sm  block w-full"
+                    class="rounded-r-md border-gray-300 text-black focus:border-indigo-500 py-2 px-2 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600  shadow-sm  block w-full"
                     wire:model.defer='status' />
             </div>
         </div>
 
         <div class="flex items-center gap-4" wire:ignore>
-            <x-primary-button target="updateProfile">{{ __('Save') }}</x-primary-button>
+            <x-primary-button>{{ __('Save') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
                 <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"

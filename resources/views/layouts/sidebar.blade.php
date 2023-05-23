@@ -1,4 +1,4 @@
-<div class="w-full bg-SecondaryBg h-full pt-4 text-PrimaryText">
+<div class="w-full bg-SecondaryBg h-full pt-8 text-SecondaryText">
 
     <div class="top-bar pl-3 pr-2 flex justify-between items-center">
         <a href="{{ route('dashboard') }}" class="flex gap-x-1 items-center">
@@ -6,7 +6,7 @@
             <p class="font-Kanit font-medium">{{ Auth::user()->name }}</p>
         </a>
         <div class="hover:ring-indigo-500 hover:border-indigo-500 border-2 rounded-full border-SecondaryBg transition-all">
-            <a href="{{ route('profile.index') }}" class="">
+            <a href="{{ route('profile.show') }}" class="">
                 @if (Auth::user()->profile_photo_path == null)
                 <img src = "{{ Auth::user()->avatar }}" class="w-6 h-6 object-cover rounded-full" />
                 @else

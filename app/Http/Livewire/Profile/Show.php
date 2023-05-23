@@ -64,7 +64,7 @@ class Show extends Component
         $updated_user->update();
 
         session()->flash('status', 'profile-updated');
-        return redirect()->to('/profile/show');
+        return redirect()->to('/profile');
     }
 
     public function deleteProfile()
