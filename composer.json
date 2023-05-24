@@ -6,13 +6,11 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "aws/aws-sdk-php": "^2.8",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/socialite": "^5.6",
         "laravel/tinker": "^2.7",
-        "league/flysystem": "^3.0",
         "livewire/livewire": "^2.12",
         "socialiteproviders/github": "^4.1",
         "socialiteproviders/google": "^4.1",

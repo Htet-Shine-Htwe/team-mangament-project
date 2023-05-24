@@ -56,15 +56,6 @@ return [
             'throw' => false,
         ],
 
-        'blackblaze' => [
-            'driver' => 's3',
-            'key' => 'your-blackblaze-b2-key',
-            'secret' => 'your-blackblaze-b2-secret',
-            'region' => 'your-blackblaze-b2-region',
-            'bucket' => 'your-blackblaze-b2-bucket',
-            'url' => 'your-blackblaze-b2-url',
-        ],
-
     ],
 
     /*
