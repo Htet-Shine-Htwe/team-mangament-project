@@ -20,14 +20,17 @@ class SocialiteController extends Controller
             $existingUser = User::where('email', $socialiteUser->email)->first();
 
             // dd($socialiteUser);
-            $user = User::updateOrCreate([
-                'provider' => $provider,
-                'provider_id' => $socialiteUser->getId(),
-                'avatar' => $socialiteUser->avatar
-            ], [
-                'name' => $socialiteUser->getName() ?? $socialiteUser->nickname,
-                'email' => $socialiteUser->getEmail(),
-            ]);
+            $user = User::updateOrCreate(
+                [
+                    'email' => $socialiteUser->getEmail(),
+                ],
+                [
+                    'name' => $socialiteUser->getName() ?? $socialiteUser->getNickname(),
+                    'provider' => $provider,
+                    'provider_id' => $socialiteUser->getId(),
+                    'avatar' => $socialiteUser->getAvatar(),
+                ]
+            );
 
             Auth::login($user);
 

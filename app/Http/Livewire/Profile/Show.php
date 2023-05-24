@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Profile;
 
 use App\Models\User;
 use App\Services\ProfileUpdateService;
+use App\Storage\LocalFileStorage;
 use App\Traits\UsePhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +13,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 class Show extends Component
 {
-    use UsePhoto, WithFileUploads;
+    use  WithFileUploads;
     public $user;
     public $user_name;
     public $loadedEmojis = 200;
@@ -25,25 +26,34 @@ class Show extends Component
 
     public $bio = "";
 
-    public $test_photo;
+    protected $storage;
+    // public $test_photo;
 
-    public function mount(Request $request, ProfileUpdateService $profileUpdateService)
+    protected $profileUpdateService;
+
+    public function boot(ProfileUpdateService $profileUpdateService,LocalFileStorage $storage)
+    {
+        $this->profileUpdateService = $profileUpdateService;
+        $this->storage = $storage;
+    }
+
+    public function mount(Request $request)
     {
         $this->user = $request->user();
         if (!$this->user == null)
         {
             $this->user_name = $this->user->name;
             $this->profile_photo = $this->user->profile_photo_path;
-            $this->profile_photo = $this->getPhoto($this->profile_photo, 'profile');
+            $this->profile_photo = $this->storage->getPhoto($this->profile_photo, 'profile');
             $this->status = $this->user->status;
             $this->selectedEmoji = $this->user->status_emoji !== null ? $this->user->status_emoji  : '1F600';
             $this->bio = $this->user->bio;
 
-            $image = Storage::disk('s3')->url('9k.jpeg');
-            $this->test_photo = $image;
+            // $image = Storage::disk('s3')->url('9k.jpeg');
+            // $this->test_photo = $image;
         }
         $this->emojis = getEmojis($this->loadedEmojis);
-        // dd($this->emojis);
+        // dd($this->profile_photo);
     }
 
     public function render()
@@ -58,7 +68,7 @@ class Show extends Component
         if ($this->tmp_photo)
         {
             storageCreate('profile');
-            $photoName = $this->storePhotos($this->tmp_photo, 'profile');
+            $photoName = $this->storage->storePhotos($this->tmp_photo, 'profile');
             $updated_user->profile_photo_path = $photoName;
         }
 
@@ -67,8 +77,6 @@ class Show extends Component
         $updated_user->status_emoji = $this->selectedEmoji;
         $updated_user->bio = $this->bio;
         $updated_user->update();
-        Storage::disk('s3')->put('test.txt', 'test');
-
 
         session()->flash('status', 'profile-updated');
         return redirect()->to('/profile/show');
@@ -86,6 +94,5 @@ class Show extends Component
     public function selectEmoji($emoji)
     {
         $this->selectedEmoji = $emoji;
-
     }
 }

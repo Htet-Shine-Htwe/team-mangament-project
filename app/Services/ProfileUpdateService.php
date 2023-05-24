@@ -13,10 +13,10 @@ class ProfileUpdateService
 
         if ($confirm_user_name == $user->name)
         {
-            Auth::logout();
 
             $user->delete();
 
+            Auth::logout();
             session()->invalidate();
             session()->regenerateToken();
             return redirect()->to('/login');

@@ -7,7 +7,6 @@
                 @include('profile.partials.update-profile-information-form')
             </div>
         </div>
-        <img src="{{ $test_photo }}" />
         <div class="py-4  text-PrimaryText  sm:rounded-lg">
             <div class="px-8 pb-8 sm:px-24">
                 @include('profile.partials.delete-user-form')
