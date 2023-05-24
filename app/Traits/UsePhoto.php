@@ -54,14 +54,16 @@ trait UsePhoto
             foreach($photos as $key => $photo){
                 $photoName = "photoImage".uniqid().'.'.$photo->getClientOriginalExtension();
                 $nameCollection[$key] = $photoName;
-                $photo->storeAs($path,$photoName);
+                // $photo->storeAs($path,$photoName);
+                Storage::disk('s3')->put($path, $photoName);
             }
             return $nameCollection;
         }
 
         $photoName = "photoImage".uniqid().'.'.$photos->getClientOriginalExtension();
 
-        $photos->storeAs($path,$photoName);
+        Storage::disk('s3')->put($path, $photoName);
+        // $photos->storeAs($path,$photoName);
         return $photoName;
     }
 }
