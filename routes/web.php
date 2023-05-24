@@ -8,6 +8,7 @@ use App\Http\Livewire\SettingComponent;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Socialite\Facades\Socialite;
 
 /*
@@ -47,4 +48,13 @@ Route::get('login/{provider}/callback',[SocialiteController::class,'handleProvid
 Route::get('/setting',SettingComponent::class)->name('setting');
 
 
+// Route::get('/test-s3-connection', function () {
+//     $disk = Storage::disk('s3');
+//     if ($disk->exists('9k.jpeg')) {
+//         $image = Storage::disk('s3')->get('9k.jpeg');
+//         return "<img src='{{$image}}' width=20 height=30 />";
+//     } else {
+//         return 'Failed to connect to S3.';
+//     }
+// });
 require __DIR__.'/auth.php';

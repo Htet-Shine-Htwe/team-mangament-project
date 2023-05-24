@@ -2,7 +2,7 @@
 
     <div class="top-bar pl-3 pr-2 flex justify-between items-center">
         <a href="{{ route('dashboard') }}" class="flex gap-x-1 items-center">
-            <img src ="{{ getLogo() }}" class="w-8 h-8 fill-current text-gray-500" />
+            <img src ="{{ getLogo() }}" class="w-12 h-12 fill-current text-gray-500" />
             <p class="font-Kanit font-medium">{{ Auth::user()->name }}</p>
         </a>
         <div class="hover:ring-indigo-500 hover:border-indigo-500 border-2 rounded-full border-SecondaryBg transition-all">

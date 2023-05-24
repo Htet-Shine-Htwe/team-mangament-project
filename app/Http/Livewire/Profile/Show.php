@@ -7,6 +7,7 @@ use App\Services\ProfileUpdateService;
 use App\Traits\UsePhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 class Show extends Component
@@ -24,6 +25,7 @@ class Show extends Component
 
     public $bio = "";
 
+    public $test_photo;
 
     public function mount(Request $request, ProfileUpdateService $profileUpdateService)
     {
@@ -36,6 +38,9 @@ class Show extends Component
             $this->status = $this->user->status;
             $this->selectedEmoji = $this->user->status_emoji !== null ? $this->user->status_emoji  : '1F600';
             $this->bio = $this->user->bio;
+
+            $image = Storage::disk('s3')->url('9k.jpeg');
+            $this->test_photo = $image;
         }
         $this->emojis = getEmojis($this->loadedEmojis);
         // dd($this->emojis);
@@ -62,6 +67,8 @@ class Show extends Component
         $updated_user->status_emoji = $this->selectedEmoji;
         $updated_user->bio = $this->bio;
         $updated_user->update();
+        Storage::disk('s3')->put('test.txt', 'test');
+
 
         session()->flash('status', 'profile-updated');
         return redirect()->to('/profile/show');

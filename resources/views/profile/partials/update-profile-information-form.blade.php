@@ -12,25 +12,34 @@
 
     <div class="my-4 ">
         <x-input-label for="profile" class="mb-3" :value="__('Profile picture')" />
-
-        @if ($tmp_photo)
-            <img src="{{ $tmp_photo->temporaryUrl() }} "
-                class="w-32 h-32 object-cover profile_photo rounded-full cursor-pointer hover-circle-indigo">
-        @else
-            @if (Auth::user()->profile_photo_path == null)
-                <img src="{{ Auth::user()->avatar }}"
-                    class="w-32 h-32 object-cover profile_photo rounded-full hover-circle-indigo cursor-pointer" />
+        <div class="relative w-32 h-32 rounded-full">
+            @if ($tmp_photo)
+                <img src="{{ $tmp_photo->temporaryUrl() }} "
+                    class="w-32 h-32 object-cover profile_photo rounded-full cursor-pointer hover-circle-indigo z-10">
             @else
-                <img src="{{ $profile_photo }}"
-                    class="w-32 h-32 object-cover profile_photo rounded-full hover-circle-indigo cursor-pointer" />
+                @if (Auth::user()->profile_photo_path == null)
+                    <img src="{{ Auth::user()->avatar }}"
+                        class="w-32 h-32 object-cover profile_photo rounded-full hover-circle-indigo cursor-pointer" />
+                @else
+                    <img src="{{ $profile_photo }}"
+                        class="w-32 h-32 object-cover profile_photo rounded-full hover-circle-indigo cursor-pointer" />
+                @endif
             @endif
-        @endif
-        <input type="file" name="profile" id="profile" class="text-input hidden" wire:model.defer='tmp_photo' />
+            <div wire:loading wire:target='tmp_photo'
+                class="z-20 backdrop-blur-sm rounded-full w-full h-full bg-gray-700 bg-opacity-10 flex justify-center items-center absolute  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div class="flex items-center justify-center w-full h-full">
+                    <img src = "{{ getSpinner() }}" class="fa-solid z-30 w-7 h-7 animate-spin fa-spinner origin-center " />
+                </div>
+            </div>
+        </div>
 
-        <x-input-error class="mt-2" :messages="$errors->get('profile')" />
+
+    <input type="file" name="profile" id="profile" class="text-input hidden" wire:model.defer='tmp_photo' />
+
+    <x-input-error class="mt-2" :messages="$errors->get('profile')" />
     </div>
 
-    <form wire:submit.prevent='updateProfile' class="mt-6 space-y-6  w-3/6" >
+    <form wire:submit.prevent='updateProfile' class="mt-6 space-y-6  w-3/6">
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
@@ -68,7 +77,6 @@
 </section>
 
 @push('js')
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             let proflie_photo_inputs = $('.profile_photo');

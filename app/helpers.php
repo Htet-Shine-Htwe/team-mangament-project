@@ -10,7 +10,16 @@ if (!function_exists('getLogo'))
     function getLogo()
     {
         $path = config('photofilepath.logo_filepath');
-        $photo = asset('asset/logo.jpeg');
+        $photo = asset('asset/logo.png');
+        return $photo;
+    }
+}
+if (!function_exists('getSpinner'))
+{
+    function getSpinner()
+    {
+        $path = config('photofilepath.logo_filepath');
+        $photo = asset('asset/spinner.png');
         return $photo;
     }
 }
