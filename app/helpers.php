@@ -28,7 +28,7 @@ if (!function_exists('storageCreate'))
 {
     function storageCreate(string $folder)
     {
-        $path = 'images/data/' . $folder;
+        $path = 'public/images/' . $folder;
         Storage::makeDirectory($path, 0777, true);
         if (!Storage::exists($path))
         {
@@ -40,13 +40,13 @@ if (!function_exists('storageCreate'))
 
 if (!function_exists('getProfilePhoto'))
 {
-    function getProfilePhoto($photo)
+    function getProfilePhoto($photo,$provider)
     {
-        $image_path = 'public/images/data/profile/';
+        $image_path = config('photofilepath.profile_photo_filepath');
 
-        if (Storage::disk('local')->exists($image_path . $photo) && $photo != null)
+        if (Storage::disk($provider)->exists($image_path . $photo) && $photo != null)
         {
-            $imageSrc = 'data:image/jpeg;base64,' . base64_encode(Storage::disk('local')->get($image_path . $photo));
+            $imageSrc = 'data:image/jpeg;base64,' . base64_encode(Storage::disk($provider)->get($image_path . $photo));
             return $imageSrc;
         }
         $imageSrc = getLogo();
@@ -59,8 +59,7 @@ if (!function_exists('getEmojis'))
 {
     function getEmojis($limit)
     {
-        return Cache::remember('emojis', 3600, function () use ($limit)
-        {
+
             $response = Http::get('https://unpkg.com/emoji.json/emoji.json');
 
             if ($response->ok())
@@ -70,7 +69,7 @@ if (!function_exists('getEmojis'))
 
                 return $emojis;
             }
-        });
+
     }
 }
 

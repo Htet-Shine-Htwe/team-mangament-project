@@ -10,6 +10,7 @@ class EmojiModal extends Component
     public $isOpen = false;
     public $emojis = [];
 
+    protected $listeners = ['loadMore'];
     public function openModal()
     {
         $response = Http::get('https://unpkg.com/emoji.json/emoji.json');

@@ -60,15 +60,12 @@
 
     confrim_account.addEventListener('keyup',()=>{
         name = confrim_account.value;
-        console.log(name)
         if(name !== confirm_name)
         {
             deleteButton.setAttribute('disabled',true)
-            console.log('false')
         }
         else{
             deleteButton.removeAttribute('disabled')
-            console.log('true')
 
         }
 

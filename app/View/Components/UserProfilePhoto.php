@@ -8,7 +8,6 @@ class UserProfilePhoto extends Component
 {
     public $user;
     public $photo;
-
     public $status;
     /**
      * Create a new component instance.
@@ -26,7 +25,7 @@ class UserProfilePhoto extends Component
     {
         if($user->profile_photo_path == null && $user->avatar == null)
         {
-            $photo =  getProfilePhoto($user->profile_photo_path) ;
+            $photo =  getProfilePhoto($user->profile_photo_path,app('storageProvider')) ;
         }
         elseif($user->profile_photo_path == null)
         {
@@ -34,7 +33,7 @@ class UserProfilePhoto extends Component
         }
         else
         {
-            $photo =  getProfilePhoto($user->profile_photo_path) ;
+            $photo =  getProfilePhoto($user->profile_photo_path,app('storageProvider')) ;
         }
        return $photo;
     }

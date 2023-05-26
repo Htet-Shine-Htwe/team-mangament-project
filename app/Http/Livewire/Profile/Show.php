@@ -5,7 +5,9 @@ namespace App\Http\Livewire\Profile;
 use App\Models\User;
 use App\Services\ProfileUpdateService;
 use App\Storage\LocalFileStorage;
+use App\Storage\S3FileStorage;
 use App\Traits\UsePhoto;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -16,22 +18,21 @@ class Show extends Component
     use  WithFileUploads;
     public $user;
     public $user_name;
-    public $loadedEmojis = 200;
+    public $loadedEmojis = 250;
     public $profile_photo;
     public $tmp_photo;
     public $confirm_user_name;
     public $emojis;
     public $selectedEmoji;
     public $status = "";
-
     public $bio = "";
-
     protected $storage;
-    // public $test_photo;
+    public $test_photo;
 
     protected $profileUpdateService;
 
-    public function boot(ProfileUpdateService $profileUpdateService,LocalFileStorage $storage)
+    protected $listeners = ['loadMore'];
+    public function boot(ProfileUpdateService $profileUpdateService,S3FileStorage $storage)
     {
         $this->profileUpdateService = $profileUpdateService;
         $this->storage = $storage;
@@ -48,9 +49,9 @@ class Show extends Component
             $this->status = $this->user->status;
             $this->selectedEmoji = $this->user->status_emoji !== null ? $this->user->status_emoji  : '1F600';
             $this->bio = $this->user->bio;
+            $fileContents = Storage::disk('s3')->get('9k.jpeg');
+            $this->test_photo = base64_encode($fileContents);
 
-            // $image = Storage::disk('s3')->url('9k.jpeg');
-            // $this->test_photo = $image;
         }
         $this->emojis = getEmojis($this->loadedEmojis);
         // dd($this->profile_photo);
@@ -64,10 +65,9 @@ class Show extends Component
     public function updateProfile()
     {
         $updated_user = User::where('id', Auth::id())->first();
-        // dd($updated_user)
+
         if ($this->tmp_photo)
         {
-            storageCreate('profile');
             $photoName = $this->storage->storePhotos($this->tmp_photo, 'profile');
             $updated_user->profile_photo_path = $photoName;
         }
@@ -94,5 +94,13 @@ class Show extends Component
     public function selectEmoji($emoji)
     {
         $this->selectedEmoji = $emoji;
+    }
+
+    public function loadMore()
+    {
+        $this->loadedEmojis += 100;
+        $this->emojis = getEmojis($this->loadedEmojis);
+
+         // Optional: You can emit this event to trigger any necessary JavaScript actions after loading more data.
     }
 }

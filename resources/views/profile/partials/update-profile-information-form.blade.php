@@ -53,6 +53,7 @@
             <x-input-error class="mt-2" :messages="$errors->get('bio')" />
         </div>
 
+
         {{-- Status Part --}}
         <div>
             <x-input-label for="status_string" :value="__('Status')" />
@@ -87,10 +88,10 @@
                 profile.click();
             })
 
-            Livewire.hook('element.updated', function(el, component) {
-                console.log(component)
-                // Livewire.emitTo('profile-component', 'selectedEmoji', emoji);
-            });
+            // Livewire.hook('element.updated', function(el, component) {
+            //     console.log(component)
+            //     // Livewire.emitTo('profile-component', 'selectedEmoji', emoji);
+            // });
 
         })
     </script>

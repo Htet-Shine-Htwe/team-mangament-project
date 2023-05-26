@@ -2,23 +2,12 @@
 
 namespace App\Storage;
 
+use App\Base\Classes\StorageFilePath;
+use App\Contracts\StorageConfigInterface;
 use Illuminate\Support\Facades\Storage;
 
-class LocalFileStorage
+class LocalFileStorage extends StorageFilePath implements StorageConfigInterface
 {
-    protected string $profileImagePath;
-
-    protected string $imageSrc = 'dummy.jpeg';
-
-    public function getProfileImage()
-    {
-        $this->profileImagePath = config('photofilepath.profile_photo_filepath');
-    }
-
-    protected function setImagesPath()
-    {
-        $this->getProfileImage();
-    }
 
     public function getPhoto(mixed $photo = '', string $image_type)
     {
@@ -33,11 +22,11 @@ class LocalFileStorage
             {
                 return $this->imageSrc;
             }
-            if (!Storage::disk('local')->exists('public/' . $this->{$image_path} . $photo))
+            if (!Storage::disk('local')->exists($this->{$image_path} . $photo))
             {
                 return $this->{$image_path} . $photo;
             }
-            $imageSrc = 'data:image/jpeg;base64,' . base64_encode(Storage::disk('local')->get('public/' . $this->{$image_path} . $photo));
+            $imageSrc = 'data:image/jpeg;base64,' . base64_encode(Storage::disk('local')->get($this->{$image_path} . $photo));
             return $imageSrc;
         }
 
@@ -47,7 +36,7 @@ class LocalFileStorage
 
     public function storePhotos(mixed $photos, string $folder)
     {
-        $path = 'public/images/data/' .$folder;
+        $path = storageCreate($folder);
         if(is_array($photos))
         {
             $nameCollection = [];
@@ -59,7 +48,6 @@ class LocalFileStorage
             }
             return $nameCollection;
         }
-        $path = 'public/images/data/' .$folder;
 
         $photoName = "photoImage".uniqid().'.'.$photos->getClientOriginalExtension();
         $photos->storeAs($path,$photoName,);
