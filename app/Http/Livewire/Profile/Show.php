@@ -32,7 +32,7 @@ class Show extends Component
     protected $profileUpdateService;
 
     protected $listeners = ['loadMore'];
-    public function boot(ProfileUpdateService $profileUpdateService,S3FileStorage $storage)
+    public function boot(ProfileUpdateService $profileUpdateService,LocalFileStorage $storage)
     {
         $this->profileUpdateService = $profileUpdateService;
         $this->storage = $storage;

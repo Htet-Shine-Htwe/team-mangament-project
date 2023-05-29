@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
     {
 
         $this->app->singleton('storageProvider', function () {
-            return 's3';
+            return 'local';
         });
     }
 }
