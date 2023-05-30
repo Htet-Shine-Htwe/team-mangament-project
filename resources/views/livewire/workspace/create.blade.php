@@ -7,7 +7,7 @@
             </div>
 
             <div class="flex flex-col space-y-1">
-                <a href="/dashboard" class="text-SecondaryText ">< Back to Linear</a>
+                <a href="/dashboard" class="text-SecondaryText ">< Back to Account</a>
             </div>
         </div>
         <div class="space-y-4">
