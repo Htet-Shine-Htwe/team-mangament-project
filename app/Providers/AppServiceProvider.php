@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,9 +24,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-        $this->app->singleton('storageProvider', function () {
-            return 'local';
-        });
+        if(env('APP_ENV')== "local")
+        {
+            $this->app->singleton('storageProvider', function () {
+                return 's3';
+            });
+        }
+        else
+        {
+            $this->app->singleton('storageProvider', function () {
+                return 'local';
+            });
+        }
     }
 }

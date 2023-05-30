@@ -83,11 +83,11 @@
     --color-primary-900 :theme('colors.gray.900');
     --PrimaryBg  : var(--color-primary-50);
     --PrimaryText  : var(--color-primary-800);
-    --SecondaryBg :var(--color-primary-100);
+    --SecondaryBg : #f8f8f8;
     --SecondaryText :var(--color-primary-500);
     --HoverBg :var(--color-primary-300);
     --HoverText :var(--color-primary-700);
-    --SoftBg : #f8f8f8;
+    --SoftBg : #ffffff;
     --SoftText : var(--color-primary-200);
     --SeparateBorder : #e8e8e8f8;
     --BackdropBg : rgba(255, 255, 255, 0.799);

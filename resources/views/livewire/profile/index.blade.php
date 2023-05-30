@@ -11,8 +11,11 @@
         </div>
 
         <div
-            class="text-PrimaryText  border-b-[1px] w-full border-SeparateBorder px-8 flex h-[60px] items-center sm:px-18">
-            <p>nav1</p>
+            class="text-PrimaryText  border-b-[1px] max-w-full  border-SeparateBorder px-8 flex h-[60px]  items-center sm:px-18">
+            <p class="whitespace-pre-wrap break-words w-80">
+
+                <pre>{{ $workspaces }}</pre>
+            </p>
         </div>
 
         <div class="text-PrimaryText w-full  px-8 flex sm:px-18">

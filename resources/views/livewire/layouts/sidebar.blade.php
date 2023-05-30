@@ -1,10 +1,7 @@
-<div class="w-full bg-SecondaryBg h-full pt-4 text-PrimaryText">
+<div class="w-full bg-PrimaryBg h-full pt-4 text-PrimaryText">
 
-    <div class="top-bar pl-3 pr-2 flex justify-between items-center">
-        <a href="{{ route('dashboard') }}" class="flex gap-x-1 items-center">
-            <img src ="{{ getLogo() }}" class="w-12 h-12 fill-current text-gray-500" />
-            <p class="font-Kanit font-medium">{{ Auth::user()->name }}</p>
-        </a>
+    <div class="top-bar pl-5 pr-2 flex justify-between items-center">
+        @include('components.layouts.workspace-dropdown')
         <div class="hover:ring-indigo-500 hover:border-indigo-500 border-2 rounded-full border-SecondaryBg transition-all">
             <a href="{{ route('profile.index') }}" class="">
                 @if (Auth::user()->profile_photo_path == null)
@@ -23,7 +20,7 @@
     <div class="mt-4 flex flex-col gap-y-5">
         <form action="{{ route('logout') }}" method="POST" >
             @csrf
-            <button class="flex gap-x-3 items-center w-full hover:bg-HoverBg capitalize transition pl-3 pr-2 py-2 ">
+            <button class="flex gap-x-3 items-center w-full hover:bg-HoverBg capitalize transition pl-5 pr-2 py-2 ">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 <p>logout</p>
             </button>

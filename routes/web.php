@@ -1,15 +1,11 @@
 <?php
 
 use App\Http\Controllers\Auth\SocialiteController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Livewire\Counter;
-use App\Http\Livewire\ProfileComponent;
+
 use App\Http\Livewire\SettingComponent;
-use App\Models\User;
-use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
-use Laravel\Socialite\Facades\Socialite;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -32,13 +28,26 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
 
-
     Route::prefix('profile')->group(function()
     {
         $profileClass = "App\Http\Livewire\Profile\\";
         Route::get('/', $profileClass.Index::class)->name('profile.index');
         Route::get('/show',$profileClass.Show::class)->name('profile.show');
     });
+
+    Route::prefix('workspaces')->group(function()
+    {
+        $workSpace = "App\Http\Livewire\Workspace\\";
+        Route::get('/create',$workSpace.Create::class)->name('workspace.create');
+    });
+
+    Route::middleware(['workspace.access'])->group(function () {
+        Route::prefix('/workspaces/{workspace}')->group(function () {
+            $workSpace = "App\Http\Livewire\Workspace\\";
+            Route::get('/',$workSpace.Index::class)->name('workspace.index');
+        });
+    });
+
 
 });
 
