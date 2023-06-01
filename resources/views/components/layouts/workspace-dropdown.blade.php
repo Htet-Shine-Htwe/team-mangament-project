@@ -9,7 +9,7 @@
     <div x-show="isOpen" @click.away="isOpen = false" x-cloak
         class="absolute left-1 font-normal flex flex-col  bg-SecondaryBg backdrop-filter shadow overflow-hidden rounded w-64 border border-SeparateBorder mt-2 py-3 right-0 z-40">
         <div class="px-4">
-            <p class="text-sm text-SecondaryText">{{ $user->email }}</p>
+            <p class="text-sm text-SecondaryText">{{ Auth::user()->email }}</p>
         </div>
         <ul class="mt-3 pb-4 border-b border-SeparateBorder">
             @foreach ($workspaces as $workspace)

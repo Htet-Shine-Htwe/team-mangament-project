@@ -11,13 +11,12 @@ use Livewire\Component;
 
 class Index extends Component
 {
-    public $users;
+
     public $user;
 
     public $workspaces;
     public function mount()
     {
-        $this->users = User::all();
         $this->user = Auth::user();
 
         // ->join('user_workspace',)

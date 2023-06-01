@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\UserWorkspace;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +15,6 @@ class UserWorkspaceSeeder extends Seeder
      */
     public function run()
     {
-        //
+        UserWorkspace::factory(2000)->create();
     }
 }

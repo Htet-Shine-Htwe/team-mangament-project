@@ -19,8 +19,8 @@ class Sidebar extends Component
 
     public function mount()
     {
-        $this->user = User::where('id',auth()->id())->with('workspaces')->first();
-        $this->workspaces = $this->user->workspaces;
+        // $this->user = User::where('id',auth()->id())->with('workspaces')->first();
+        $this->workspaces = Auth::user()->workspaces;
         // dd($this->workspaces);
     }
     /**

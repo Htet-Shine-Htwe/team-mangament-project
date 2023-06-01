@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory(50)->create();
+        \App\Models\User::factory(400)->create();
 
         \App\Models\User::factory()->create([
             'name' => 'Test User',
@@ -30,6 +30,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             IconSeeder::class,
+            WorkspaceSeeder::class,
+            UserWorkspaceSeeder::class,
         ]);
 
         $file = new Filesystem;

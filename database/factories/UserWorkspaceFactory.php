@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use App\Models\Workspace;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,8 @@ class UserWorkspaceFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'user_id' => User::inRandomOrder()->first(),
+            'workspace_id' => Workspace::inRandomOrder()->first()
         ];
     }
 }
