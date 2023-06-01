@@ -1,4 +1,4 @@
-<div class="absolute -bottom-1 -right-1">
+<div class="absolute -bottom-1 -right-[calc(0%)]">
 
    @if(checkOnline($user))
        <div class="w-3 h-3 bg-green-600 border-[1px] border-SecondaryBg rounded-full"></div>

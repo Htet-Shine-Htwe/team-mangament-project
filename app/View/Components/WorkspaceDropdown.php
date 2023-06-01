@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Models\Workspace;
 use Illuminate\Http\Request;
 use Illuminate\View\Component;
 
@@ -28,9 +29,4 @@ class WorkspaceDropdown extends Component
         return view('components.layouts.workspace-dropdown');
     }
 
-    public function selectWorkspace(Request $request)
-    {
-        $workspaceId = $request->input('workspace_id');
-        $request->session()->put('selected_workspace', $workspaceId);
-    }
 }

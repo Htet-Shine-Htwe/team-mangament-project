@@ -19,33 +19,21 @@ class CheckSelectedWorkspace
     public function handle($request, Closure $next)
     {
         $selectedWorkspaceId = Session::get('selected_workspace');
-        // session()->flush();
-        // $sessionData = session()->all();
-        // dd($sessionData);
 
-        // // Additional validation or logic if required
-        // dd($selectedWorkspaceId);
-        // dd($this->userHasAccessToWorkspace( $selectedWorkspaceId->id));
         if ($selectedWorkspaceId !== null) {
-            // Perform necessary checks to ensure the user has access to the selected workspace
-            if ($this->userHasAccessToWorkspace($selectedWorkspaceId->id)) {
+            if ($this->userHasAccessToWorkspace($selectedWorkspaceId)) {
                 return $next($request);
             } else {
-                // Handle unauthorized access to the workspace
                 abort(403, 'Unauthorized access to the workspace.');
             }
         } else {
-            $workspaceId = Auth::user()->workspaces[0]->id;
+            $workspaceId = Auth::user()?->workspaces[0];
             $request->session()->put('selected_workspace', $workspaceId);
-            // Handle the case where no workspace is selected
-            // abort(400, 'No workspace selected.');
         }
-        // return $next($request);
-
     }
 
     private function userHasAccessToWorkspace($workspaceId)
     {
-        return Auth::user()->workspaces->contains('id', $workspaceId);
+        return  Auth::user()->workspaces->contains('id', $workspaceId);
     }
 }

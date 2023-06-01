@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Facades\Auth;
 
 class UserWorkspace extends Pivot
 {
@@ -16,7 +17,7 @@ class UserWorkspace extends Pivot
      public function scopeGetUserWorkspaces($query)
     {
         return $query->select('workspaces.name', 'workspaces.logo_path')
-            ->where('user_id', auth()->id())
+            ->where('user_id', Auth::user()->id)
             ->join('workspaces', 'user_workspace.workspace_id', '=', 'workspaces.id');
     }
 }

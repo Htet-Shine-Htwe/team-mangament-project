@@ -13,12 +13,12 @@
         </div>
         <ul class="mt-3 pb-4 border-b border-SeparateBorder">
             @foreach ($workspaces as $workspace)
-            <li class="flex space-x-8 items-start">
-                <a href="{{ route('workspace.index', [$workspace->name]) }}" class="w-full flex items-center spaces-x-3 hover:cursor-pointer px-4 py-1 hover:bg-HoverBg hover:text-HoverText ">
+            <li class="flex space-x-8 items-start mt-1">
+                <button wire:click="switchWorkspace('{{ $workspace->name }}')" class="w-full flex items-center spaces-x-3 hover:cursor-pointer px-4 py-1 hover:bg-HoverBg hover:text-HoverText ">
                     <img src ="{{ getLogo() }}" class="w-7 h-7 fill-current mr-3 object-contain text-gray-500" />
 
                     <p>{{ $workspace->name }}</p>
-                </a>
+                </button>
             </li>
             @endforeach
         </ul>

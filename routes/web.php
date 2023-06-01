@@ -22,7 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth','workspace.has'])->group(function () {
 
     Route::prefix('profile')->group(function()
     {
@@ -31,7 +31,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/show',$profileClass.Show::class)->name('profile.show');
     });
 
-    Route::middleware(['workspace.access'])->group(function () {
+    Route::middleware(['workspace.access','workspace.checkSelected'])->group(function () {
         Route::prefix('/workspaces/user/{workspace}')->group(function () {
             $workSpace = "App\Http\Livewire\Workspace\\";
             Route::get('/',$workSpace.Index::class)->name('workspace.index');
@@ -48,7 +48,7 @@ Route::middleware(['auth'])->group(function () {
 Route::prefix('workspaces')->group(function()
 {
     $workSpace = "App\Http\Livewire\Workspace\\";
-    Route::get('/create',$workSpace.Create::class)->name('workspace.create');
+    Route::get('/create',$workSpace.Create::class)->middleware('auth')->name('workspace.create');
 });
 
 
