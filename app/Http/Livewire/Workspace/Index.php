@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Workspace;
 
 use App\Models\Workspace;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
 class Index extends Component
@@ -13,7 +14,7 @@ class Index extends Component
     public function mount(Request $request)
     {
 
-        $this->workspace = $this->currentWorkspace($request->route('workspace'));
+        $this->workspace =  Session::get('selected_workspace');
         // dd($this->workspace);
     }
     public function render()

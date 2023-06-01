@@ -34,9 +34,9 @@ class Sidebar extends Component
     public function switchWorkspace($workspaceName)
     {
         // dd($workspaceName);
-        $workspaceId = Workspace::where('name',$workspaceName)->first()->id;
+        $workspace = Workspace::where('name',$workspaceName)->first();
 
-        session()->put('selected_workspace', $workspaceId);
+        session()->put('selected_workspace', $workspace);
 
         return redirect()->route('workspace.index',['workspace' => $workspaceName]);
     }

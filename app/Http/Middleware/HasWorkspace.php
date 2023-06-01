@@ -17,9 +17,11 @@ class HasWorkspace
      */
     public function handle(Request $request, Closure $next)
     {
-        $workspaces = UserWorkspace::getUserWorkspaces()->get();
 
-        if(count($workspaces) <= 0)
+        $workspaceCount = UserWorkspace::where('user_id', auth()->id())
+            ->join('workspaces', 'user_workspace.workspace_id', '=', 'workspaces.id')
+            ->count();
+        if($workspaceCount <= 0)
         {
             return redirect()->route('workspace.create');
         }
