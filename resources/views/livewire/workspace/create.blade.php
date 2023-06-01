@@ -6,9 +6,18 @@
                 <span>{{ Auth::user()->email }}</span>
             </div>
 
+            @hasWorkspace
             <div class="flex flex-col space-y-1">
-                <a href="/dashboard" class="text-SecondaryText ">< Back to Account</a>
+                <a href="/dashboard" class="text-SecondaryText ">< Back to Linear</a>
             </div>
+            @else
+            <form action="{{ route('logout') }}" method="POST" >
+                @csrf
+                <button class="text-SecondaryText ">
+                    <p>logout</p>
+                </button>
+            </form>
+            @endhasWorkspace
         </div>
         <div class="space-y-4">
             <header class="">

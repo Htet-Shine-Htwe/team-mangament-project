@@ -14,7 +14,7 @@ class Index extends Component
     {
 
         $this->workspace = $this->currentWorkspace($request->route('workspace'));
-
+        // dd($this->workspace);
     }
     public function render()
     {
@@ -23,6 +23,6 @@ class Index extends Component
 
     protected function currentWorkspace($name)
     {
-        return Workspace::where('name',$name)->first();
+        return Workspace::where('name',$name)->with('users')->first();
     }
 }

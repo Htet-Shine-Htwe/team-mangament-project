@@ -22,11 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth:sanctum', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
 
     Route::prefix('profile')->group(function()
     {
@@ -35,26 +31,30 @@ Route::middleware('auth')->group(function () {
         Route::get('/show',$profileClass.Show::class)->name('profile.show');
     });
 
-    Route::prefix('workspaces')->group(function()
-    {
-        $workSpace = "App\Http\Livewire\Workspace\\";
-        Route::get('/create',$workSpace.Create::class)->name('workspace.create');
-    });
-
     Route::middleware(['workspace.access'])->group(function () {
-        Route::prefix('/workspaces/{workspace}')->group(function () {
+        Route::prefix('/workspaces/user/{workspace}')->group(function () {
             $workSpace = "App\Http\Livewire\Workspace\\";
             Route::get('/',$workSpace.Index::class)->name('workspace.index');
         });
     });
 
+    Route::get('/setting',SettingComponent::class)->name('setting');
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
 });
+
+Route::prefix('workspaces')->group(function()
+{
+    $workSpace = "App\Http\Livewire\Workspace\\";
+    Route::get('/create',$workSpace.Create::class)->name('workspace.create');
+});
+
 
 Route::get('login/{provider}',[SocialiteController::class,'redirectToProvider'])->name('social.login');
 Route::get('login/{provider}/callback',[SocialiteController::class,'handleProviderCallback']);
 
-Route::get('/setting',SettingComponent::class)->name('setting');
 
 
 // Route::get('/test-s3-connection', function () {

@@ -32,7 +32,7 @@ class Create extends Component
             'user_id' => Auth::user()->id,
             'workspace_id' => $workspace->id
         ]);
-        return redirect()->to('/profile');
+        return redirect()->route('dashboard');
 
     }
 }

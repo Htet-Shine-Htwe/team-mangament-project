@@ -65,5 +65,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'workspace.access' => \App\Http\Middleware\WorkspaceAccess::class,
+        // 'workspace.has' =>\App\Http\Middleware\HasWorkspace::class,
+        // 'workspace.checkSelected' => \App\Http\Middleware\CheckSelectedWorkspace::class,
     ];
 }

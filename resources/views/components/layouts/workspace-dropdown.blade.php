@@ -1,9 +1,9 @@
 <div class="relative " x-data="{ isOpen: false }">
     <button @click="isOpen = !isOpen" @keydown.escape="isOpen = false"
         class="flex items-center">
-        <p href="{{ route('dashboard') }}" class="flex gap-x-1 items-center">
-            <img src ="{{ getLogo() }}" class="w-12 h-12 fill-current text-gray-500" />
-            <p class="font-Kanit font-medium">{{ Auth::user()->name }}</p>
+        <p href="{{ route('dashboard') }}" class="flex space-x-1 items-center">
+            <img src ="{{ getLogo() }}" class="w-8 h-8 fill-current object-contain mr-3 text-gray-500" />
+            <p class="font-Kanit font-medium text-sm">{{ Auth::user()->name }}</p>
         </p>
     </button>
     <div x-show="isOpen" @click.away="isOpen = false" x-cloak
@@ -13,9 +13,9 @@
         </div>
         <ul class="mt-3 pb-4 border-b border-SeparateBorder">
             @foreach ($workspaces as $workspace)
-            <li class="flex gap-x-8 items-start">
+            <li class="flex space-x-8 items-start">
                 <a href="{{ route('workspace.index', [$workspace->name]) }}" class="w-full flex items-center spaces-x-3 hover:cursor-pointer px-4 py-1 hover:bg-HoverBg hover:text-HoverText ">
-                    <img src ="{{ getLogo() }}" class="w-7 h-7 fill-current text-gray-500" />
+                    <img src ="{{ getLogo() }}" class="w-7 h-7 fill-current mr-3 object-contain text-gray-500" />
 
                     <p>{{ $workspace->name }}</p>
                 </a>

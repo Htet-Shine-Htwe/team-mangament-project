@@ -14,7 +14,7 @@
     <script src="https://kit.fontawesome.com/f39d469662.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <link rel="icon" type="image/jpeg" href="{{ getLogo() }}"/>
+    <link rel="icon" type="image/jpeg" style="object-fit: contain;" href="{{ getLogo() }}"/>
     <!-- Scriptssss -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles

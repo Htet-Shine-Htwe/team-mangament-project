@@ -12,4 +12,11 @@ class UserWorkspace extends Pivot
 
 
     protected $fillable = ['user_id','workspace_id'];
+
+     public function scopeGetUserWorkspaces($query)
+    {
+        return $query->select('workspaces.name', 'workspaces.logo_path')
+            ->where('user_id', auth()->id())
+            ->join('workspaces', 'user_workspace.workspace_id', '=', 'workspaces.id');
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\UserWorkspace;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -36,5 +38,11 @@ class AppServiceProvider extends ServiceProvider
                 return 'local';
             });
         }
+
+        Blade::if('hasWorkspace', function () {
+            $workspaces = UserWorkspace::getUserWorkspaces()->get();
+
+            return count($workspaces) <= 0 ? false : true;
+        });
     }
 }

@@ -3,8 +3,6 @@
 
     <img src="{{ $photo }}" {{ $attributes->merge(['class' => 'object-cover rounded-full']) }} />
 
-    @if ($status)
     <x-online-status :user="$user" />
 
-    @endif
 </div>

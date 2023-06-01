@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Workspace;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -10,7 +11,7 @@ if (!function_exists('getLogo'))
     function getLogo()
     {
         $path = config('photofilepath.logo_filepath');
-        $photo = asset('asset/logo.png');
+        $photo = asset('asset/logoIcon.png');
         return $photo;
     }
 }
@@ -84,3 +85,13 @@ if (!function_exists('checkOnline'))
         return false;
     }
 }
+if (!function_exists('currentWorkspace'))
+{
+    function currentWorkspace($name)
+    {
+        $request->route('workspace');
+        return Workspace::where('name',$name)->with('users')->first();
+    }
+}
+
+

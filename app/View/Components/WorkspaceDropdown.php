@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use Illuminate\Http\Request;
 use Illuminate\View\Component;
 
 class WorkspaceDropdown extends Component
@@ -16,6 +17,7 @@ class WorkspaceDropdown extends Component
         //
     }
 
+
     /**
      * Get the view / contents that represent the component.
      *
@@ -24,5 +26,11 @@ class WorkspaceDropdown extends Component
     public function render()
     {
         return view('components.layouts.workspace-dropdown');
+    }
+
+    public function selectWorkspace(Request $request)
+    {
+        $workspaceId = $request->input('workspace_id');
+        $request->session()->put('selected_workspace', $workspaceId);
     }
 }

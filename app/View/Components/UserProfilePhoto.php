@@ -17,7 +17,7 @@ class UserProfilePhoto extends Component
     public function __construct($user,$status=false)
     {
         $this->user= $user;
-        $this->status = $status;
+        $this->status = $user->status;
         $this->photo = $this->getPhoto($this->user);
     }
 
