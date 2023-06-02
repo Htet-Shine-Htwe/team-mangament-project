@@ -18,10 +18,6 @@ class Index extends Component
     public function mount()
     {
         $this->user = Auth::user();
-
-        // ->join('user_workspace',)
-
-        // $this->user->created_at = diffForHumans($this->user->created_at) ;
     }
 
     public function render()

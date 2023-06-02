@@ -17,17 +17,16 @@ class Show extends Component
 {
     use  WithFileUploads;
     public $user;
-    public $user_name;
-    public $loadedEmojis = 250;
+    public string $user_name;
+    public int $loadedEmojis = 250;
     public $profile_photo;
     public $tmp_photo;
-    public $confirm_user_name;
+    public string $confirm_user_name;
     public $emojis;
     public $selectedEmoji;
     public $status = "";
     public $bio = "";
     protected $storage;
-    public $test_photo;
 
     protected $profileUpdateService;
 
@@ -49,9 +48,6 @@ class Show extends Component
             $this->status = $this->user->status;
             $this->selectedEmoji = $this->user->status_emoji !== null ? $this->user->status_emoji  : '1F600';
             $this->bio = $this->user->bio;
-            $fileContents = Storage::disk('s3')->get('9k.jpeg');
-            $this->test_photo = base64_encode($fileContents);
-
         }
         $this->emojis = getEmojis($this->loadedEmojis);
         // dd($this->profile_photo);
@@ -102,5 +98,22 @@ class Show extends Component
         $this->emojis = getEmojis($this->loadedEmojis);
 
          // Optional: You can emit this event to trigger any necessary JavaScript actions after loading more data.
+    }
+
+    public function saveCropped(Request $request)
+    {
+        $image = $request?->image;
+
+        if($image)
+        {
+            return response()->json(['message' => $image]);
+
+            $photoName = $this->storage->storePhotos($image, 'profile');
+            // $updated_user->profile_photo_path = $photoName;
+        }
+
+        return response()->json(['message' => $image]);
+        return redirect()->to('/dashboard');
+
     }
 }

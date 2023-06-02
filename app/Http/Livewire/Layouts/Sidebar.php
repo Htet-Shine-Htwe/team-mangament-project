@@ -2,24 +2,15 @@
 
 namespace App\Http\Livewire\Layouts;
 
-use App\Models\User;
-use App\Models\UserWorkspace;
 use App\Models\Workspace;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Sidebar extends Component
 {
-
-    public $workspaces ;
-    public $user;
-
-
+    public $workspaces;
     public function mount()
     {
-        // $this->user = User::where('id',auth()->id())->with('workspaces')->first();
         $this->workspaces = Auth::user()->workspaces;
         // dd($this->workspaces);
     }
@@ -33,7 +24,6 @@ class Sidebar extends Component
 
     public function switchWorkspace($workspaceName)
     {
-        // dd($workspaceName);
         $workspace = Workspace::where('name',$workspaceName)->first();
 
         session()->put('selected_workspace', $workspace);
@@ -41,8 +31,4 @@ class Sidebar extends Component
         return redirect()->route('workspace.index',['workspace' => $workspaceName]);
     }
 
-    public function save()
-    {
-        dd('here');
-    }
 }

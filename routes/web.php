@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\SocialiteController;
-
+use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\SettingComponent;
 
 use Illuminate\Support\Facades\Route;
@@ -22,6 +22,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/users',[ProfileController::class,'users'])->name('users');
+
 Route::middleware(['auth','workspace.has'])->group(function () {
 
     Route::prefix('profile')->group(function()
@@ -29,6 +31,7 @@ Route::middleware(['auth','workspace.has'])->group(function () {
         $profileClass = "App\Http\Livewire\Profile\\";
         Route::get('/', $profileClass.Index::class)->name('profile.index');
         Route::get('/show',$profileClass.Show::class)->name('profile.show');
+        Route::post('/crop-image-store', [$profileClass.Show::class, 'saveCropped'])->name('saveCropped');
     });
 
     Route::middleware(['workspace.access','workspace.checkSelected'])->group(function () {

@@ -24,6 +24,15 @@ class Create extends Component
     public function save()
     {
         $this->validate();
+
+        $this->createWorkspace();
+
+        return redirect()->route('dashboard');
+
+    }
+
+    protected function createWorkspace()
+    {
         $workspace = Workspace::create([
             'name' => $this->workspaceName
         ]);
@@ -32,7 +41,5 @@ class Create extends Component
             'user_id' => Auth::user()->id,
             'workspace_id' => $workspace->id
         ]);
-        return redirect()->route('dashboard');
-
     }
 }

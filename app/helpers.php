@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 if (!function_exists('getLogo'))
 {
-    function getLogo()
+    function getLogo() :string
     {
         $path = config('photofilepath.logo_filepath');
         $photo = asset('asset/logoIcon.png');
@@ -17,7 +17,7 @@ if (!function_exists('getLogo'))
 }
 if (!function_exists('getSpinner'))
 {
-    function getSpinner()
+    function getSpinner() :string
     {
         $path = config('photofilepath.logo_filepath');
         $photo = asset('asset/spinner.png');
@@ -27,7 +27,7 @@ if (!function_exists('getSpinner'))
 
 if (!function_exists('storageCreate'))
 {
-    function storageCreate(string $folder)
+    function storageCreate(string $folder) :string
     {
         $path = 'public/images/' . $folder;
         Storage::makeDirectory($path, 0777, true);
@@ -41,7 +41,7 @@ if (!function_exists('storageCreate'))
 
 if (!function_exists('getProfilePhoto'))
 {
-    function getProfilePhoto($photo,$provider)
+    function getProfilePhoto($photo,$provider) :string
     {
         $image_path = config('photofilepath.profile_photo_filepath');
 

@@ -35,7 +35,7 @@ class S3FileStorage extends StorageFilePath implements StorageConfigInterface
 
     public function  storePhotos(mixed $photos='',string $folder='')
     {
-       $path = storageCreate('profile');
+       $path = storageCreate($folder);
 
        if(is_array($photos))
        {

@@ -21,7 +21,7 @@ class ProfileUpdateService
             session()->regenerateToken();
             return redirect()->to('/login');
         }
-        dd('here');
+
         session()->flash('confirm', 'name is not matched');
     }
 }
