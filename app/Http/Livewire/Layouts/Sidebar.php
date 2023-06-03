@@ -4,14 +4,18 @@ namespace App\Http\Livewire\Layouts;
 
 use App\Models\Workspace;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
 class Sidebar extends Component
 {
     public $workspaces;
+    public $currentWorkspace ;
+
     public function mount()
     {
         $this->workspaces = Auth::user()->workspaces;
+        $this->currentWorkspace =  Session::get('selected_workspace');
         // dd($this->workspaces);
     }
     /**

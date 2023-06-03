@@ -60,7 +60,7 @@
     --PrimaryText  : var(--color-primary-100);
     --SecondaryBg :#191a23c3;
     --SecondaryText :var(--color-primary-400);
-    --HoverBg :var(--color-primary-700);
+    --HoverBg : #3e3e446b;
     --HoverText :var(--color-primary-200);
     --SoftBg : rgb(33, 35, 46);
     --SoftText : var(--color-primary-200);

@@ -104,11 +104,24 @@ class Show extends Component
     {
         $image = $request?->image;
 
+        $base64 = substr($image, strpos($image, ',') + 1);
+        $utf8Encoded = mb_convert_encoding($base64, 'UTF-8', 'UTF-8');
+
+        // Decode the base64-encoded content
+        $decodedData = base64_decode($utf8Encoded);
+
+
+        return response()->json(['message' => $decodedData ]);
+
+
+
+        $decodedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image));
+        $photoName = $this->storage->storePhotos($decodedImage, 'profile');
+
         if($image)
         {
             return response()->json(['message' => $image]);
 
-            $photoName = $this->storage->storePhotos($image, 'profile');
             // $updated_user->profile_photo_path = $photoName;
         }
 

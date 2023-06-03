@@ -6,13 +6,15 @@
                 @include('profile.partials.update-profile-information-form')
             </div>
         </div>
+        <div id="profile_photo">
 
+        </div>
         <div class="py-4  text-PrimaryText  sm:rounded-lg">
             <div class="px-8 pb-8 sm:px-24">
                 @include('profile.partials.delete-user-form')
             </div>
         </div>
-        <form action="{{ route('saveCropped') }}" method="POST">
+        <form action="{{ route('saveCropped') }}" method="POST" >
             @csrf
             <button type="submit">Click</button>
         </form>
@@ -53,7 +55,9 @@
                 }))
 
                 reader.onload = function(e) {
-                    console.log(e.target.result);
+                    var base64Data = e.target.result.split(',')[1]; // Extract base64-encoded data
+                    var decodedData = atob(base64Data);
+                    console.log(base64Data);
                     resize.croppie('bind', {
                         url: e.target.result,
                         points: [77, 469, 280, 739]
@@ -70,17 +74,19 @@
 
                 resize.croppie('result', {
                     type: 'canvas',
-                    size: 'viewport'
+                    size: 'viewport',
+                    dataType: 'json',
                 }).then(function(img) {
+                    var formData = new FormData();
+                        formData.append('image', img);
+                        formData.append('mig', 'nani');
                     $.ajax({
                         url: '{{ route('saveCropped') }}',
                         type: "POST",
-                        data: {
-                            "image": img
-                        },
+                        data: {"image":img},
                         success: function(data) {
                             html = '<img src="' + img + '" />';
-                            $(".profile_photo").html(html);
+                            $("#profile_photo").html(html);
                             console.log(data);
                         },
                         error: function(data) {

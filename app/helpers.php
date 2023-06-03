@@ -85,12 +85,11 @@ if (!function_exists('checkOnline'))
         return false;
     }
 }
-if (!function_exists('currentWorkspace'))
+if (!function_exists('niceTitle'))
 {
-    function currentWorkspace($name)
+    function niceTitle($text)
     {
-        $request->route('workspace');
-        return Workspace::where('name',$name)->with('users')->first();
+        return ucwords(Str::words($text  ,3 ,'....'));
     }
 }
 

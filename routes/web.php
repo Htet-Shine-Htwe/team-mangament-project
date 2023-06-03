@@ -26,6 +26,7 @@ Route::get('/users',[ProfileController::class,'users'])->name('users');
 
 Route::middleware(['auth','workspace.has'])->group(function () {
 
+    //profile
     Route::prefix('profile')->group(function()
     {
         $profileClass = "App\Http\Livewire\Profile\\";
@@ -34,10 +35,14 @@ Route::middleware(['auth','workspace.has'])->group(function () {
         Route::post('/crop-image-store', [$profileClass.Show::class, 'saveCropped'])->name('saveCropped');
     });
 
+
+    //workspace
     Route::middleware(['workspace.access','workspace.checkSelected'])->group(function () {
         Route::prefix('/workspaces/user/{workspace}')->group(function () {
             $workSpace = "App\Http\Livewire\Workspace\\";
+            $workSpaceSetting = "App\Http\Livewire\Workspace\Setting\\";
             Route::get('/',$workSpace.Index::class)->name('workspace.index');
+            Route::get('/setting',$workSpaceSetting.Index::class)->name('workspace.setting.index');
         });
     });
 

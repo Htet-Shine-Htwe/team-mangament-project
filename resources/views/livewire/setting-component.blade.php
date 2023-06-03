@@ -1,12 +1,7 @@
 
 <div class="bg-PrimaryBg py-8 px-8 sm:px-24">
     <div class="w-full flex flex-col gap-y-4">
-        <div class="w-full flex flex-col">
-            <h3 class="text-2xl">Workspaces</h3>
-            <p class="text-SecondaryText">Manage your work spaces</p>
-        </div>
 
-        <hr class="border-gray-400" />
         <div class="w-full flex flex-col">
             <div class="w-full flex flex-col">
                 <h3 class="text-2xl">Preferences</h3>
@@ -22,7 +17,7 @@
                 </div>
                 <div class="text-PrimaryText">
                     <div class="relative inline-block text-left">
-                        @include('components.layouts.theme-dropdown')
+                        @include('components.dropdowns.theme-dropdown')
                     </div>
                 </div>
             </div>
@@ -35,7 +30,7 @@
                 </div>
                 <div class="text-PrimaryText">
                     <div class="relative inline-block text-left">
-                        @include('components.layouts.font-dropdown')
+                        @include('components.dropdowns.font-dropdown')
                     </div>
                 </div>
             </div>
