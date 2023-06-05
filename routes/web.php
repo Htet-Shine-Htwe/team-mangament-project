@@ -24,7 +24,7 @@ Route::get('/', function () {
 
 Route::get('/users',[ProfileController::class,'users'])->name('users');
 
-Route::middleware(['auth','workspace.has'])->group(function () {
+Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(function () {
 
     //profile
     Route::prefix('profile')->group(function()
@@ -37,19 +37,20 @@ Route::middleware(['auth','workspace.has'])->group(function () {
 
 
     //workspace
-    Route::middleware(['workspace.access','workspace.checkSelected'])->group(function () {
+    Route::middleware(['workspace.access'])->group(function () {
         Route::prefix('/workspaces/user/{workspace}')->group(function () {
             $workSpace = "App\Http\Livewire\Workspace\\";
             $workSpaceSetting = "App\Http\Livewire\Workspace\Setting\\";
             Route::get('/',$workSpace.Index::class)->name('workspace.index');
             Route::get('/setting',$workSpaceSetting.Index::class)->name('workspace.setting.index');
         });
-    });
 
-    Route::get('/setting',SettingComponent::class)->name('setting');
+    });
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::get('/setting',SettingComponent::class)->name('setting');
+
 
 });
 

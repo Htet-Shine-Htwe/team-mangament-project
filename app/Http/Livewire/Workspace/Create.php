@@ -25,13 +25,15 @@ class Create extends Component
     {
         $this->validate();
 
-        $this->createWorkspace();
+        $workspace = $this->createWorkspace();
+
+        session()->put('selected_workspace', $workspace);
 
         return redirect()->route('dashboard');
 
     }
 
-    protected function createWorkspace()
+    protected function createWorkspace() :Workspace
     {
         $workspace = Workspace::create([
             'name' => $this->workspaceName
@@ -41,5 +43,7 @@ class Create extends Component
             'user_id' => Auth::user()->id,
             'workspace_id' => $workspace->id
         ]);
+
+        return $workspace;
     }
 }

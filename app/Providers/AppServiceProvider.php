@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if(env('APP_ENV')== "nani")
+        if(env('APP_ENV') == "dev")
         {
             $this->app->singleton('storageProvider', function () {
                 return 's3';

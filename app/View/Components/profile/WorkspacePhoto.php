@@ -17,8 +17,8 @@ class WorkspacePhoto extends Component
      */
     public function __construct($workspace)
     {
-        $this->photo = $this->outputPhoto($workspace->logo_path);
-        $this->workspaceName = $this->makeWorkspaceLogo($workspace->name);
+        $this->photo = $this->outputPhoto($workspace?->logo_path);
+        $this->workspaceName = $this->makeWorkspaceLogo($workspace?->name);
         $this->haxColor = $this->fakeColor();
     }
 
@@ -27,7 +27,7 @@ class WorkspacePhoto extends Component
         return $photo != null ? true : false;
     }
 
-    protected function makeWorkspaceLogo(string $workspaceName)
+    protected function makeWorkspaceLogo(?string $workspaceName)
     {
         $words = explode(" ", $workspaceName); // Split the string into an array of words
 

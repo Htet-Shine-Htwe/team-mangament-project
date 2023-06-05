@@ -15,7 +15,7 @@ class Sidebar extends Component
     public function mount()
     {
         $this->workspaces = Auth::user()->workspaces;
-        $this->currentWorkspace =  Session::get('selected_workspace');
+        $this->currentWorkspace =  Session::get('selected_workspace') ?? Auth::user()->workspaces[0];
         // dd($this->workspaces);
     }
     /**

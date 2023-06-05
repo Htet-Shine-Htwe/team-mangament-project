@@ -34,7 +34,7 @@ class LocalFileStorage extends StorageFilePath implements StorageConfigInterface
 
     }
 
-    public function storePhotos(mixed $photos, string $folder)
+    public function storePhotos($photos, string $folder)
     {
         $path = storageCreate($folder);
         if(is_array($photos))

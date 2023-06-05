@@ -33,10 +33,9 @@ class S3FileStorage extends StorageFilePath implements StorageConfigInterface
         throw new \Exception("Invalid image type: $image_type");
     }
 
-    public function  storePhotos(mixed $photos='',string $folder='')
+    public function  storePhotos($photos,string $folder='')
     {
        $path = storageCreate($folder);
-
        if(is_array($photos))
        {
            $nameCollection = [];
@@ -48,7 +47,6 @@ class S3FileStorage extends StorageFilePath implements StorageConfigInterface
            }
            return $nameCollection;
        }
-
        $photoName = "photoImage".uniqid().'.'.$photos->getClientOriginalExtension();
        $photos->storeAs($path,$photoName,'s3');
 

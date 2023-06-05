@@ -13,9 +13,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+
 class Show extends Component
 {
-    use  WithFileUploads;
+    use WithFileUploads;
     public $user;
     public string $user_name;
     public int $loadedEmojis = 250;
@@ -28,10 +29,12 @@ class Show extends Component
     public $bio = "";
     protected $storage;
 
+    public $loading = false;
+
     protected $profileUpdateService;
 
-    protected $listeners = ['loadMore'];
-    public function boot(ProfileUpdateService $profileUpdateService,S3FileStorage $storage)
+    protected $listeners = ['loadMore','startLoading', 'stopLoading'];
+    public function boot(ProfileUpdateService $profileUpdateService, S3FileStorage $storage)
     {
         $this->profileUpdateService = $profileUpdateService;
         $this->storage = $storage;
@@ -46,7 +49,7 @@ class Show extends Component
             $this->profile_photo = $this->user->profile_photo_path;
             $this->profile_photo = $this->storage->getPhoto($this->profile_photo, 'profile');
             $this->status = $this->user->status;
-            $this->selectedEmoji = $this->user->status_emoji !== null ? $this->user->status_emoji  : '1F600';
+            $this->selectedEmoji = $this->user->status_emoji !== null ? $this->user->status_emoji : '1F600';
             $this->bio = $this->user->bio;
         }
         $this->emojis = getEmojis($this->loadedEmojis);
@@ -61,13 +64,6 @@ class Show extends Component
     public function updateProfile()
     {
         $updated_user = User::where('id', Auth::id())->first();
-
-        if ($this->tmp_photo)
-        {
-            $photoName = $this->storage->storePhotos($this->tmp_photo, 'profile');
-            $updated_user->profile_photo_path = $photoName;
-        }
-
         $updated_user->name = $this->user_name;
         $updated_user->status = $this->status;
         $updated_user->status_emoji = $this->selectedEmoji;
@@ -97,36 +93,36 @@ class Show extends Component
         $this->loadedEmojis += 100;
         $this->emojis = getEmojis($this->loadedEmojis);
 
-         // Optional: You can emit this event to trigger any necessary JavaScript actions after loading more data.
+        // Optional: You can emit this event to trigger any necessary JavaScript actions after loading more data.
     }
 
     public function saveCropped(Request $request)
     {
-        $image = $request?->image;
+        $updated_user = User::where('id', Auth::id())->first();
 
-        $base64 = substr($image, strpos($image, ',') + 1);
-        $utf8Encoded = mb_convert_encoding($base64, 'UTF-8', 'UTF-8');
-
-        // Decode the base64-encoded content
-        $decodedData = base64_decode($utf8Encoded);
-
-
-        return response()->json(['message' => $decodedData ]);
-
-
-
-        $decodedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image));
-        $photoName = $this->storage->storePhotos($decodedImage, 'profile');
-
-        if($image)
+        if ($request->hasFile('image'))
         {
-            return response()->json(['message' => $image]);
+            $uploadedFile = $request->file('image'); // 'image' is the name of the file input field in the form
+            $path = storageCreate('profile');
+            $photoName = "photoImage" . uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
+            $uploadedFile->storeAs($path, $photoName, 's3');
+            $updated_user->profile_photo_path = $photoName;
+            $updated_user->update();
 
-            // $updated_user->profile_photo_path = $photoName;
+            session()->flash('status', 'profile-updated');
         }
 
-        return response()->json(['message' => $image]);
-        return redirect()->to('/dashboard');
+        session()->flash('status', 'image-not-found');
 
+    }
+
+    public function startLoading()
+    {
+        $this->loading = true;
+    }
+
+    public function stopLoading()
+    {
+        $this->loading = false;
     }
 }

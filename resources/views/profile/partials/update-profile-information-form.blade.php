@@ -18,7 +18,7 @@
                 <img src="{{ Auth::user()->avatar }}"
                     class="w-32 h-32 object-cover profile_photo rounded-full hover-circle-indigo cursor-pointer" />
             @else
-                <img src="{{ Auth::user()->avatar }}"
+                <img src="{{ getProfilePhoto(Auth::user()->profile_photo_path,app('storageProvider')) }}"
                     class="w-32 h-32 object-cover profile_photo rounded-full hover-circle-indigo cursor-pointer" />
             @endif
 
@@ -80,7 +80,7 @@
         document.addEventListener('DOMContentLoaded', function() {
                     let proflie_photo_inputs = $('.profile_photo');
                     let profile = document.getElementById('profile');
-                    profile.click();
+
 
                     proflie_photo_inputs.click(() => {
                         profile.click();

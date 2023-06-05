@@ -34,6 +34,9 @@ class DatabaseSeeder extends Seeder
             UserWorkspaceSeeder::class,
         ]);
 
+        session()->flush();
+
+
         $file = new Filesystem;
         $file->cleanDirectory('storage/app/public/');
 
