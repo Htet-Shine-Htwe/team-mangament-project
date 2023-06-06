@@ -12,13 +12,13 @@
 
     <div class="my-4 ">
         <x-input-label for="profile" class="mb-3" :value="__('Profile picture')" />
-        <div class="relative w-32 h-32 rounded-full" >
+        <div class="relative w-32 h-32 rounded-full">
 
             @if (Auth::user()->profile_photo_path == null)
                 <img src="{{ Auth::user()->avatar }}"
                     class="w-32 h-32 object-cover profile_photo rounded-full hover-circle-indigo cursor-pointer" />
             @else
-                <img src="{{ getProfilePhoto(Auth::user()->profile_photo_path,app('storageProvider')) }}"
+                <img src="{{ getProfilePhoto(Auth::user()->profile_photo_path, app('storageProvider')) }}"
                     class="w-32 h-32 object-cover profile_photo rounded-full hover-circle-indigo cursor-pointer" />
             @endif
 
@@ -78,15 +78,17 @@
 @push('js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-                    let proflie_photo_inputs = $('.profile_photo');
-                    let profile = document.getElementById('profile');
+            $('#cropModel').hide();
+
+            let proflie_photo_inputs = $('.profile_photo');
+            let profile = document.getElementById('profile');
 
 
-                    proflie_photo_inputs.click(() => {
-                        profile.click();
-                    })
+            proflie_photo_inputs.click(() => {
+                profile.click();
+            })
 
 
-                });
+        });
     </script>
 @endpush

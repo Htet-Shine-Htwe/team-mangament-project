@@ -1,4 +1,4 @@
-<div id="cropModel"  class="min-w-full d-none min-h-[100vh] absolute flex items-center justify-center transition-all">
+<div id="cropModel" wire:ignore class="min-w-full min-h-[100vh] absolute flex items-center justify-center transition-all">
    <div id="cropInnerModel" class="pb-7 bg-SoftBg z-90 border-SeparateBorder rounded-lg border-[1px]">
     <div class="flex flex-col space-y-4">
 

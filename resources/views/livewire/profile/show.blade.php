@@ -58,9 +58,10 @@
                     }).then(function() {
                         console.log('success bind image');
                     });
-                    $('#cropModel').show(300);
 
                 }
+                // $('#cropModel').show(300);
+
                 reader.readAsDataURL(this.files[0]);
 
 
