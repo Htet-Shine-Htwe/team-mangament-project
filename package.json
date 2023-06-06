@@ -16,6 +16,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "croppie": "^2.6.5",
         "twemoji": "^14.0.2"
     }
 }

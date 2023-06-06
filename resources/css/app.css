@@ -1,3 +1,6 @@
+@import '../../node_modules/croppie/croppie.css';
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
