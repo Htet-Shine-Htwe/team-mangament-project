@@ -38,7 +38,7 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
 
     //workspace
     Route::middleware(['workspace.access'])->group(function () {
-        Route::prefix('/user/workspaces/{workspace}')->group(function () {
+        Route::prefix('/workspaces/{workspace_name}')->group(function () {
             $workSpace = "App\Http\Livewire\Workspace\\";
             $workSpaceSetting = "App\Http\Livewire\Workspace\Setting\\";
             Route::get('/',$workSpace.Index::class)->name('workspace.index');
@@ -47,6 +47,7 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
 
     });
     Route::get('/dashboard', function () {
+
         return view('dashboard');
     })->name('dashboard');
     Route::get('/setting',SettingComponent::class)->name('setting');

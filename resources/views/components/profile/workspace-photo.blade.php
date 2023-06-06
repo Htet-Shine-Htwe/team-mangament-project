@@ -1,6 +1,7 @@
 <div>
-    @if ($photo)
-    <img src="{{ $workspaceLogo }}"  class="w-6 h-6 "/>
+
+    @if ($currentWorkspace->logo_path != "empty")
+    <img src="{{ getWorkshopPhoto($currentWorkspace->logo_path,'s3') }}"  class="w-6 h-6 "/>
     @else
 
     <div class="px-[4px] py-[2px] text-white rounded-sm text-[8px]" style="background-color: {{ $haxColor }};">

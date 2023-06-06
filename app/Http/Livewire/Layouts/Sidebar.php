@@ -12,8 +12,6 @@ class Sidebar extends Component
 {
     public $workspaces;
     public $currentWorkspace ;
-
-    public string $photo;
     public string $workspaceName;
 
     public $workspaceLogo;
@@ -30,8 +28,6 @@ class Sidebar extends Component
     {
         $this->workspaces = Auth::user()->workspaces;
         $this->currentWorkspace =  Session::get('selected_workspace') ?? Auth::user()->workspaces[0];
-
-        $this->photo = $this->outputPhoto($this->currentWorkspace?->logo_path);
         $this->workspaceName = makeWorkspaceLogo($this->currentWorkspace?->name);
         $this->haxColor = $this->currentWorkspace?->hax_color;
 
@@ -52,12 +48,7 @@ class Sidebar extends Component
 
         session()->put('selected_workspace', $workspace);
 
-        return redirect()->route('workspace.index',['workspace' => $workspaceName]);
-    }
-
-    protected function outputPhoto(?string $photo)
-    {
-        return $photo != null ? true : false;
+        return redirect()->route('workspace.index',['workspace_name' => $workspaceName]);
     }
 
 

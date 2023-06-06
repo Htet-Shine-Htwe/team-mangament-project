@@ -12,8 +12,9 @@ class Index extends Component
 {
     use WithFileUploads;
     public $workspace;
-
     public $workspaceName;
+
+    public $name;
 
     public $confirmWorkspaceName;
 
@@ -30,8 +31,10 @@ class Index extends Component
 
     public function mount()
     {
+
         $this->workspace =  Session::get('selected_workspace');
         $this->workspaceName = makeWorkspaceLogo($this->workspace->name);
+        $this->name = $this->workspace->name;
         $this->workspaceLogo = $this->storage->getPhoto($this->workspace->logo_path,'workspaceLogo');
         // dd($this->workspace);
 
@@ -48,14 +51,27 @@ class Index extends Component
         $currentWorkspace->logo_path = $photoName;
         $currentWorkspace->save();
 
-        session()->put('selected_workspace', $currentWorkspace);
+        $this->sessionRefresh($currentWorkspace);
 
         $this->workspaceLogo = $this->storage->getPhoto($photoName,'workspaceLogo');
     }
+    public function updateWorkspace()
+    {
+        $currentWorkspace = Workspace::where('id',$this->workspace->id)->first();
+        $currentWorkspace->name = $this->name;
+        $currentWorkspace->save();
 
+        $this->sessionRefresh($currentWorkspace);
+        return redirect()->route('workspace.setting.index',['workspace_name' => $currentWorkspace->name ]);
+    }
     public function deleteWorkspace()
     {
         dd('deleted');
     }
 
+    protected function sessionRefresh($workspace)
+    {
+        session()->forget('selected_workspace');
+        session()->put('selected_workspace', $workspace);
+    }
 }

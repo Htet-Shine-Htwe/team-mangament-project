@@ -12,7 +12,7 @@ class WorkspaceAccess
     {
         // Retrieve the authenticated user
         $user = Auth::user();
-        $getWorkspace =  $request->route('workspace');
+        $getWorkspace =  $request->route('workspace_name');
         $workspaceName = str_replace('+', ' ', $getWorkspace);
         // dd($workspaceName);
         $workspace = Workspace::where('name',$workspaceName)->first();
