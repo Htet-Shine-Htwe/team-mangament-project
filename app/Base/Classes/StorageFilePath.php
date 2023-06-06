@@ -7,7 +7,7 @@ class StorageFilePath
     protected string $profileImagePath;
 
     protected string $workspaceLogoImagePath;
-    protected string $imageSrc = 'dummy.jpeg';
+    protected string $imageSrc = 'empty' ;
 
     public function getImagesPath()
     {

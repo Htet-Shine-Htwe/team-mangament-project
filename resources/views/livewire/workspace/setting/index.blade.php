@@ -25,10 +25,10 @@
                                     <img src="{{ $logo->temporaryUrl() }}"
                                         class=" workspacePhoto rounded-xl w-full h-full object-cover" />
                                 @else
-                                    @if ($workspaceLogo)
+                                    @if ($workspaceLogo != 'empty')
                                         <img src="{{ $workspaceLogo }}" class=" workspacePhoto rounded-xl w-full h-full object-cover" />
                                     @else
-                                        <div class=" flex items-center workspacePhoto justify-center text-white rounded-xl text-lg"
+                                        <div class=" flex w-full h-full items-center workspacePhoto justify-center text-white rounded-xl text-lg"
                                             style="background-color: {{ $workspace->hax_color }};">
                                             <p class="">{{ $workspaceName }}</p>
                                             <!-- Content goes here -->
