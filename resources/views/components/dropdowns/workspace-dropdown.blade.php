@@ -2,14 +2,14 @@
     <button @click="isOpen = !isOpen" @keydown.escape="isOpen = false"
         class="flex items-center">
         <p href="{{ route('dashboard') }}" class="flex  items-center">
-            <x-profile.workspace-photo :workspace="$workspaceName" :photo="$photo" :haxColor="$haxColor"/>
+            @include('components.profile.workspace-photo')
             <p class="font-Kanit font-medium text-sm ml-2">
                 {{ niceTitle($currentWorkspace->name) }}
             </p>
         </p>
     </button>
     <div x-show="isOpen" @click.away="isOpen = false" x-cloak
-        class="absolute left-1 font-normal flex flex-col  bg-SecondaryBg backdrop-filter shadow overflow-hidden rounded w-64 border border-SeparateBorder mt-2 py-3 right-0 z-40 text-sm">
+        class="absolute left-1 font-normal flex flex-col  bg-BackdropBg backdrop-filter shadow overflow-hidden rounded w-64 border border-SeparateBorder mt-2 py-3 right-0 z-40 text-sm">
         <div class="px-4">
             <p class="text-sm text-SecondaryText">{{ Auth::user()->email }}</p>
         </div>

@@ -21,13 +21,12 @@
         <div class="pt-4 flex justify-center items-center px-8 ">
             <button id="saveCropped"  wire:loading.attr="disabled" class="inline-flex items-center w-60 py-2 bg-ButtonBg
             hover:bg-ButtonFocus justify-center
-            border-ButtonBorder rounded-md font-semibold text-xs text-white  uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2  transition ease-in-out duration-150 space-x-2">
-                <div wire:loading class="animate-spin flex items-center">
+            border-ButtonBorder rounded-md font-semibold text-xs text-white  uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2  transition ease-in-out duration-150 space-x-2
+            disabled:bg-indigo-800 ">
+                <div wire:loading wire:target="tmp_photo" class="animate-spin flex items-center">
                     <i class="fa-solid fa-spinner"></i>
                 </div>
-                <span wire:loading.remove>
-                    Save Profile Photo
-                </span>
+                <p>Save Profile Photo</p>
 
             </button>
         </div>
