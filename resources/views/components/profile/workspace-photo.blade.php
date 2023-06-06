@@ -4,7 +4,7 @@
     @else
 
     <div class="px-[4px] py-[2px] rounded-sm text-[8px]" style="background-color: {{ $haxColor }};">
-        <p class="">{{ $workspaceName }}</p>
+        <p class="">{{ $workspace }}</p>
         <!-- Content goes here -->
     </div>
     @endif

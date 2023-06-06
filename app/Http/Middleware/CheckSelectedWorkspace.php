@@ -20,6 +20,7 @@ class CheckSelectedWorkspace
     {
         $selectedWorkspace = Session::get('selected_workspace');
         // dd(Auth::user()->workspaces());
+        // dd($selectedWorkspace);
         if ($selectedWorkspace !== null) {
             if ($this->userHasAccessToWorkspace($selectedWorkspace->id)) {
                 return $next($request);

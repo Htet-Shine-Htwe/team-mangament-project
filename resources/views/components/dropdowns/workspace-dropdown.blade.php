@@ -2,7 +2,7 @@
     <button @click="isOpen = !isOpen" @keydown.escape="isOpen = false"
         class="flex items-center">
         <p href="{{ route('dashboard') }}" class="flex  items-center">
-            <x-profile.workspace-photo :photo="false" haxColor="" :workspace="$currentWorkspace" />
+            <x-profile.workspace-photo :workspace="$workspaceName" :photo="$photo" :haxColor="$haxColor"/>
             <p class="font-Kanit font-medium text-sm ml-2">
                 {{ niceTitle($currentWorkspace->name) }}
             </p>
