@@ -6,15 +6,17 @@ class StorageFilePath
 {
     protected string $profileImagePath;
 
+    protected string $workspaceLogoImagePath;
     protected string $imageSrc = 'dummy.jpeg';
 
-    public function getProfileImage()
+    public function getImagesPath()
     {
         $this->profileImagePath = config('photofilepath.profile_photo_filepath');
+        $this->workspaceLogoImagePath = config('photofilepath.workspace_logoPath');
     }
 
     protected function setImagesPath()
     {
-        $this->getProfileImage();
+        $this->getImagesPath();
     }
 }

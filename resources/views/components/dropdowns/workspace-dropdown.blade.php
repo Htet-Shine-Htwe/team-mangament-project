@@ -16,9 +16,16 @@
         <ul class="mt-3 pb-4 border-b border-SeparateBorder">
             @foreach ($workspaces as $workspace)
             <li class="flex space-x-8 items-start mt-1">
-                <button wire:click="switchWorkspace('{{ $workspace->name }}')" class="w-full flex items-center spaces-x-3 hover:cursor-pointer px-4 py-1 hover:bg-HoverBg hover:text-HoverText ">
-                    <img src ="{{ getLogo() }}" class="w-7 h-7 fill-current mr-3 object-contain text-gray-500" />
-
+                <button wire:click="switchWorkspace('{{ $workspace->name }}')" class="w-full flex items-center space-x-3 hover:cursor-pointer px-4 py-1 hover:bg-HoverBg hover:text-HoverText ">
+                    {{-- <img src ="{{ getLogo() }}" class="w-7 h-7 fill-current mr-3 object-contain text-gray-500" /> --}}
+                    @if ($workspace->logo_path)
+                    <img src="{{ getWorkshopPhoto($workspace->logo_path,'s3') }}"  class="w-6 h-6 "/>
+                    @else
+                    <div class="w-6 h-6  flex items-center justify-center text-white rounded-sm text-[8px]" style="background-color: {{ $haxColor }};">
+                        <p class="">{{ makeWorkspaceLogo($workspace->name) }}</p>
+                        <!-- Content goes here -->
+                    </div>
+                    @endif
                     <p>{{ niceTitle($workspace->name) }}</p>
                 </button>
             </li>

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Layouts;
 
 use App\Models\Workspace;
+use App\Storage\S3FileStorage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
@@ -15,7 +16,15 @@ class Sidebar extends Component
     public string $photo;
     public string $workspaceName;
 
+    public $workspaceLogo;
+
+    protected $storage;
     public string $haxColor;
+
+    public function boot(S3FileStorage $storage )
+    {
+        $this->storage = $storage;
+    }
 
     public function mount()
     {
@@ -23,9 +32,11 @@ class Sidebar extends Component
         $this->currentWorkspace =  Session::get('selected_workspace') ?? Auth::user()->workspaces[0];
 
         $this->photo = $this->outputPhoto($this->currentWorkspace?->logo_path);
-        $this->workspaceName = $this->makeWorkspaceLogo($this->currentWorkspace?->name);
-        $this->haxColor = $this->fakeColor();
-    
+        $this->workspaceName = makeWorkspaceLogo($this->currentWorkspace?->name);
+        $this->haxColor = $this->currentWorkspace?->hax_color;
+
+        $this->workspaceLogo = $this->storage->getPhoto($this->currentWorkspace?->logo_path,'workspaceLogo');
+
     }
     /**
      * Get the view / contents that represents the component.
@@ -49,27 +60,5 @@ class Sidebar extends Component
         return $photo != null ? true : false;
     }
 
-    protected function makeWorkspaceLogo(?string $workspaceName)
-    {
-        $words = explode(" ", $workspaceName); // Split the string into an array of words
-
-        $logoWords = '';
-        $maxLoop = count($words) < 4 ? count($words) : 3;
-
-        for($i = 0;$i < $maxLoop ;$i++)
-        {
-            $ucLetter = strtoupper(substr($words[$i], 0, 1)); // Get the first letter of each word and convert it to uppercase
-            $logoWords .= $ucLetter; // Concatenate the first letters
-        }
-        // dd($logoWords);
-
-        return $logoWords;
-
-    }
-
-    protected function fakeColor()
-    {
-        return fake()->safeHexColor();
-    }
 
 }

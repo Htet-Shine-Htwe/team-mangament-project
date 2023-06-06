@@ -17,7 +17,8 @@ class WorkspaceFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->unique()->regexify("/^[a-z]{25}")
+            'name' => fake()->unique()->regexify("/^[a-z]{25}"),
+            'hax_color' => fake()->hexColor(),
         ];
     }
 }

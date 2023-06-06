@@ -10,7 +10,7 @@ class Workspace extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name','hax_color','logo_path'];
 
     public function users()
     {

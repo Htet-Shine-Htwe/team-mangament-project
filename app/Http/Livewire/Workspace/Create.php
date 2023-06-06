@@ -36,7 +36,8 @@ class Create extends Component
     protected function createWorkspace() :Workspace
     {
         $workspace = Workspace::create([
-            'name' => $this->workspaceName
+            'name' => $this->workspaceName,
+            'hax_color' => fake()->safeHexColor(),
         ]);
 
         UserWorkspace::create([

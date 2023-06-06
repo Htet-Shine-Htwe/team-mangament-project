@@ -56,6 +56,23 @@ if (!function_exists('getProfilePhoto'))
     }
 }
 
+if (!function_exists('getWorkshopPhoto'))
+{
+    function getWorkshopPhoto($photo,$provider) :string
+    {
+        $image_path = config('photofilepath.workspace_logoPath');
+
+        if (Storage::disk($provider)->exists($image_path . $photo) && $photo != null)
+        {
+            $imageSrc = 'data:image/jpeg;base64,' . base64_encode(Storage::disk($provider)->get($image_path . $photo));
+            return $imageSrc;
+        }
+        $imageSrc = getLogo();
+        return $imageSrc;
+
+    }
+}
+
 if (!function_exists('getEmojis'))
 {
     function getEmojis($limit)
@@ -93,4 +110,26 @@ if (!function_exists('niceTitle'))
     }
 }
 
+
+//make logoName from workspace name
+if (!function_exists('makeWorkspaceLogo'))
+{
+    function makeWorkspaceLogo(string $workspaceName)
+    {
+        $words = explode(" ", $workspaceName); // Split the string into an array of words
+
+        $logoWords = '';
+        $maxLoop = count($words) < 4 ? count($words) : 3;
+
+        for($i = 0;$i < $maxLoop ;$i++)
+        {
+            $ucLetter = strtoupper(substr($words[$i], 0, 1)); // Get the first letter of each word and convert it to uppercase
+            $logoWords .= $ucLetter; // Concatenate the first letters
+        }
+        // dd($logoWords);
+
+        return $logoWords;
+
+    }
+}
 

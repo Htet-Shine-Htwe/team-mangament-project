@@ -38,7 +38,7 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
 
     //workspace
     Route::middleware(['workspace.access'])->group(function () {
-        Route::prefix('/workspaces/user/{workspace}')->group(function () {
+        Route::prefix('/user/workspaces/{workspace}')->group(function () {
             $workSpace = "App\Http\Livewire\Workspace\\";
             $workSpaceSetting = "App\Http\Livewire\Workspace\Setting\\";
             Route::get('/',$workSpace.Index::class)->name('workspace.index');

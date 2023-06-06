@@ -13,8 +13,11 @@ class WorkspaceAccess
         // Retrieve the authenticated user
         $user = Auth::user();
         $getWorkspace =  $request->route('workspace');
-        $workspace = Workspace::where('name',$getWorkspace)->first();
+        $workspaceName = str_replace('+', ' ', $getWorkspace);
+        // dd($workspaceName);
+        $workspace = Workspace::where('name',$workspaceName)->first();
 
+        // dd($workspace);
         if(!$workspace)
         {
             return redirect()->route('dashboard')->with('error', 'Workspace does not exists');

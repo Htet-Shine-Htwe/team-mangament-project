@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string("name")->unique();
             $table->string("logo_path")->nullable();
+            $table->string("hax_color")->nullable();
             $table->timestamps();
         });
     }
