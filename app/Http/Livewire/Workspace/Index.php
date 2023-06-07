@@ -3,7 +3,9 @@
 namespace App\Http\Livewire\Workspace;
 
 use App\Models\Workspace;
+use App\Services\WorkspaceHelper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
@@ -14,7 +16,7 @@ class Index extends Component
     public function mount(Request $request)
     {
 
-        $this->workspace =  Session::get('selected_workspace');
+        $this->workspace = WorkspaceHelper::getCurrentWorkspace();
         // dd($this->workspace);
     }
     public function render()
@@ -22,8 +24,4 @@ class Index extends Component
         return view('livewire.workspace.index');
     }
 
-    protected function currentWorkspace($name)
-    {
-        return Workspace::where('name',$name)->with('users')->first();
-    }
 }

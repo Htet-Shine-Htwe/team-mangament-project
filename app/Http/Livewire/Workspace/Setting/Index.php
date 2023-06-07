@@ -3,8 +3,10 @@
 namespace App\Http\Livewire\Workspace\Setting;
 
 use App\Models\Workspace;
+use App\Services\WorkspaceHelper;
 use App\Services\WorkspaceUpdateService;
 use App\Storage\S3FileStorage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -36,7 +38,7 @@ class Index extends Component
     public function mount()
     {
 
-        $this->workspace =  Session::get('selected_workspace');
+        $this->workspace = WorkspaceHelper::getCurrentWorkspace();
         $this->workspaceName = makeWorkspaceLogo($this->workspace->name);
         $this->name = $this->workspace->name;
         $this->workspaceLogo = $this->storage->getPhoto($this->workspace->logo_path,'workspaceLogo');
@@ -80,6 +82,6 @@ class Index extends Component
     protected function sessionRefresh($workspace)
     {
         session()->forget('selected_workspace');
-        session()->put('selected_workspace', $workspace);
+        session()->put('selected_workspace', $workspace->id);
     }
 }

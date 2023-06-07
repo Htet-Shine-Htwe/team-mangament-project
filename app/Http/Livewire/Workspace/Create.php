@@ -31,7 +31,7 @@ class Create extends Component
 
         $workspace = $this->createWorkspace();
 
-        session()->put('selected_workspace', $workspace);
+        session()->put('selected_workspace', $workspace->id);
 
         return redirect()->route('dashboard');
 

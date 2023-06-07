@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Workspace;
+use App\Services\WorkspaceHelper;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,7 +30,7 @@ class WorkspaceAccess
         // $workspaceId = $request->input('workspace_id');
 
         // Check if the user has access to the requested workspace
-        if (!$user->hasAccessToWorkspace($workspaceId)) {
+        if (!WorkspaceHelper::checkUserHasAccessToWorkspace($workspaceId)) {
             // User is not authorized, return an error response or redirect
             return redirect()->route('dashboard')->with('error', 'You do not have access to this workspace.');
         }

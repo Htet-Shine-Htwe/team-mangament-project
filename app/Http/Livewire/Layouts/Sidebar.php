@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Layouts;
 
 use App\Models\Workspace;
+use App\Services\WorkspaceHelper;
 use App\Storage\S3FileStorage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -26,8 +27,8 @@ class Sidebar extends Component
 
     public function mount()
     {
-        $this->workspaces = Auth::user()->workspaces;
-        $this->currentWorkspace =  Session::get('selected_workspace') ?? Auth::user()->workspaces[0];
+        $this->workspaces = WorkspaceHelper::getUserWorkspaces();
+        $this->currentWorkspace = WorkspaceHelper::getCurrentWorkspace();
         $this->workspaceName = makeWorkspaceLogo($this->currentWorkspace?->name);
         $this->haxColor = $this->currentWorkspace?->hax_color;
 
@@ -46,10 +47,12 @@ class Sidebar extends Component
     {
         $workspace = Workspace::where('name',$workspaceName)->first();
 
-        session()->put('selected_workspace', $workspace);
+        session()->put('selected_workspace', $workspace->id);
 
         return redirect()->route('workspace.index',['workspace_name' => $workspaceName]);
     }
+
+
 
 
 }

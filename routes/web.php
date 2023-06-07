@@ -1,11 +1,13 @@
 <?php
 
+use App\Aws\StorageCalculate;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\SettingComponent;
-
+use Aws\S3\S3Client;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,7 +60,7 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
 
 Route::get('/sample',function()
 {
-    return  response()->json(['message' => 'we are here']);
+   return StorageCalculate::getStorageSize();
 });
 
     $workSpace = "App\Http\Livewire\Workspace\\";

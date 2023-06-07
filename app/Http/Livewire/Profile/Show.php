@@ -10,6 +10,8 @@ use App\Traits\UsePhoto;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -19,11 +21,9 @@ class Show extends Component
     use WithFileUploads;
     public $user;
     public string $user_name;
-    public int $loadedEmojis = 250;
     public $profile_photo;
     public $tmp_photo;
     public string $confirm_user_name;
-    public $emojis;
     public $selectedEmoji;
     public $status = "";
     public $bio = "";
@@ -33,7 +33,7 @@ class Show extends Component
 
     protected $profileUpdateService;
 
-    protected $listeners = ['loadMore','startLoading', 'stopLoading'];
+    protected $listeners = ['startLoading', 'stopLoading','emojiChanged'];
     public function boot(ProfileUpdateService $profileUpdateService, S3FileStorage $storage)
     {
         $this->profileUpdateService = $profileUpdateService;
@@ -52,7 +52,6 @@ class Show extends Component
             $this->selectedEmoji = $this->user->status_emoji !== null ? $this->user->status_emoji : '1F600';
             $this->bio = $this->user->bio;
         }
-        $this->emojis = getEmojis($this->loadedEmojis);
         // dd($this->profile_photo);
     }
 
@@ -83,19 +82,6 @@ class Show extends Component
         return $this->profileUpdateService->deleteAccount($this->confirm_user_name);
     }
 
-    public function selectEmoji($emoji)
-    {
-        $this->selectedEmoji = $emoji;
-    }
-
-    public function loadMore()
-    {
-        $this->loadedEmojis += 100;
-        $this->emojis = getEmojis($this->loadedEmojis);
-
-        // Optional: You can emit this event to trigger any necessary JavaScript actions after loading more data.
-    }
-
     public function saveCropped(Request $request)
     {
         $updated_user = User::where('id', Auth::id())->first();
@@ -115,6 +101,11 @@ class Show extends Component
 
         session()->flash('status', 'image-not-found');
 
+    }
+
+    public function emojiChanged($emoji)
+    {
+        $this->selectedEmoji = $emoji;
     }
 
     public function startLoading()

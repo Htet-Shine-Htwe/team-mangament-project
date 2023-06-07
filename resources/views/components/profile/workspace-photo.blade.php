@@ -1,6 +1,5 @@
 <div>
-
-    @if ($currentWorkspace->logo_path != "empty")
+    @if ($currentWorkspace->logo_path != "empty" && $currentWorkspace->logo_path != null)
     <img src="{{ getWorkshopPhoto($currentWorkspace->logo_path,'s3') }}"  class="w-6 h-6 "/>
     @else
 

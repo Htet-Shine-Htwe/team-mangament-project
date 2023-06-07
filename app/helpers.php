@@ -1,8 +1,10 @@
 <?php
 
 use App\Models\Workspace;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -88,6 +90,7 @@ if (!function_exists('getEmojis'))
                 return $emojis;
             }
 
+            return [];
     }
 }
 
@@ -130,6 +133,21 @@ if (!function_exists('makeWorkspaceLogo'))
 
         return $logoWords;
 
+    }
+}
+
+if (!function_exists('getCurrentWorkspace'))
+{
+    function getCurrentWorkspace( $workspaceId)
+    {
+        $workspace = Workspace::with('users')->find($workspaceId);
+
+        if (!$workspace) {
+            session()->forget('selected_workspace');
+            $workspace = Auth::user()->workspaces()->first();
+        }
+
+        return $workspace;
     }
 }
 

@@ -54,6 +54,11 @@ class User extends Authenticatable
 
     public function workspaces()
     {
-       return  $this->belongsToMany(Workspace::class,'user_workspace')->wherePivot('user_id', '=',Auth::user()->id);;
+       return  $this->belongsToMany(Workspace::class,'user_workspace')->wherePivot('user_id', '=',$this->id);;
+    }
+
+    public function getCurrentWorkspace(int $workspaceId)
+    {
+    return Workspace::with('users')->find($workspaceId);
     }
 }

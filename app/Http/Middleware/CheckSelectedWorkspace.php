@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\User;
 use App\Models\UserWorkspace;
+use App\Services\WorkspaceHelper;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,31 +21,28 @@ class CheckSelectedWorkspace
      */
     public function handle($request, Closure $next)
     {
+            // session()->flush();
 
-            $selectedWorkspace = Session::get('selected_workspace');
+            $selectedWorkspace = WorkspaceHelper::getCurrentWorkspace();
+            //if selectedWorkspace fail,forget the session and try again
+            $userWorkspaces =   WorkspaceHelper::getUserWorkspaces();
+            // dd($userWorkspaces);
+            if ($selectedWorkspace !== null && $this->userHasAccessToWorkspace($selectedWorkspace->id)) {
+                return $next($request);
+            }
 
-            $userWorkspaces = User::where('id',auth()->id())->with('workspaces')->first();
-
-            if ($selectedWorkspace !== null) {
-                if ($this->userHasAccessToWorkspace($selectedWorkspace->id)) {
-                    return $next($request);
-                } else {
-
-                    abort(403, 'Unauthorized access to the workspace.');
-                }
-            } else {
-                $workspace = $userWorkspaces->workspaces[0];
-
+            if ($userWorkspaces->isNotEmpty()) {
+                $workspace = $userWorkspaces->first()->id;
                 $request->session()->put('selected_workspace', $workspace);
                 return $next($request);
             }
 
-
+            abort(403, 'Unauthorized access to the workspace.');
 
     }
 
     private function userHasAccessToWorkspace($workspaceId)
     {
-        return  Auth::user()->workspaces->contains('id', $workspaceId);
+        return WorkspaceHelper::checkUserHasAccessToWorkspace($workspaceId);
     }
 }

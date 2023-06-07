@@ -52,11 +52,12 @@
         </div>
 
 
-        {{-- Status Part --}}
+        {{--   Emoji & Status Part --}}
         <div>
             <x-input-label for="status_string" :value="__('Status')" />
             <div class="flex items-center mt-2">
-                @include('components.layouts.emoji-box')
+                {{-- @include('components.layouts.emoji-box') --}}
+                <livewire:tools.emoji-model >
                 <input name="status_string"
                     class="rounded-r-md input-bg !border-[1px] border-gray-300 text-black focus:border-indigo-500 py-2 px-2  focus:ring-indigo-500  shadow-sm  block w-full"
                     wire:model.defer='status' />

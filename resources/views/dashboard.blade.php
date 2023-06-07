@@ -17,11 +17,11 @@
     @push('js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('ajax')
-            $.get("{{ route('users') }}", function(data){
-            console.log(data);
-        });
-        });
+        //     console.log('ajax')
+        //     $.get("{{ route('users') }}", function(data){
+        //     console.log(data);
+        // });
+    });
     </script>
     @endpush
 </x-app-layout>
