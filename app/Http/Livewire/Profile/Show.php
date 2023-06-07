@@ -110,6 +110,7 @@ class Show extends Component
             $updated_user->update();
 
             session()->flash('status', 'profile-updated');
+
         }
 
         session()->flash('status', 'image-not-found');
