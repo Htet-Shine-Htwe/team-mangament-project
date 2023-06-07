@@ -22,7 +22,8 @@
                 <p>Setting</p>
             </a>
         </li>
-        <li class="flexitems-start mt-3">
+        <hr class="w-full border-SeparateBorder my-2"/>
+        <li class="flexitems-start">
             <form action="{{ route('logout') }}" method="POST" >
                 @csrf
                 <button class="flex gap-x-3 items-center w-full hover:bg-HoverBg capitalize transition pl-5 pr-2 py-2 ">

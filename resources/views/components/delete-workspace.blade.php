@@ -24,9 +24,10 @@
                 {{ __('Once your workshop is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your workshop.  ') }}
             </p>
             <p class="text-red-600"> Type *<span class="text-red-700">{{ $workspace->name }}</span>*  to delete your workshop</p>
-            <div class="mt-6" wire:ignore >
+            <div class="mt-6" >
 
                 <input id="confirm_workshop" class ="text-input" placeholder="Your workshop Name" wire:model.defer="confirmWorkspaceName"/>
+                @error('confirmWorkspaceName') <span class="error">{{ $message }}</span> @enderror
 
             </div>
 

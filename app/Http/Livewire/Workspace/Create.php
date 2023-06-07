@@ -12,6 +12,10 @@ class Create extends Component
 {
     public $workspaceName;
 
+    public function mount()
+    {
+        // dd('here');
+    }
     protected $rules = [
         'workspaceName' => 'required|min:2|unique:workspaces,name'
     ];

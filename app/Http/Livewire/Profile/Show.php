@@ -77,7 +77,7 @@ class Show extends Component
     public function deleteProfile()
     {
         $this->validate([
-            'confirm_user_name' => ['required'],
+            'confirm_user_name' => 'required',
         ]);
 
         return $this->profileUpdateService->deleteAccount($this->confirm_user_name);

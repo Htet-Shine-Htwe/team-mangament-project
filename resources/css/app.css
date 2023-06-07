@@ -40,7 +40,7 @@
         --HoverText :var(--color-primary-700);
         --SoftBg : var(--color-primary-200);
         --SoftText : var(--color-primary-200);
-        --SeparateBorder : #2C2D3C;
+        --SeparateBorder : #323342;
         --ButtonBg : rgb(87, 91, 199);
         --ButtonFocus : #6c79ff;
         --ButtonBorder : rgb(87, 91, 199);
@@ -66,9 +66,9 @@
     --HoverText :var(--color-primary-200);
     --SoftBg : rgb(33, 35, 46);
     --SoftText : var(--color-primary-200);
-    --SeparateBorder : #303141;
+    --SeparateBorder : #3d3e4d;
     --BackdropBg : rgba(29, 30, 43, 0.498);
-    --blur-deep : 10px;
+    --blur-deep : 3px;
 }
 
 .theme-light
@@ -93,7 +93,7 @@
     --SoftText : var(--color-primary-200);
     --SeparateBorder : #e8e8e8f8;
     --BackdropBg : rgba(255, 255, 255, 0.799);
-    --blur-deep : 20px;
+    --blur-deep : 15px;
 
 }
 .backdrop-filter{
@@ -108,6 +108,9 @@
     border: 1px solid var(--SeparateBorder)
 }
 
+.error {
+    color: red;
+  }
 
 @layer components
 {

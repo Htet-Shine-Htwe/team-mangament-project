@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Workspace\Setting;
 
 use App\Models\Workspace;
+use App\Services\WorkspaceUpdateService;
 use App\Storage\S3FileStorage;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
@@ -24,9 +25,12 @@ class Index extends Component
 
     public $workspaceLogo;
 
-    public function boot(S3FileStorage $storage )
+    protected $workspaceUpdateService;
+
+    public function boot(S3FileStorage $storage ,WorkspaceUpdateService $workspaceUpdateService)
     {
         $this->storage = $storage;
+        $this->workspaceUpdateService = $workspaceUpdateService;
     }
 
     public function mount()
@@ -66,7 +70,11 @@ class Index extends Component
     }
     public function deleteWorkspace()
     {
-        dd('deleted');
+        $this->validate([
+            'confirmWorkspaceName' => 'required',
+        ]);
+
+        return $this->workspaceUpdateService->deleteWorkspace($this->confirmWorkspaceName);
     }
 
     protected function sessionRefresh($workspace)

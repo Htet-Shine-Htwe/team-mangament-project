@@ -7,26 +7,25 @@
                         <h3 class="text-2xl">Workspace</h3>
                         <p class="text-SecondaryText">Manage your workspace setting</p>
                     </div>
-                    <hr class="border-gray-400 mt-4" />
+                    <hr class="border-gray-400 mt-6" />
                 </div>
             </div>
         </header>
 
-        <div class=" border-b-[1px] w-full border-SeparateBorder">
+        <div class=" w-full">
             <div class=" sm:rounded-lg">
-                <div class="px-8 pb-8 sm:px-24">
+                <div class="px-8 pb-4 sm:px-24">
                     @include('components.workspaces.workspace-logo-input')
+                    <hr class="border-gray-400 mt-6" />
                 </div>
             </div>
         </div>
 
-
-        <div class=" border-b-[1px] w-full border-SeparateBorder">
+        <div class=" w-full ">
             <div class=" sm:rounded-lg">
-                <div class="px-8 pb-8 sm:px-24">
+                <div class="px-8 pb-4 sm:px-24">
                     <div class="w-full flex flex-col">
-                        <h3 class="text-xl  ">General</h3>
-
+                        <h3 class="text-xl">General</h3>
 
                         <p class="text-SecondaryText text-sm mt-2">Pick a logo for your workspace</p>
 
@@ -48,13 +47,13 @@
                             </div>
                         </form>
                     </div>
-
+                    <hr class="border-gray-400 mt-6" />
                 </div>
             </div>
         </div>
 
-        <div class="py-4  text-PrimaryText  sm:rounded-lg">
-            <div class="px-8 pb-8 sm:px-24">
+        <div class="py-2  text-PrimaryText  sm:rounded-lg">
+            <div class="px-8 pb-4 sm:px-24">
                 @include('components.delete-workspace')
             </div>
         </div>

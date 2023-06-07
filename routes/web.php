@@ -55,11 +55,15 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
 
 });
 
-Route::prefix('workspaces')->group(function()
+
+Route::get('/sample',function()
 {
-    $workSpace = "App\Http\Livewire\Workspace\\";
-    Route::get('/create',$workSpace.Create::class)->middleware('auth')->name('workspace.create');
+    return  response()->json(['message' => 'we are here']);
 });
+
+    $workSpace = "App\Http\Livewire\Workspace\\";
+    Route::get('/create/workspace',$workSpace.Create::class)->name('workspace.create');
+
 
 
 Route::get('login/{provider}',[SocialiteController::class,'redirectToProvider'])->name('social.login');
