@@ -4,15 +4,9 @@ namespace App\Http\Livewire\Profile;
 
 use App\Models\User;
 use App\Services\ProfileUpdateService;
-use App\Storage\LocalFileStorage;
 use App\Storage\S3FileStorage;
-use App\Traits\UsePhoto;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 

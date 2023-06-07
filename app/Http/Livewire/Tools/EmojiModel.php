@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Tools;
 
-use Aws\S3\S3Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
@@ -20,7 +19,7 @@ class EmojiModel extends Component
         return view('livewire.tools.emoji-model');
     }
 
-    public function mount(Request $request,S3Client $s3)
+    public function mount(Request $request)
     {
         $this->user = $request->user();
 

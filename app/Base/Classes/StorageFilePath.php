@@ -11,8 +11,8 @@ class StorageFilePath
 
     public function getImagesPath()
     {
-        $this->profileImagePath = config('photofilepath.profile_photo_filepath');
-        $this->workspaceLogoImagePath = config('photofilepath.workspace_logoPath');
+        $this->profileImagePath = config('photofilepath.profilePhoto');
+        $this->workspaceLogoImagePath = config('photofilepath.workspaceLogo');
     }
 
     protected function setImagesPath()

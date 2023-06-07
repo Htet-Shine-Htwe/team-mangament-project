@@ -5,7 +5,7 @@
             @if (Auth::user()->profile_photo_path == null)
             <img src = "{{ Auth::user()->avatar }}" class="w-6 h-6 object-cover rounded-full" />
             @else
-            <img src = "{{ getProfilePhoto(Auth::user()->profile_photo_path,app('storageProvider')) }}" class="w-6 h-6 object-cover rounded-full" />
+            <img src = "{{ getPhoto(Auth::user()->profile_photo_path,'profilePhoto') }}" class="w-6 h-6 object-cover rounded-full" />
             @endif
         </div>
     </button>

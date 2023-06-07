@@ -25,7 +25,7 @@ class UserProfilePhoto extends Component
     {
         if($user->profile_photo_path == null && $user->avatar == null)
         {
-            $photo =  getProfilePhoto($user->profile_photo_path,app('storageProvider')) ;
+            $photo =  getPhoto($user->profile_photo_path,'profilePhoto') ;
         }
         elseif($user->profile_photo_path == null)
         {
@@ -33,7 +33,7 @@ class UserProfilePhoto extends Component
         }
         else
         {
-            $photo =  getProfilePhoto($user->profile_photo_path,app('storageProvider')) ;
+            $photo =  getPhoto($user->profile_photo_path,'profilePhoto') ;
         }
        return $photo;
     }

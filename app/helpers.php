@@ -41,37 +41,25 @@ if (!function_exists('storageCreate'))
     }
 }
 
-if (!function_exists('getProfilePhoto'))
-{
-    function getProfilePhoto($photo,$provider) :string
-    {
-        $image_path = config('photofilepath.profile_photo_filepath');
 
-        if (Storage::disk($provider)->exists($image_path . $photo) && $photo != null)
-        {
-            $imageSrc = 'data:image/jpeg;base64,' . base64_encode(Storage::disk($provider)->get($image_path . $photo));
+if (!function_exists('getPhoto')) {
+    function getPhoto($photo, $configKey, $defaultImage = null): string
+    {
+        $provider = app('storageProvider');
+        $imagePath = config('photofilepath.'.$configKey);
+
+        if (Storage::disk($provider)->exists($imagePath . $photo) && $photo !== null) {
+            $imageSrc = 'data:image/jpeg;base64,' . base64_encode(Storage::disk($provider)->get($imagePath . $photo));
             return $imageSrc;
         }
-        $imageSrc = getLogo();
-        return $imageSrc;
 
-    }
-}
-
-if (!function_exists('getWorkshopPhoto'))
-{
-    function getWorkshopPhoto($photo,$provider) :string
-    {
-        $image_path = config('photofilepath.workspace_logoPath');
-
-        if (Storage::disk($provider)->exists($image_path . $photo) && $photo != null)
-        {
-            $imageSrc = 'data:image/jpeg;base64,' . base64_encode(Storage::disk($provider)->get($image_path . $photo));
-            return $imageSrc;
+        // If the photo doesn't exist, return the default image
+        if ($defaultImage !== null) {
+            return $defaultImage;
         }
-        $imageSrc = getLogo();
-        return $imageSrc;
 
+        // Fallback to getLogo() if no default image provided
+        return getLogo();
     }
 }
 

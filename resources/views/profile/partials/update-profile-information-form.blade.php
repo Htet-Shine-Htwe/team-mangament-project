@@ -18,7 +18,7 @@
                 <img src="{{ Auth::user()->avatar }}"
                     class="w-32 h-32 object-cover profile_photo rounded-full hover-circle-indigo cursor-pointer" />
             @else
-                <img src="{{ getProfilePhoto(Auth::user()->profile_photo_path, app('storageProvider')) }}"
+                <img src="{{ getPhoto(Auth::user()->profile_photo_path, 'profilePhoto') }}"
                     class="w-32 h-32 object-cover profile_photo rounded-full hover-circle-indigo cursor-pointer" />
             @endif
 

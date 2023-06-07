@@ -21,7 +21,7 @@
 
                     @if ($workspace->logo_path != "empty" && $workspace->logo_path != null)
 
-                    <img src="{{ getWorkshopPhoto($workspace->logo_path,'s3') }}"  class="w-6 h-6 rounded-sm "/>
+                    <img src="{{ getPhoto($workspace->logo_path,'workspaceLogo') }}"  class="w-6 h-6 rounded-sm "/>
                     @else
                     <div class="w-6 h-6  flex items-center justify-center text-white rounded-sm text-[8px]" style="background-color: {{ $workspace->hax_color }};">
                         <p class="">{{ makeWorkspaceLogo($workspace->name) }}</p>
