@@ -1,4 +1,4 @@
-<div class="relative px-12">
+<div class="relative ">
     <div class="">
         <header class="text-PrimaryText ">
             <div class="pt-4  text-PrimaryText  sm:rounded-lg">
