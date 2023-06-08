@@ -17,3 +17,12 @@
         </div>
     </div>
 </div>
+
+
+@push('js')
+    <script>
+        $(document).ready(function(){
+            $('img').lazyload();
+        })
+    </script>
+@endpush
