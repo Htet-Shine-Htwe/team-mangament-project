@@ -2,12 +2,17 @@
 
 use App\Aws\StorageCalculate;
 use App\Http\Controllers\Auth\SocialiteController;
+use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Livewire\Invitation\Accept;
 use App\Http\Livewire\SettingComponent;
-use Aws\S3\S3Client;
+use App\Models\Invitation;
+use App\Models\User;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,8 +68,23 @@ Route::get('/sample',function()
    return phpinfo();
 });
 
-    $workSpace = "App\Http\Livewire\Workspace\\";
-    Route::get('/create/workspace',$workSpace.Create::class)->name('workspace.create');
+Route::get('/invite',function(){
+    $user = User::latest()->first();
+    // dd(url('/'));
+    $url = (new InvitationController)->generateInvitation($user->id,$user->workspaces[0]->id);
+
+    // dd($url);
+    $route = URL::signedRoute('workspace.invitation',['invitationId' => $url['id']]);
+
+    // dd($route);
+    $user->notify(new \App\Notifications\WorkspaceInvitationNotification($route));
+    return 'success';
+});
+
+Route::get('/invitations/{invitationId}',Accept::class)->name('workspace.invitation');
+
+$workSpace = "App\Http\Livewire\Workspace\\";
+Route::get('/create/workspace',$workSpace.Create::class)->name('workspace.create');
 
 
 

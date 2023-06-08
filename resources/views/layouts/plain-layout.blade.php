@@ -20,7 +20,7 @@
     @livewireStyles
 </head>
 
-<body class="antialiased" x-data="{ color: localStorage.getItem('theme') || 'light', font: localStorage.getItem('font') || 'Kanit' }" x-init="{ color: localStorage.getItem('theme') || 'light', font: localStorage.getItem('font') || 'Libre' }"
+<body class="antialiased" x-data="{ color: localStorage.getItem('theme') || 'dark', font: localStorage.getItem('font') || 'Kanit' }" x-init="{ color: localStorage.getItem('theme') || 'light', font: localStorage.getItem('font') || 'Libre' }"
     x-bind:class="'theme-' + color + ' ' + 'font-' + font" x-cloak>
     <div class="min-h-screen flex font-medium">
 
