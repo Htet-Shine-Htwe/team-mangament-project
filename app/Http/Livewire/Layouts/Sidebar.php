@@ -6,8 +6,9 @@ use App\Models\Workspace;
 use App\Services\WorkspaceHelper;
 use App\Storage\S3FileStorage;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
+use Illuminate\View\View;
 use Livewire\Component;
+use Livewire\Redirector;
 
 class Sidebar extends Component
 {
@@ -20,12 +21,12 @@ class Sidebar extends Component
     protected $storage;
     public string $haxColor;
 
-    public function boot(S3FileStorage $storage )
+    public function boot(S3FileStorage $storage ) :void
     {
         $this->storage = $storage;
     }
 
-    public function mount()
+    public function mount() :void
     {
         $this->workspaces = Auth::user()->workspaces()->get(['name', 'logo_path','hax_color']);
         $this->currentWorkspace = WorkspaceHelper::getCurrentWorkspace();
@@ -33,17 +34,16 @@ class Sidebar extends Component
         $this->haxColor = $this->currentWorkspace?->hax_color;
 
         // $this->workspaceLogo = $this->storage->getPhoto($this->currentWorkspace?->logo_path,'workspaceLogo');
-
     }
     /**
      * Get the view / contents that represents the component.
      */
-    public function render()
+    public function render() :View
     {
         return view('livewire.layouts.sidebar');
     }
 
-    public function switchWorkspace($workspaceName)
+    public function switchWorkspace($workspaceName) :Redirector
     {
         $workspace = Workspace::where('name',$workspaceName)->first();
 

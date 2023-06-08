@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\UserWorkspace;
+use App\Services\WorkspaceHelper;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
@@ -19,9 +20,7 @@ class HasWorkspace
     public function handle(Request $request, Closure $next)
     {
 
-        $workspaceCount = UserWorkspace::where('user_id', auth()->id())
-            ->join('workspaces', 'user_workspace.workspace_id', '=', 'workspaces.id')
-            ->count();
+        $workspaceCount =WorkspaceHelper::getUserWorkspaces()->count();
         $currentEndpoint = (string) $request->getRequestUri();
         if($workspaceCount <= 0)
         {

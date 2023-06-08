@@ -65,7 +65,7 @@ if (!function_exists('getPhoto')) {
 
 if (!function_exists('getEmojis'))
 {
-    function getEmojis($limit)
+    function getEmojis($limit) :array
     {
 
             $response = Http::get('https://unpkg.com/emoji.json/emoji.json');
@@ -95,7 +95,7 @@ if (!function_exists('checkOnline'))
 }
 if (!function_exists('niceTitle'))
 {
-    function niceTitle($text)
+    function niceTitle($text) :string
     {
         return ucwords(Str::words($text  ,3 ,'....'));
     }
@@ -105,7 +105,7 @@ if (!function_exists('niceTitle'))
 //make logoName from workspace name
 if (!function_exists('makeWorkspaceLogo'))
 {
-    function makeWorkspaceLogo(string $workspaceName)
+    function makeWorkspaceLogo(string $workspaceName) :string
     {
         $words = explode(" ", $workspaceName); // Split the string into an array of words
 
@@ -126,7 +126,7 @@ if (!function_exists('makeWorkspaceLogo'))
 
 if (!function_exists('getCurrentWorkspace'))
 {
-    function getCurrentWorkspace( $workspaceId)
+    function getCurrentWorkspace(?int $workspaceId) : Workspace
     {
         $workspace = Workspace::with('users')->find($workspaceId);
 

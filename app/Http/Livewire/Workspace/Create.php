@@ -6,26 +6,28 @@ use App\Models\UserWorkspace;
 use App\Models\Workspace;
 use App\View\Components\PlainLayout;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 use Livewire\Component;
+use Livewire\Redirector;
 
 class Create extends Component
 {
     public $workspaceName;
 
-    public function mount()
-    {
-        // dd('here');
-    }
     protected $rules = [
         'workspaceName' => 'required|min:2|unique:workspaces,name'
     ];
 
-    public function render()
+    public function mount() :void
+    {
+        // dd('here');
+    }
+    public function render() :View
     {
         return view('livewire.workspace.create')->layout(PlainLayout::class);
     }
 
-    public function save()
+    public function save() :Redirector
     {
         $this->validate();
 

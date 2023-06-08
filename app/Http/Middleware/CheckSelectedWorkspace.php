@@ -26,7 +26,8 @@ class CheckSelectedWorkspace
             $selectedWorkspace = WorkspaceHelper::getCurrentWorkspace();
             //if selectedWorkspace fail,forget the session and try again
             $userWorkspaces =   WorkspaceHelper::getUserWorkspaces();
-            // dd($userWorkspaces);
+
+
             if ($selectedWorkspace !== null && $this->userHasAccessToWorkspace($selectedWorkspace->id)) {
                 return $next($request);
             }

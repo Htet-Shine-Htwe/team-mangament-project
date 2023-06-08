@@ -57,8 +57,4 @@ class User extends Authenticatable
        return  $this->belongsToMany(Workspace::class,'user_workspace')->wherePivot('user_id', '=',$this->id);;
     }
 
-    public function getCurrentWorkspace(int $workspaceId)
-    {
-    return Workspace::with('users')->find($workspaceId);
-    }
 }

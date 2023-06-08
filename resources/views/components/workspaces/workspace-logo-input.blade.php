@@ -4,14 +4,15 @@
     <div class="my-2">
         {{-- <x-input-label for="profile" class="mb-3" :value="__('Profile picture')" /> --}}
         <div class="relative w-20 h-20">
-            @if ($logo)
+
+            @if ($logo && !$errors->has('logo'))
                 <img src="{{ $logo->temporaryUrl() }}"
-                    class=" workspacePhoto rounded-xl w-full h-full object-cover" />
+                    class=" workspacePhoto rounded-xl w-full h-full object-cover cursor-pointer" />
             @else
                 @if ($workspaceLogo != 'empty')
-                    <img src="{{ $workspaceLogo }}" class=" workspacePhoto rounded-xl w-full h-full object-cover" />
+                    <img src="{{ $workspaceLogo }}" class=" workspacePhoto rounded-xl w-full h-full object-cover cursor-pointer" />
                 @else
-                    <div class=" flex w-full h-full items-center workspacePhoto justify-center text-white rounded-xl text-lg"
+                    <div class=" flex w-full h-full items-center workspacePhoto justify-center text-white rounded-xl text-lg cursor-pointer"
                         style="background-color: {{ $workspace->hax_color }};">
                         <p class="">{{ $workspaceName }}</p>
                         <!-- Content goes here -->

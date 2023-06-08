@@ -9,7 +9,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 class S3FileStorage extends StorageFilePath implements StorageConfigInterface
 {
 
-    public function getPhoto(mixed $photo,string $image_type)
+    public function getPhoto(mixed $photo,string $image_type) :String
     {
         $image_path = $image_type . 'ImagePath';
 
@@ -33,7 +33,7 @@ class S3FileStorage extends StorageFilePath implements StorageConfigInterface
         throw new \Exception("Invalid image type: $image_type");
     }
 
-    public function  storePhotos($photos,string $folder='')
+    public function  storePhotos($photos,string $folder='') :String|array
     {
        $path = storageCreate($folder);
        if(is_array($photos))

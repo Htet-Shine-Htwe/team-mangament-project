@@ -7,7 +7,9 @@ use App\Services\ProfileUpdateService;
 use App\Storage\S3FileStorage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 use Livewire\Component;
+use Livewire\Redirector;
 use Livewire\WithFileUploads;
 
 class Show extends Component
@@ -28,13 +30,13 @@ class Show extends Component
     protected $profileUpdateService;
 
     protected $listeners = ['startLoading', 'stopLoading','emojiChanged'];
-    public function boot(ProfileUpdateService $profileUpdateService, S3FileStorage $storage)
+    public function boot(ProfileUpdateService $profileUpdateService, S3FileStorage $storage) :void
     {
         $this->profileUpdateService = $profileUpdateService;
         $this->storage = $storage;
     }
 
-    public function mount(Request $request)
+    public function mount(Request $request) :void
     {
         $this->user = $request->user();
         if (!$this->user == null)
@@ -49,12 +51,12 @@ class Show extends Component
         // dd($this->profile_photo);
     }
 
-    public function render()
+    public function render() :View
     {
         return view('livewire.profile.show');
     }
 
-    public function updateProfile()
+    public function updateProfile() :Redirector
     {
         $this->validate([
             'user_name' =>  'required|min:3',
@@ -73,7 +75,7 @@ class Show extends Component
         return redirect()->to('/profile/show');
     }
 
-    public function deleteProfile()
+    public function deleteProfile()  :Redirector
     {
         $this->validate([
             'confirm_user_name' => 'required',
@@ -82,7 +84,7 @@ class Show extends Component
         return $this->profileUpdateService->deleteAccount($this->confirm_user_name);
     }
 
-    public function saveCropped(Request $request)
+    public function saveCropped(Request $request) :void
     {
         $updated_user = User::where('id', Auth::id())->first();
 
@@ -106,17 +108,17 @@ class Show extends Component
 
     }
 
-    public function emojiChanged($emoji)
+    public function emojiChanged($emoji) :void
     {
         $this->selectedEmoji = $emoji;
     }
 
-    public function startLoading()
+    public function startLoading() :void
     {
         $this->loading = true;
     }
 
-    public function stopLoading()
+    public function stopLoading() :void
     {
         $this->loading = false;
     }

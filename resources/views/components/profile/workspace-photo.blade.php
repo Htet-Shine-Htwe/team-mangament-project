@@ -5,7 +5,7 @@
     class="w-6 h-6 object-cover"/>
     @else
 
-    <div class="px-[4px] py-[2px] text-white rounded-sm text-[8px]" style="background-color: {{ $haxColor }};">
+    <div class="w-6 h-6 flex items-center justify-center text-white rounded-sm text-[8px]" style="background-color: {{ $haxColor }};">
         <p class="">{{ $workspaceName }}</p>
         <!-- Content goes here -->
     </div>

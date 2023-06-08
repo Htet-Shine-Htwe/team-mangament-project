@@ -6,7 +6,9 @@ use App\Models\Workspace;
 use App\Services\WorkspaceHelper;
 use App\Services\WorkspaceUpdateService;
 use App\Storage\S3FileStorage;
+use Illuminate\View\View;
 use Livewire\Component;
+use Livewire\Redirector;
 use Livewire\WithFileUploads;
 
 class Index extends Component
@@ -28,14 +30,14 @@ class Index extends Component
     protected $workspaceUpdateService;
 
 
-    public function boot(S3FileStorage $storage ,WorkspaceUpdateService $workspaceUpdateService)
+    public function boot(S3FileStorage $storage ,WorkspaceUpdateService $workspaceUpdateService) :void
     {
         $this->storage = $storage;
         $this->workspaceUpdateService = $workspaceUpdateService;
     }
 
 
-    public function mount()
+    public function mount() :void
     {
 
         $this->workspace = WorkspaceHelper::getCurrentWorkspace();
@@ -45,13 +47,13 @@ class Index extends Component
         // dd($this->workspace);
 
     }
-    public function render()
+    public function render() :View
     {
         return view('livewire.workspace.setting.index');
     }
 
 
-    public function updatedLogo()
+    public function updatedLogo() :void
     {
         $this->validate([
             'logo' =>  'max:3072|mimes:jpeg,png,jpg',
@@ -66,7 +68,7 @@ class Index extends Component
 
         $this->workspaceLogo = $this->storage->getPhoto($photoName,'workspaceLogo');
     }
-    public function updateWorkspace()
+    public function updateWorkspace() :Redirector
     {
         $this->validate([
             'name' =>  'required|min:3',
@@ -87,7 +89,7 @@ class Index extends Component
         return $this->workspaceUpdateService->deleteWorkspace($this->confirmWorkspaceName);
     }
 
-    protected function sessionRefresh($workspace)
+    protected function sessionRefresh($workspace) :void
     {
         session()->forget('selected_workspace');
         session()->put('selected_workspace', $workspace->id);
