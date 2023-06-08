@@ -22,7 +22,7 @@
                     class="w-32 h-32 object-cover profile_photo rounded-full hover-circle-indigo cursor-pointer" />
             @endif
 
-            <div wire:loading wire:target='tmp_photo'
+            <div wire:loading wire:target='logo'
                 class="z-20 backdrop-blur-sm rounded-full w-full h-full bg-gray-700 bg-opacity-10 flex justify-center items-center absolute  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <div class="flex items-center justify-center w-full h-full">
                     <img src="{{ getSpinner() }}"
@@ -42,7 +42,7 @@
         <div>
             <x-input-label for="name" :value="__('Name')" />
             <input name="name" id="name" class="text-input mt-2" wire:model.defer='user_name' />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+            <x-input-error class="mt-2" :messages="$errors->get('user_name')" />
         </div>
 
         <div>

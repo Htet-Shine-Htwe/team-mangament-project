@@ -56,6 +56,12 @@ class Show extends Component
 
     public function updateProfile()
     {
+        $this->validate([
+            'user_name' =>  'required|min:3',
+            'status' =>  'min:3',
+            'selectedEmoji' =>  'min:3',
+            'bio' =>  'min:3',
+        ]);
         $updated_user = User::where('id', Auth::id())->first();
         $updated_user->name = $this->user_name;
         $updated_user->status = $this->status;
@@ -80,6 +86,9 @@ class Show extends Component
     {
         $updated_user = User::where('id', Auth::id())->first();
 
+        $request->validate([
+            'image'  => 'required|file|mimes:png,jpg,max:3072'
+        ]);
         if ($request->hasFile('image'))
         {
             $uploadedFile = $request->file('image'); // 'image' is the name of the file input field in the form

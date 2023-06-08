@@ -49,20 +49,25 @@
 
             $('#profile').on('change', function() {
                 var reader = new FileReader();
+                var file = this.files[0];
+                if (file.type === 'image/jpeg' || file.type === 'image/png') {
+                    reader.onload = function(e) {
+                        resize.croppie('bind', {
+                            url: e.target.result,
+                            points: [0, 0, 0, 0]
+                        }).then(function() {
+                            console.log('success bind image');
+                        });
+                    }
 
-                reader.onload = function(e) {
-
-                    resize.croppie('bind', {
-                        url: e.target.result,
-                        points: [0, 0, 0, 0]
-                    }).then(function() {
-                        console.log('success bind image');
-                    });
-
+                    $('#cropModel').show(300);
+                    reader.readAsDataURL(file);
+                } else {
+                    // Invalid file type, show an error message or perform any other validation action
+                    alert('Invalid file type. Please select a JPG or PNG image.');
+                    // Clear the input field if necessary
+                    $('#profile').val('');
                 }
-                $('#cropModel').show(300);
-
-                reader.readAsDataURL(this.files[0]);
 
 
             });

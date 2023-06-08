@@ -3,8 +3,8 @@
 namespace App\Storage;
 use App\Base\Classes\StorageFilePath;
 use App\Contracts\StorageConfigInterface;
-use Dotenv\Exception\ValidationException;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class S3FileStorage extends StorageFilePath implements StorageConfigInterface
 {
@@ -47,8 +47,20 @@ class S3FileStorage extends StorageFilePath implements StorageConfigInterface
            }
            return $nameCollection;
        }
-       $photoName = "photoImage".uniqid().'.'.$photos->getClientOriginalExtension();
-       $photos->storeAs($path,$photoName,'s3');
+    //    $photoName = "photoImage" . uniqid() . '.' . pathinfo($photos->getClientOriginalName(), PATHINFO_EXTENSION);
+    //    $photos->storeAs($path,$photoName,'s3');
+
+        $photoName = "photoImage".uniqid().'.jpg';
+        $jpg = Image::make($photos);
+        $size = $jpg->filesize();
+        if($size > 1000000)
+        {
+            $jpg->resize(400, 200);
+        }
+        $jpg->fit(200, 200);
+
+        Storage::disk('s3')->put($path.'/' . $photoName, (string) $jpg->encode());
+
 
        return $photoName;
     }

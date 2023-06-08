@@ -33,7 +33,8 @@
 
                             <div>
                                 <x-input-label for="name" :value="__('Name')" />
-                                <input name="name" id="name" class="text-input mt-2" wire:model.defer='name' />
+                                <input name="name" id="name" class="text-input mt-2"
+                                    wire:model.defer='name' />
                                 <x-input-error class="mt-2" :messages="$errors->get('name')" />
                             </div>
 
@@ -63,6 +64,9 @@
 @push('js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            $(document).ready(function() {
+                $('img').lazyload();
+            })
 
             let workspacePhoto = $('.workspacePhoto');
             let photoInput = document.getElementById('photoInput');
@@ -71,6 +75,21 @@
             workspacePhoto.click(() => {
                 photoInput.click();
             })
+
+            $('#photoInput').on('change', function() {
+                var reader = new FileReader();
+                var file = this.files[0];
+                if (file.type === 'image/jpeg' || file.type === 'image/png') {
+                        console.log('here')
+                } else {
+                    // Invalid file type, show an error message or perform any other validation action
+                    alert('Invalid file type. Please select a JPG or PNG image.');
+                    // Clear the input field if necessary
+                    $('#photoInput').val('');
+                }
+
+
+            });
 
         })
     </script>

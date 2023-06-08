@@ -6,8 +6,6 @@ use App\Models\Workspace;
 use App\Services\WorkspaceHelper;
 use App\Services\WorkspaceUpdateService;
 use App\Storage\S3FileStorage;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -29,11 +27,13 @@ class Index extends Component
 
     protected $workspaceUpdateService;
 
+
     public function boot(S3FileStorage $storage ,WorkspaceUpdateService $workspaceUpdateService)
     {
         $this->storage = $storage;
         $this->workspaceUpdateService = $workspaceUpdateService;
     }
+
 
     public function mount()
     {
@@ -50,8 +50,13 @@ class Index extends Component
         return view('livewire.workspace.setting.index');
     }
 
+
     public function updatedLogo()
     {
+        $this->validate([
+            'logo' =>  'max:3072|mimes:jpeg,png,jpg',
+        ]);
+        // dd('here');
         $photoName = $this->storage->storePhotos($this->logo,'workspace/logo');
         $currentWorkspace = Workspace::where('id',$this->workspace->id)->first();
         $currentWorkspace->logo_path = $photoName;
@@ -63,6 +68,9 @@ class Index extends Component
     }
     public function updateWorkspace()
     {
+        $this->validate([
+            'name' =>  'required|min:3',
+        ]);
         $currentWorkspace = Workspace::where('id',$this->workspace->id)->first();
         $currentWorkspace->name = $this->name;
         $currentWorkspace->save();
