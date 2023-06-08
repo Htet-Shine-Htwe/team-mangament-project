@@ -60,7 +60,7 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
 
 Route::get('/sample',function()
 {
-   return StorageCalculate::getStorageSize();
+   return phpinfo();
 });
 
     $workSpace = "App\Http\Livewire\Workspace\\";

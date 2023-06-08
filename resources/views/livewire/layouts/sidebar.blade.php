@@ -7,4 +7,13 @@
         </div>
     </div>
 
+    <div class="flex flex-col justify-between h-[400px] items-">
+        <div class="">
+            <p>Top</p>
+        </div>
+
+        <div class="">
+            <p>Botton</p>
+        </div>
+    </div>
 </div>

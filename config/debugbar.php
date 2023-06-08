@@ -273,5 +273,5 @@ return [
      | By default, the DebugBar limits the number of frames returned by the 'debug_backtrace()' function.
      | If you need larger stacktraces, you can increase this number. Setting it to 0 will result in no limit.
      */
-    'debug_backtrace_limit' => 50,
+    'debug_backtrace_limit' => 20,
 ];
