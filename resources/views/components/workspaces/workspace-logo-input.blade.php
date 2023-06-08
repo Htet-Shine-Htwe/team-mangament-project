@@ -32,7 +32,7 @@
         <input type="file" name="logo" id="photoInput" class="text-input hidden"
             wire:model.defer='logo' />
 
-        <x-input-error class="mt-2" :messages="$errors->get('logo')" />
+            @error('logo') <span class="error">{{ $message }}</span> @enderror
     </div>
 
     <p class="text-SecondaryText text-sm mt-2">Pick a logo for your workspace</p>
