@@ -8,6 +8,7 @@ use App\Http\Livewire\Invitation\Accept;
 use App\Http\Livewire\SettingComponent;
 use App\Models\Invitation;
 use App\Models\User;
+use App\Services\RouteRedirectService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -54,6 +55,7 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
 
     });
     Route::get('/dashboard', function () {
+        // dd(session()->get('in_route'));
 
         return view('dashboard');
     })->name('dashboard');
@@ -65,15 +67,16 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
 
 Route::get('/sample',function()
 {
-   return phpinfo();
+   dd(RouteRedirectService::getRoute());
 });
 
 Route::get('/invite',function(){
     $user = User::latest()->first();
-    // dd(url('/'));
-    $url = (new InvitationController)->generateInvitation($user->id,$user->workspaces[0]->id);
 
-    // dd($url);
+    // dd($user->workspaces);
+    $email = "htetshine.htetmkk@gmail.com";
+    $url = (new InvitationController)->generateInvitation($user->id,$user->workspaces[0]->id,$email);
+
     $route = URL::signedRoute('workspace.invitation',['invitationId' => $url['id']]);
 
     // dd($route);
@@ -81,15 +84,17 @@ Route::get('/invite',function(){
     return 'success';
 });
 
-Route::get('/invitations/{invitationId}',Accept::class)->name('workspace.invitation');
+Route::get('/invitations/{invitationId}',Accept::class)->middleware(['auth','workspace.checkInvitation'])
+->name('workspace.invitation');
 
 $workSpace = "App\Http\Livewire\Workspace\\";
-Route::get('/create/workspace',$workSpace.Create::class)->name('workspace.create');
+Route::get('/create/workspace',$workSpace.Create::class)->middleware('auth')->name('workspace.create');
 
 
 
 Route::get('login/{provider}',[SocialiteController::class,'redirectToProvider'])->name('social.login');
-Route::get('login/{provider}/callback',[SocialiteController::class,'handleProviderCallback']);
+Route::get('login/{provider}/callback',[SocialiteController::class,'handleProviderCallback'])
+->middleware('workspace.invitation');
 
 
 

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('sender_id');
             $table->foreign('sender_id')->references('id')->on('users')->cascadeOnDelete();
             $table->string('email');
+            $table->enum('status', ['accepted', 'pending', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }

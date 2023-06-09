@@ -67,5 +67,7 @@ class Kernel extends HttpKernel
         'workspace.access' => \App\Http\Middleware\WorkspaceAccess::class,
         'workspace.has' =>\App\Http\Middleware\HasWorkspace::class,
         'workspace.checkSelected' => \App\Http\Middleware\CheckSelectedWorkspace::class,
+        'workspace.invitation' => \App\Http\Middleware\RedirectInvitation::class,
+        'workspace.checkInvitation' => \App\Http\Middleware\InvitationCheck::class,
     ];
 }

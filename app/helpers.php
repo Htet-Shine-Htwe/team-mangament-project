@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 
 if (!function_exists('getLogo'))
@@ -136,6 +137,19 @@ if (!function_exists('getCurrentWorkspace'))
         }
 
         return $workspace;
+    }
+}
+if (!function_exists('getInvitationId'))
+{
+    function getInvitationId(string $url) :string
+    {
+        if(Str::contains($url,'invitations'))
+        {
+            $sliceUrl = Str::after($url, 'invitations/');
+            $id = Str::before($sliceUrl, '?');
+            return $id;
+        }
+        return $url;
     }
 }
 

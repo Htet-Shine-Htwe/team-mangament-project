@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\InvitationStatus;
 use App\Models\Invitation;
 use App\Models\User;
 use App\Models\Workspace;
@@ -10,7 +11,7 @@ use Ramsey\Uuid\Uuid;
 
 class InvitationController extends Controller
 {
-    public function generateInvitation(int $senderId,int $workspaceId)
+    public function generateInvitation(int $senderId,int $workspaceId,string $email)
     {
         $invitationId = Uuid::uuid4()->toString();
 
@@ -19,9 +20,10 @@ class InvitationController extends Controller
 
         $invitation = Invitation::create([
             'id' => $invitationId,
-            'email' => 'example@example.com', // Replace with the actual email
+            'email' => $email, // Replace with the actual email
             'sender_id' => $sender->id,
             'workspace_id' => $workspace->id,
+            'status' => InvitationStatus::PENDING,
         ]);
         // Return the invitation URL to the user
         return [
