@@ -12,7 +12,7 @@
     <ul x-show="isOpen" @click.away="isOpen = false" x-cloak
         class="absolute font-normal bg-BackdropBg backdrop-filter shadow overflow-hidden rounded w-36 border border-SeparateBorder mt-2 py-3 left-0 z-40 text-sm">
         <li class="flex  items-start">
-            <a href="{{ route('profile.index') }}" class="flex gap-x-3 items-center w-full hover:bg-HoverBg capitalize transition pl-5 pr-2 py-2 ">
+            <a href="{{ route('profile.index',['email' => Auth::user()->email]) }}" class="flex gap-x-3 items-center w-full hover:bg-HoverBg capitalize transition pl-5 pr-2 py-2 ">
                 <p>View Profile</p>
             </a>
         </li>

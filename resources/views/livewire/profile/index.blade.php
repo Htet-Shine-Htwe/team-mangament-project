@@ -4,8 +4,8 @@
             class="text-PrimaryText  border-b-[1px] w-full border-SeparateBorder px-8 flex h-[60px] items-center justify-between sm:px-18">
             <div class="flex space-x-2 items-center">
 
-                <x-user-profile-photo :user="Auth::user()" status="true" class="w-6 h-6" />
-                <p class="text-sm">{{ Auth::user()->name }}</p>
+                <x-user-profile-photo :user="$user" status="true" class="w-6 h-6" />
+                <p class="text-sm">{{ $user->name }}</p>
 
             </div>
         </div>
@@ -26,14 +26,14 @@
 
                 <div class="flex space-x-4">
                     <div class="w-16 h-16">
-                        <x-user-profile-photo :user="Auth::user()" class="w-16 h-16" />
+                        <x-user-profile-photo :user="$user" class="w-16 h-16" />
                     </div>
                     <div class="h-full flex flex-col space-y-1 w-4/6">
                         <h3 class="text-lg">{{ $user->name }}</h3>
                         <p class="text-xs text-SecondaryText break-words">{{ $user->email }}</p>
-                        @auth
-                        <a href="{{ route('profile.show') }}" class="text-xs text-PrimaryText hover:text-HoverText transition" >Edit Profile</a>
-                        @endauth
+                        @if(auth()->user()->email == $user->email)
+                        <a href="{{ route('profile.show',['email' => $user->email]) }}" class="text-xs text-PrimaryText hover:text-HoverText transition" >Edit Profile</a>
+                        @endif
                     </div>
                 </div>
 

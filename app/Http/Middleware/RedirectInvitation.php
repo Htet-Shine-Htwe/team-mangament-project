@@ -18,7 +18,7 @@ class RedirectInvitation
      */
     public function handle(Request $request, Closure $next)
     {
-        $url = session()->get('url.intended') ?? null;
+        $url = session()->get('url.intended') ?? '/dashboard';
 
         $invitationId = getInvitationId($url);
 
