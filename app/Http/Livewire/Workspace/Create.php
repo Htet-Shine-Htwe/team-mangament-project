@@ -48,7 +48,8 @@ class Create extends Component
 
         UserWorkspace::create([
             'user_id' => Auth::user()->id,
-            'workspace_id' => $workspace->id
+            'workspace_id' => $workspace->id,
+            'role_id' => 1
         ]);
 
         return $workspace;

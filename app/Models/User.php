@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -57,4 +58,12 @@ class User extends Authenticatable
        return  $this->belongsToMany(Workspace::class,'user_workspace')->wherePivot('user_id', '=',$this->id);;
     }
 
+    public function role(int $id)
+    {
+        return UserWorkspace::where('user_id', $id)
+        ->where('workspace_id', Session::get('selected_workspace'))
+        ->first()
+        ->role()->first()->name;
+
+    }
 }

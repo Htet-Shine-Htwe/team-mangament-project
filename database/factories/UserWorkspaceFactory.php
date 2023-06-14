@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Workspace;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -20,7 +21,8 @@ class UserWorkspaceFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first(),
-            'workspace_id' => Workspace::inRandomOrder()->first()
+            'workspace_id' => Workspace::inRandomOrder()->first(),
+            'role_id' => Role::inRandomOrder()->first()
         ];
     }
 }

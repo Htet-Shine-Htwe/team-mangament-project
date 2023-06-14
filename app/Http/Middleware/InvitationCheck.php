@@ -25,7 +25,7 @@ class InvitationCheck
         $invitationId = getInvitationId($url);
 
         $invitation = RouteRedirectService::getInvitation($invitationId);
-        // dd($invitation);
+
 
         $this->checkInvitationStatus($invitation);//check invitation exist or accepted?
         $this->checkInvitationUser($invitation);

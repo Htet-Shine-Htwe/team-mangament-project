@@ -28,7 +28,8 @@ class InvitationController extends Controller
         // Return the invitation URL to the user
         return [
             'url' => url('/')."/invitations/{$invitationId}",
-            'id' => $invitationId
+            'id' => $invitationId,
+            'workspace_name' => $workspace->name,
         ];
     }
 

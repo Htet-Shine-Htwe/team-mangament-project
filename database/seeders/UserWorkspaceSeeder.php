@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use App\Models\UserWorkspace;
+use App\Models\Workspace;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,6 +17,14 @@ class UserWorkspaceSeeder extends Seeder
      */
     public function run()
     {
-        UserWorkspace::factory(2000)->create();
+        $workspaces = Workspace::all();
+        foreach ($workspaces as $workspace) {
+            
+           UserWorkspace::factory()->create([
+            'workspace_id' => $workspace->id,
+            'user_id' => User::inRandomOrder()->first(),
+            'role_id' => 1,
+           ]);
+        }
     }
 }

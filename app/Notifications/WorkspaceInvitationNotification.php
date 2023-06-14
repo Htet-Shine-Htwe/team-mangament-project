@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class WorkspaceInvitationNotification extends Notification
 {
@@ -17,7 +18,7 @@ class WorkspaceInvitationNotification extends Notification
      *
      * @return void
      */
-    public function __construct(string $workspaceUrl)
+    public function __construct(string $workspaceUrl,protected string $wsn,protected string $receiverEmail)
     {
         $this->workspaceUrl = $workspaceUrl;
     }
@@ -42,7 +43,10 @@ class WorkspaceInvitationNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('You have been invited to this workspace.')
+                    ->from(Auth::user()->email)
+                    ->replyTo($this->receiverEmail)
+                    ->subject('Invitation to Workspace')
+                    ->line('You have been invited to ' .  $this->wsn . ' workspace')
                     ->action('Accpet Invitation', $this->workspaceUrl)
                     ->line('Thank you for using our application!');
     }

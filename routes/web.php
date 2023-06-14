@@ -51,7 +51,7 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
 
             Route::get('/',$workSpace.Index::class)->name('workspace.index');
             Route::get('/setting',$workSpace.'Setting\\'.Index::class)->name('workspace.setting.index');
-            Route::get('/setting/members',$workSpace.'Setting\Member\\'.Index::class)->name('workspace.setting.index');
+            Route::get('/setting/members',$workSpace.'Setting\Member\\'.Index::class)->name('workspace.setting.member');
         });
 
     });
@@ -69,20 +69,6 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
 Route::get('/sample',function()
 {
    dd(RouteRedirectService::getRoute());
-});
-
-Route::get('/invite',function(){
-    $user = User::latest()->first();
-
-    // dd($user->workspaces);
-    $email = "htetshine.htetmkk@gmail.com";
-    $url = (new InvitationController)->generateInvitation($user->id,$user->workspaces[0]->id,$email);
-
-    $route = URL::signedRoute('workspace.invitation',['invitationId' => $url['id']]);
-
-    // dd($route);
-    $user->notify(new \App\Notifications\WorkspaceInvitationNotification($route));
-    return 'success';
 });
 
 Route::get('/invitations/{invitationId}',Accept::class)->middleware(['auth','workspace.checkInvitation'])

@@ -12,6 +12,11 @@ class WorkspaceHelper
     private static $currentWorkspace = null;
     private static $userWorkspaces = null;
 
+    /**
+     * Method to return current workpsace
+     *
+     * @return Workspace
+     */
     public static function getCurrentWorkspace() :Workspace
     {
         if (self::$currentWorkspace === null) {
@@ -21,6 +26,11 @@ class WorkspaceHelper
         return self::$currentWorkspace;
     }
 
+    /**
+     * Method to get the workspaces of the current user
+     *
+     * @return Collection
+     */
     public static function getUserWorkspaces() :Collection
     {
         if (self::$userWorkspaces === null) {
