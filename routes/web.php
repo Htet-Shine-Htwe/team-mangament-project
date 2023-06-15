@@ -52,6 +52,7 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
             Route::get('/',$workSpace.Index::class)->name('workspace.index');
             Route::get('/setting',$workSpace.'Setting\\'.Index::class)->name('workspace.setting.index');
             Route::get('/setting/members',$workSpace.'Setting\Member\\'.Index::class)->name('workspace.setting.member');
+            Route::get('/setting/invite',$workSpace.'Setting\Member\\'.Invite::class)->name('workspace.setting.invite');
         });
 
     });

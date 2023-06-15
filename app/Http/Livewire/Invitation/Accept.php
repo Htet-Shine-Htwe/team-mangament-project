@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\UserWorkspace;
 use App\Models\Workspace;
 use App\Services\RouteRedirectService;
+use App\Storage\S3FileStorage;
 use App\View\Components\PlainLayout;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -24,10 +25,18 @@ class Accept extends Component
     public User $sender;
     public User $user;
 
-    public $nn ;
+    private $storage;
+
+    public $workspaceLogo;
+
+    public $workspaceName;
 
     public string $redirectRoute;
 
+    public function boot(S3FileStorage $storage ) :void
+    {
+        $this->storage = $storage;
+    }
     public function mount() :void
     {
         $this->invitation = $this->getAcceptWorkspace();
@@ -35,6 +44,9 @@ class Accept extends Component
         $this->workspace = $this->invitation->workspace;
         $this->sender = $this->invitation->sender;
         $this->redirectRoute = $this->getRedirectRoute();
+        $this->workspaceName = makeWorkspaceLogo($this->workspace->name);
+        $this->workspaceLogo = $this->storage->getPhoto($this->workspace->logo_path,'workspaceLogo');
+
         // dd($this->invitation);
     }
 

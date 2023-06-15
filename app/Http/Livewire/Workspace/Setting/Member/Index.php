@@ -2,95 +2,67 @@
 
 namespace App\Http\Livewire\Workspace\Setting\Member;
 
-use App\Enums\InvitationStatus;
-use App\Http\Controllers\InvitationController;
 use App\Models\Invitation;
-use App\Models\User;
 use App\Services\WorkspaceHelper;
-use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\URL;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
+    use WithPagination;
     public $workspace ;
+    public $workspaceUsers;
+    public string $memberName;
 
-    public $emails ;
-    public $sendEmail;
-
-    public $error = false;
-
-    protected $rules = [
-        'sendEmail' => 'required|email'
-    ];
+  
     public function mount(Request $request) :void
     {
 
         $this->workspace = WorkspaceHelper::getCurrentWorkspace();
-        $this->emails = $this->workspace->users()->pluck('email')->toArray();
-
+        $this->workspaceUsers = $this->getMembers();
+       
     }
     public function render()
     {
-        return view('livewire.workspace.setting.member.index');
+        return view('livewire.workspace.setting.member.index',[
+            'pandads' => $this->getPendingInvitations()
+        ]);
     }
 
-    public function invite()
+    public function updatedMemberName()
     {
-        $this->validate();
-        $this->emailCheck();
-        $this->alreadyInvited();
-        if(!$this->error)
-        {
-            $workspaceId = $this->workspace->id;
-
-            DB::beginTransaction();
-
-            try{
-                $url = (new InvitationController)->generateInvitation(auth()->id(),$workspaceId,$this->sendEmail);
-
-                $route = URL::signedRoute('workspace.invitation',['invitationId' => $url['id']]);
-
-                Auth::user()->notify(new \App\Notifications\WorkspaceInvitationNotification($route,$this->workspace->name,$this->sendEmail));
-
-                DB::commit();
-                session()->flash('status','This invitation was sent successfully !');
-            }
-            catch(Exception $e){
-                DB::rollback();
-                throw new \ErrorException('something went wrong');
-            }
-
-
-        }
-
+        $this->workspaceUsers= $this->getMembers($this->memberName);
+        // dd($members);
     }
 
-    protected function emailCheck()
+    public function getMembers(?string $memberName ="")
     {
-        if(in_array($this->sendEmail,$this->emails))
-        {
-            session()->flash('sendEmail','This email is already a member of this workspace');
-            return $this->error = true;;
-        }
-        return $this->error = false;;
+        return DB::table('user_workspace')
+        ->select('users.id', 'users.name', 'users.email', 'users.avatar', 'users.status', 'users.profile_photo_path', 'roles.name as role')
+        ->join('users', 'user_workspace.user_id', '=', 'users.id')
+        ->join('roles', 'user_workspace.role_id', '=', 'roles.id')
+        ->where('user_workspace.workspace_id', $this->workspace->id)
+        ->when($memberName != "",function($q) use ($memberName){
+            $q->where(function ($query) use ($memberName) {
+                $query->where('users.name', 'like', '%' . $memberName . '%')
+                    ->orWhere('users.email', 'like', '%' . $memberName . '%');
+            });
+        })
+        ->get();
     }
 
-    protected function alreadyInvited()
+    public function getPendingInvitations()
     {
-        $invitation = Invitation::where('workspace_id',$this->workspace->id)
-            ->where('email',$this->sendEmail)
-            ->where('status',InvitationStatus::PENDING->value)
-            ->first();
-        if($invitation)
-        {
-            session()->flash('sendEmail','This email is already invited to this workspace');
-            return $this->error = true;;
-        }
-        return $this->error = false;;
+       return DB::table('invitations')
+        ->select('invitations.id', 'invitations.email', 'invitations.status', 'invitations.created_at', 'invitations.updated_at')
+        ->where('invitations.workspace_id', $this->workspace->id)
+        ->where('invitations.status', 'pending')
+        ->latest('invitations.id')
+        ->paginate(4);
 
     }
+
+
 }

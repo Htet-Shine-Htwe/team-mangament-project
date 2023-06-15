@@ -1,6 +1,6 @@
 
 <div class="w-full h-full flex justify-center items-center relative">
-    <div class="absolute top-6 w-full px-6 flex justify-between items-center py-5">
+    <div class="absolute top-4 w-full px-6 flex justify-between items-center py-5">
         <div class="flex flex-col space-y-1">
             <p class="text-SecondaryText ">Logged in as:</p>
             <span>{{ Auth::user()->email }}</span>
@@ -21,33 +21,29 @@
     </div>
     <div class="space-y-4">
         <header class="">
+            <div class="mb-7 flex justify-center">
+                {{-- <x-input-label for="profile" class="mb-3" :value="__('Profile picture')" /> --}}
+                <div class="relative w-20 h-20">
+                        @if ($workspaceLogo != 'empty')
+                            <img src="{{ $workspaceLogo }}" class=" workspacePhoto rounded-xl w-full h-full object-cover cursor-pointer" />
+                        @else
+                            <div class=" flex w-full h-full items-center workspacePhoto justify-center text-white rounded-xl text-lg cursor-pointer"
+                                style="background-color: {{ $workspace->hax_color }};">
+                                <p class="">{{ $workspaceName }}</p>
+                                <!-- Content goes here -->
+                            </div>
+                        @endif
+                </div>
+            </div>
             <h2 class="text-3xl text-center font-semibold">
                 {{ __('Join This Workspace ' . $workspace->name) }}
             </h2>
 
             <div class="mt-2 text-sm text-SecondaryText  flex justify-center">
-                <p class="w-[95%]">{{ __('Workspaces are shared enviroment where teams can work on projects and tasks') }}</p>
+                <p class="w-full">{{ __('Workspaces are shared enviroment where teams can work on projects and tasks') }}</p>
             </div>
 
         </header>
-        <div class=" text-PrimaryText w-full bg-SoftBg rounded-lg shadow-lg ">
-            <div class="px-12 py-4">
-                <section>
-
-                    {{-- <form wire:submit.prevent='save' class="my-3 space-y-6 ">
-
-                        <div>
-                            <x-input-label for="name" :value="__('Name')" />
-                            <input name="name" id="name" class="text-input mt-2"
-                                wire:model.defer='workspaceName' />
-                            <x-input-error class="mt-2" :messages="$errors->get('workspaceName')" />
-                        </div>
-
-                    </form> --}}
-
-                </section>
-            </div>
-        </div>
         <div class="flex items-center gap-4 px-20" wire:ignore>
             <button wire:click='acceptWorkspace'
                 class = 'px-4 bg-ButtonBg

@@ -2,6 +2,7 @@
 
 namespace App\View\Components\layouts;
 
+use App\Models\Workspace;
 use Illuminate\View\Component;
 
 class SidebarItem extends Component
@@ -11,7 +12,7 @@ class SidebarItem extends Component
      *
      * @return void
      */
-    public function __construct(public string $name="null",public string $iconClass="no")
+    public function __construct(public string $name="null",public string $iconClass="no",public string $route="dashboard",public Workspace $currentWorkspace)
     {
         //
     }

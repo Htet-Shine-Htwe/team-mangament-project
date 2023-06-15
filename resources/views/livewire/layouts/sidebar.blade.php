@@ -7,9 +7,13 @@
         </div>
     </div>
 
-    <div class="flex flex-col justify-between h-[400px] items-">
+    <div class="flex flex-col justify-between h-[400px] mt-6">
         <div class="">
-            <p>Top</p>
+            <a href="{{ route("workspace.setting.member",['workspace_name' => $currentWorkspace->name]) }}" class="flex gap-x-3 items-center w-full hover:bg-HoverBg capitalize transition pl-5 pr-2 py-2 ">
+                <i class="fa-solid fa-users"></i>
+                <p>Members</p>
+            </a>
+
         </div>
 
         <div class="">
