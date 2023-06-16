@@ -115,8 +115,7 @@
                             <div class="">
 
                             </div>
-                            @if (session()->get('invitation'))
-                           @else
+                            @if (!session()->get('invitation') && count($invitations) > 4))
                            <button class="primary-btn mt-2"  wire:click="moreInvitations">
                             <div wire:loading wire:target='moreInvitations' class="animate-spin flex items-center mr-3">
                                 <i class="fa-solid fa-spinner"></i>
@@ -124,7 +123,7 @@
                             <span >
                                 {{ __('Load more') }}
                             </span>
-                        </button>
+                            </button>
                             @endif
                         </div>
                     </div>
