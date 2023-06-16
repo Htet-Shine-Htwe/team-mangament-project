@@ -86,7 +86,7 @@
                         <h3 class="text-xl">Invitation Requests</h3>
 
                         <div class="mt-2 max-h-80 overflow-y-scroll" >
-                            @foreach ($invitations as $invitation)
+                            @forelse ($invitations as $invitation)
                                 <div
                                     class="flex {{ !$loop->first ? 'border-t-[1px] border-[#aaaaafbc] mt-4' : '' }} justify-between items-center pt-4">
                                     <div class="flex w-60">
@@ -109,13 +109,15 @@
                                     </div>
 
                                 </div>
-                            @endforeach
+                                @empty
+                                <p class="text-center text-secondaryText text-sm">No invitations in current workspace</p>
+                            @endforelse
                         </div>
                         <div class="flex justify-between">
                             <div class="">
 
                             </div>
-                            @if (!session()->get('invitation') && count($invitations) > 4))
+                            @if (count($invitations) > 3 && !session()->get('invitation') )
                            <button class="primary-btn mt-2"  wire:click="moreInvitations">
                             <div wire:loading wire:target='moreInvitations' class="animate-spin flex items-center mr-3">
                                 <i class="fa-solid fa-spinner"></i>
