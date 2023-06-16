@@ -1,4 +1,7 @@
-<div class="relative h-[100vh] overflow-y-scroll">
+<div class="relative h-[100vh] overflow-y-scroll pt-3 pb-6">
+    @if (session()->get('status'))
+    <x-alert />
+    @endif
     <div class="" x-data="{openInvite : false}">
         <header class="text-PrimaryText ">
             <div class="pt-4  text-PrimaryText  sm:rounded-lg">
@@ -28,7 +31,7 @@
                                 <span class="absolute left-2 top-1/2 transform -translate-y-1/2"><i class="fas fa-search text-gray-600"></i></span>
                                 <input class="text-input-md py-1 px-8 w-80"
                                 placeholder="Search by name or email"
-                                wire:model.debounce.900ms = "memberName" />
+                                wire:model.debounce.500ms = "memberName" />
                             </div>
 
                             <div class="">
@@ -59,11 +62,14 @@
                                         <p>{{ $user?->role }}</p>
                                     </div>
 
+                                    <div class="">
+                                    @if($adminCheck)
                                     <button wire:click="removeMember({{ $user }})" class="px-2 py-1 text-sm bg-red-600 hover:bg-red-800 transition-all rounded-lg">
 
                                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
                                     </button>
-
+                                    @endif
+                                </div>
                                 </div>
                             @endforeach
                         </div>
@@ -81,6 +87,8 @@
                  @endif
 
                  {{--        *******************  Get Invitations Lists *******************  --}}
+                 @if($adminCheck)
+
                 <div class="px-8 pb-4 sm:px-24">
                     <div class="w-full flex flex-col">
                         <h3 class="text-xl">Invitation Requests</h3>
@@ -130,6 +138,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
 

@@ -42,7 +42,7 @@ class WorkspaceHelper
 
     private static function retrieveCurrentWorkspace() :Workspace|null
     {
-        $workspace = getCurrentWorkspace(Session::get('selected_workspace'));
+        $workspace = getCurrentWorkspace(Session::get('selected_workspace') ?? self::$userWorkspaces->first()->id);
         return $workspace;
     }
 

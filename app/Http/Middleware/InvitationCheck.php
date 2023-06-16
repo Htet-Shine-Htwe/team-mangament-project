@@ -23,10 +23,7 @@ class InvitationCheck
 
         $url = request()->fullUrl() ?? null;
         $invitationId = getInvitationId($url);
-
         $invitation = RouteRedirectService::getInvitation($invitationId);
-
-
         $this->checkInvitationStatus($invitation);//check invitation exist or accepted?
         $this->checkInvitationUser($invitation);
         return $next($request);
@@ -43,6 +40,7 @@ class InvitationCheck
 
     protected function checkInvitationUser(Invitation $invitation)
     {
+        // dd($invitation->email);
         if($invitation->email != Auth::user()->email)
         {
             return abort(401);

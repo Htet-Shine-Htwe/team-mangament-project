@@ -42,12 +42,14 @@ class Accept extends Component
         $this->invitation = $this->getAcceptWorkspace();
         session()->put('invitation',$this->invitation);
         $this->workspace = $this->invitation->workspace;
+
+        $this->checkUserInWorkspace();
+
         $this->sender = $this->invitation->sender;
         $this->redirectRoute = $this->getRedirectRoute();
         $this->workspaceName = makeWorkspaceLogo($this->workspace->name);
         $this->workspaceLogo = $this->storage->getPhoto($this->workspace->logo_path,'workspaceLogo');
 
-        // dd($this->invitation);
     }
 
     public function getAcceptWorkspace() :Invitation
@@ -56,6 +58,7 @@ class Accept extends Component
         {
             return abort(401);
         }
+
         return RouteRedirectService::$invitation;
     }
 
@@ -74,10 +77,20 @@ class Accept extends Component
                 'role_id' => 2
             ]);
 
-            // dd(Auth::user()->workspaces);
             $this->invitation->update([
                 'status' => InvitationStatus::ACCEPTED->value
             ]);
+
+            $allInvitations = Invitation::where('email',Auth::user()->email)
+            ->where('workspace_id',$this->workspace->id)
+            ->where('status',InvitationStatus::PENDING->value)->get();
+
+            if(count($allInvitations) > 0){
+                foreach($allInvitations as $invitation)
+                {
+                    $invitation->delete();
+                }
+            }
             DB::commit();
             session()->forget('invitation');
         }
@@ -101,5 +114,15 @@ class Accept extends Component
         $url = url()->current() . '?signature='.request()->signature;
         session()->put('redirect_route', $url);
         return $url;
+    }
+
+    protected function checkUserInWorkspace()
+    {
+        $user = Auth::user()->email;
+        $emails = $this->workspace->users()->pluck('email')->toArray();
+        if(in_array($user,$emails))
+        {
+            return redirect()->route('workspace.setting.member', $this->workspace->name);
+        }
     }
 }

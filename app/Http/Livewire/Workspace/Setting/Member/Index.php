@@ -18,12 +18,13 @@ class Index extends Component
     public $workspace;
     public $workspaceUsers;
     public string $memberName;
-
     public $selectedUser ;
     public $limit = 4;
     public $invitations;
 
     public $removeModel = false;
+
+    public $adminCheck = false;
 
     protected $listeners = [
 
@@ -32,11 +33,15 @@ class Index extends Component
 
     public function mount(Request $request) :void
     {
-
         $this->workspace = WorkspaceHelper::getCurrentWorkspace();
         $this->workspaceUsers = $this->getMembers();
-        $this->invitations = $this->getPendingInvitations($this->limit);
-        $this->selectedUser = $this->getMembers()->first();
+        $this->adminCheck = checkWorkspaceAdmin();
+        if($this->adminCheck)
+        {
+            $this->invitations = $this->getPendingInvitations($this->limit);
+        }
+        $this->selectedUser = $this->workspaceUsers->first();
+
     }
     public function render() :View
     {
