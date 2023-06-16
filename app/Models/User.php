@@ -58,13 +58,5 @@ class User extends Authenticatable
        return  $this->belongsToMany(Workspace::class,'user_workspace')->wherePivot('user_id', '=',$this->id);;
     }
 
-    public function role()
-    {
-        dd($this->id);
-        return dd(UserWorkspace::where('user_id', $this->id)
-        ->where('workspace_id', Session::get('selected_workspace'))
-        ->first());
-        // ->role()->first()->name;
 
-    }
 }

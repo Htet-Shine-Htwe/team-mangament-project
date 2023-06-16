@@ -1,4 +1,4 @@
-<div class="relative">
+<div class="relative h-[100vh] overflow-y-scroll">
     <div class="" x-data="{openInvite : false}">
         <header class="text-PrimaryText ">
             <div class="pt-4  text-PrimaryText  sm:rounded-lg">
@@ -11,6 +11,8 @@
                 </div>
             </div>
         </header>
+
+        {{--        *******************  Get Member Lists *******************  --}}
         <div class=" w-full ">
             <div class=" sm:rounded-lg">
                 <div class="px-8 pb-4 sm:px-24">
@@ -30,6 +32,9 @@
                             </div>
 
                             <div class="">
+                                  <div wire:loading wire:target='removeMember' class="animate-spin flex items-center mr-3">
+                                            <i class="fa-solid fa-spinner"></i>
+                                        </div>
                                 <a href ="{{route('workspace.setting.invite',["workspace_name" => $workspace->name])}}" id="openInvite" class="primary-btn">Invite People</a>
                             </div>
                         </div>
@@ -37,6 +42,7 @@
                         <div class="mt-2" >
                             @foreach ($workspaceUsers as $user)
                                 <div
+                                    id="member-{{ $user->id }}"
                                     class="flex {{ !$loop->first ? 'border-t-[1px] border-[#aaaaafbc] mt-4' : '' }} justify-between items-center pt-4">
                                     <div class="flex w-60">
                                         <a href="{{ route('profile.index',['email' => $user->email]) }}" class="mr-3" >
@@ -49,13 +55,14 @@
                                         </div>
                                     </div>
 
-                                    <div class="">
-                                        <p>{{ $user->role}}</p>
+                                    <div class="" wire:ignore>
+                                        <p>{{ $user?->role }}</p>
                                     </div>
 
-                                    <div class="">
-                                        Remove
-                                    </div>
+                                    <button wire:click="removeMember({{ $user }})" class="px-2 py-1 text-sm bg-red-600 hover:bg-red-800 transition-all rounded-lg">
+
+                                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                    </button>
 
                                 </div>
                             @endforeach
@@ -64,28 +71,37 @@
                   <hr class="border-gray-400 mt-6" />
 
                 </div>
+                 {{--        *******************  Get Remove member model *******************  --}}
+                 @if ($removeModel)
 
+                 <div id="removeMemberModal"
+                 class="min-w-full min-h-[100vh] absolute top-0 flex items-center justify-center transition-all">
+                    <livewire:workspace.setting.member.remove-member :user="$selectedUser" :workspace="$workspace"  />
+                 </div>
+                 @endif
+
+                 {{--        *******************  Get Invitations Lists *******************  --}}
                 <div class="px-8 pb-4 sm:px-24">
                     <div class="w-full flex flex-col">
                         <h3 class="text-xl">Invitation Requests</h3>
 
-                        <div class="mt-2" >
-                            @foreach ($pandads as $invitation)
+                        <div class="mt-2 max-h-80 overflow-y-scroll" >
+                            @foreach ($invitations as $invitation)
                                 <div
                                     class="flex {{ !$loop->first ? 'border-t-[1px] border-[#aaaaafbc] mt-4' : '' }} justify-between items-center pt-4">
                                     <div class="flex w-60">
-                                        <a href="{{ route('profile.index',['email' => $user->email]) }}" class="mr-3" >
+                                        {{-- <a href="{{ route('profile.index',['email' => $user->email]) }}" class="mr-3" >
                                             <img src="{{ getLogo()}}" class = 'object-cover rounded-full w-6 h-6' />
 
-                                        </a>
+                                        </a> --}}
                                         <div class="flex flex-col space-y-1">
-                                            <p class="text-sm mb-0">{{ $user->email }}</p>
-                                            <p class="text-xs text-SecondaryText">{{ $user->status }}</p>
+                                            <p class="text-sm mb-0">{{ $invitation->email ?? $invitation['email'] }}</p>
+                                            <p class="text-xs text-SecondaryText">{{ $invitation->status ??$invitation['status'] }}</p>
                                         </div>
                                     </div>
 
                                     <div class="">
-                                        <p>{{ $user->role}}</p>
+                                        {{-- <p>{{ $invitation->role}}</p> --}}
                                     </div>
 
                                     <div class="">
@@ -95,10 +111,25 @@
                                 </div>
                             @endforeach
                         </div>
+                        <div class="flex justify-between">
+                            <div class="">
+
+                            </div>
+                            @if (session()->get('invitation'))
+                           @else
+                           <button class="primary-btn mt-2"  wire:click="moreInvitations">
+                            <div wire:loading wire:target='moreInvitations' class="animate-spin flex items-center mr-3">
+                                <i class="fa-solid fa-spinner"></i>
+                            </div>
+                            <span >
+                                {{ __('Load more') }}
+                            </span>
+                        </button>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
-            {{ $pandads->links() }}
         </div>
 
 
@@ -131,6 +162,8 @@
 @push('js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // $(".invite-box").hide();
+
 
         })
     </script>

@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Benchmark;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,3 +24,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware(['auth:sanctum'])->group(function () {
 
 });
+
+Route::get('/pendingInvitations', function () {
+    $workspaceId = request()->get('workspaceId');
+    return response()->json([
+        'data' =>  DB::table('invitations')
+        ->select('invitations.id', 'invitations.email', 'invitations.status', 'invitations.created_at', 'invitations.updated_at')
+        ->where('invitations.workspace_id', $workspaceId)
+        ->where('invitations.status', 'pending')
+        ->latest('invitations.id')
+        ->paginate(4)
+    ]);
+});
+

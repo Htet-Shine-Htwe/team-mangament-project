@@ -13,6 +13,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
+use Illuminate\View\View;
 use Livewire\Component;
 
 class Invite extends Component
@@ -46,14 +47,13 @@ class Invite extends Component
 
 
 
-    public function render()
+    public function render() :View
     {
         return view('livewire.workspace.setting.member.invite')->layout(PlainLayout::class);
     }
 
-     public function invite()
+     public function invite() :void
     {
-        // dd('here');
         $this->validate();
         $this->emailCheck();
         $this->alreadyInvited();
@@ -77,13 +77,11 @@ class Invite extends Component
                 DB::rollback();
                 throw new \ErrorException('something went wrong');
             }
-
-
         }
 
     }
 
-    protected function emailCheck()
+    protected function emailCheck() :bool
     {
         if(in_array($this->sendEmail,$this->emails))
         {
@@ -93,7 +91,7 @@ class Invite extends Component
         return $this->error = false;;
     }
 
-    protected function alreadyInvited()
+    protected function alreadyInvited() :bool
     {
         $invitation = Invitation::where('workspace_id',$this->workspace->id)
             ->where('email',$this->sendEmail)
