@@ -26,18 +26,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if(env('APP_ENV') == "dev")
-        {
+        // if(env('APP_ENV') == "dev")
+        // {
             $this->app->singleton('storageProvider', function () {
                 return 's3';
             });
-        }
-        else
-        {
-            $this->app->singleton('storageProvider', function () {
-                return 'local';
-            });
-        }
+        // }
+        // else
+        // {
+        //     $this->app->singleton('storageProvider', function () {
+        //         return 'local';
+        //     });
+        // }
 
         Blade::if('hasWorkspace', function () {
             $workspaces = UserWorkspace::getUserWorkspaces()->get();

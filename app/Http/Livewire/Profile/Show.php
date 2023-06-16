@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Profile;
 use App\Models\User;
 use App\Services\ProfileUpdateService;
 use App\Storage\S3FileStorage;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -56,7 +57,7 @@ class Show extends Component
         return view('livewire.profile.show');
     }
 
-    public function updateProfile() :Redirector
+    public function updateProfile() :RedirectResponse
     {
         $this->validate([
             'user_name' =>  'required|min:3',
@@ -72,7 +73,7 @@ class Show extends Component
         $updated_user->update();
 
         session()->flash('status', 'profile-updated');
-        return redirect()->to('/profile/show');
+        return redirect()->route('profile.show',['email' => $updated_user->email]);
     }
 
     public function deleteProfile()  :Redirector

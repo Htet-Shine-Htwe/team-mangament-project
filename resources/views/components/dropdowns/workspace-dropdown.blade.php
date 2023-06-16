@@ -13,7 +13,7 @@
         <div class="px-4">
             <p class="text-sm text-SecondaryText">{{ Auth::user()->email }}</p>
         </div>
-        <ul class="mt-3 pb-4 border-b border-SeparateBorder h-28 overflow-y-scroll">
+        <ul class="mt-3 pb-4 border-b border-SeparateBorder max-h-28 overflow-y-scroll">
             @foreach ($workspaces as $workspace)
             <li class="flex space-x-8 items-start mt-1">
                 <button wire:click="switchWorkspace('{{ $workspace->name }}')" class="w-full flex items-center space-x-3 hover:cursor-pointer px-4 py-1 hover:bg-HoverBg hover:text-HoverText ">

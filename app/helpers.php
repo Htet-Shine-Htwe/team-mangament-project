@@ -49,9 +49,16 @@ if (!function_exists('getPhoto')) {
         $provider = app('storageProvider');
         $imagePath = config('photofilepath.'.$configKey);
 
+        try{
+
         if (Storage::disk($provider)->exists($imagePath . $photo) && $photo !== null) {
             $imageSrc = 'data:image/jpeg;base64,' . base64_encode(Storage::disk($provider)->get($imagePath . $photo));
             return $imageSrc;
+        }
+         }
+        catch(\Exception $e)
+        {
+            return $imageSrc = "failed to load image";
         }
 
         // If the photo doesn't exist, return the default image
