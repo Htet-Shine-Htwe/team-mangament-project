@@ -111,5 +111,11 @@ class Index extends Component
         $this->removeModel = false;
     }
 
+    public function cancelInvitation(Invitation $invitation)
+    {
+        $invitation->delete();
+        $this->invitations = $this->getPendingInvitations($this->limit);
+        // dd($id);
+    }
 
 }

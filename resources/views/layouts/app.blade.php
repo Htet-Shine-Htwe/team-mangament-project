@@ -21,19 +21,35 @@
     @livewireStyles
 </head>
 
-<body class="antialiased" x-data="{ color: localStorage.getItem('theme') ?? 'light', font: localStorage.getItem('font') ?? 'Kanit' }" x-init="{ color: localStorage.getItem('theme') || 'light', font: localStorage.getItem('font') || 'Libre' }"
-    x-bind:class="'theme-' + color + ' ' + 'font-' + font" x-cloak>
-    <div class="min-h-[100vh] overflow-hidden flex  font-medium">
-        <div class="w-[20%] border-r-[1px] text-PrimaryText bg-PrimaryBg border-SeparateBorder">
+<body class="antialiased" x-data="{
+    color: localStorage.getItem('theme') ?? 'light',
+    font: localStorage.getItem('font') ?? 'Kanit',
+    sidebar: localStorage.getItem('sidebar') ?? false,
+}" x-init="{
+    color: localStorage.getItem('theme') || 'light',
+    font: localStorage.getItem('font') || 'Libre',
+    sidebar: localStorage.getItem('sidebar') || false,
+}"
+x-bind:class="'theme-' + color + ' ' + 'font-' + font" x-cloak>
+    <div class="min-h-[100vh] overflow-hidden flex font-medium">
+        <div :class="sidebar == 'true' ? 'w-[20%] d-block' : 'w-[0%] d-none'" id="sidebar" class="border-r-[1px] transition-all text-PrimaryText bg-PrimaryBg border-SeparateBorder">
             <livewire:layouts.sidebar />
         </div>
-        <main class="w-full bg-PrimaryBg text-PrimaryText">
+
+        <main class="w-full bg-PrimaryBg text-PrimaryText relative">
+            <div class="absolute top-1/3 -left-5 z-[99]">
+                <button id="sidebarToggle" class="bg-ButtonBg rounded-full flex items-center justify-center w-10 h-10 ">
+                    <i class="fa-solid fa-gears"></i>
+                </button>
+            </div>
            {{ $slot }}
         </main>
+
     </div>
     @livewireScripts
 
     @stack('js')
 </body>
+
 
 </html>

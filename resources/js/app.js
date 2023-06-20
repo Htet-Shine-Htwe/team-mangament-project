@@ -11,6 +11,9 @@ Alpine.start();
 const themeSwitch = document.querySelectorAll('.theme-switch');
 const fontSwitch = document.querySelectorAll('.font-switch');
 
+const sidebarSwitch = document.getElementById('sidebarToggle');
+const sideBar = document.getElementById('sidebar');
+
 let themes = ['theme-light', 'theme-dark'];
 themeSwitch.forEach(ts => {
 ts.addEventListener('click', function (e) {
@@ -48,5 +51,23 @@ fs.addEventListener('click', function (e) {
 
     })
 });
+
+sidebarSwitch.addEventListener('click', function (e) {
+    let sidebar = localStorage.getItem('sidebar') == 'true' ? true : false;
+    let next = !sidebar;
+
+    localStorage.setItem('sidebar', next);
+
+    if(next)
+    {
+        sideBar.style.display = 'block';
+        sideBar.style.width = '20%';
+    }
+    else{
+        sideBar.style.display = 'none';
+        sideBar.style.width = '00%';
+    }
+
+})
 
 

@@ -2,6 +2,7 @@
 
 use App\Enums\RoleStatus;
 use App\Models\Workspace;
+use App\Services\WorkspaceHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -171,7 +172,7 @@ if (!function_exists('checkWorkspaceAdmin'))
 {
     function checkWorkspaceAdmin()
     {
-        $workspace = session()->get('selected_workspace');
+        $workspace = WorkspaceHelper::getCurrentWorkspace()->id ?? session()->get('selected_workspace');
 
         $userRole = DB::table('user_workspace')
         ->select('roles.name')

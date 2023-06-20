@@ -91,7 +91,12 @@
 
                 <div class="px-8 pb-4 sm:px-24">
                     <div class="w-full flex flex-col">
-                        <h3 class="text-xl">Invitation Requests</h3>
+                        <div class="flex items-center">
+                            <h3 class="text-xl">Invitation Requests</h3>
+                            <div wire:loading wire:target='cancelInvitation' class="animate-spin flex items-center ml-4">
+                                <i class="fa-solid fa-spinner"></i>
+                            </div>
+                        </div>
 
                         <div class="mt-2 max-h-80 overflow-y-scroll" >
                             @forelse ($invitations as $invitation)
@@ -108,13 +113,10 @@
                                         </div>
                                     </div>
 
-                                    <div class="">
-                                        {{-- <p>{{ $invitation->role}}</p> --}}
-                                    </div>
 
-                                    <div class="">
-                                        Remove
-                                    </div>
+                                    <button wire:click="cancelInvitation('{{$invitation->id ?? $invitation['id']}}')" class="btn-red ">
+                                        <span>Cancel</span>
+                                    </button>
 
                                 </div>
                                 @empty

@@ -35,9 +35,9 @@ class CheckSelectedWorkspace
             if ($userWorkspaces->isNotEmpty()) {
                 $workspace = $userWorkspaces->first()->id;
                 $request->session()->put('selected_workspace', $workspace);
+
                 return $next($request);
             }
-
             abort(403, 'Unauthorized access to the workspace.');
 
     }
