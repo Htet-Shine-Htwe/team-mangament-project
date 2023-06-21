@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
         'workspace.checkSelected' => \App\Http\Middleware\CheckSelectedWorkspace::class,
         'workspace.invitation' => \App\Http\Middleware\RedirectInvitation::class,
         'workspace.checkInvitation' => \App\Http\Middleware\InvitationCheck::class,
+        'workspace.checkMember' => \App\Http\Middleware\CheckMemberInWorkspace::class,
     ];
 }

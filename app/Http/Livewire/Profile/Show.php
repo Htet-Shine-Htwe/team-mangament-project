@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Profile;
 
 use App\Models\User;
 use App\Services\ProfileUpdateService;
+use App\Services\WorkspaceHelper;
 use App\Storage\S3FileStorage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -28,6 +29,8 @@ class Show extends Component
 
     public $loading = false;
 
+    public $currentWorkspace;
+
     protected $profileUpdateService;
 
     protected $listeners = ['startLoading', 'stopLoading','emojiChanged'];
@@ -40,6 +43,7 @@ class Show extends Component
     public function mount(Request $request) :void
     {
         $this->user = $request->user();
+        $this->currentWorkspace = WorkspaceHelper::getCurrentWorkspace();
         if (!$this->user == null)
         {
             $this->user_name = $this->user->name;
@@ -57,7 +61,7 @@ class Show extends Component
         return view('livewire.profile.show');
     }
 
-    public function updateProfile() :RedirectResponse
+    public function updateProfile()
     {
         $this->validate([
             'user_name' =>  'required|min:3',
@@ -73,7 +77,7 @@ class Show extends Component
         $updated_user->update();
 
         session()->flash('status', 'profile-updated');
-        return redirect()->route('profile.show',['email' => $updated_user->email]);
+        return redirect()->route('profile.show',['workspace'=>$this->currentWorkspace->name,'email' => $updated_user->email]);
     }
 
     public function deleteProfile()  :Redirector

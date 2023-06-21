@@ -109,7 +109,7 @@
 
                     Livewire.emit('startLoading');
                     $.ajax({
-                            url: '{{ route('saveCropped') }}',
+                            url: '{{ route('saveCropped',['workspace_name' => $currentWorkspace->name]) }}',
                             type: "POST",
                             data: formData,
                             processData: false, // Prevent jQuery from processing the formData

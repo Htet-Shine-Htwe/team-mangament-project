@@ -11,25 +11,25 @@ class WorkspaceAccess
 {
     public function handle($request, Closure $next)
     {
-        // Retrieve the authenticated user
-        $user = Auth::user();
         $getWorkspace =  $request->route('workspace_name');
         $workspaceName = str_replace('+', ' ', $getWorkspace);
-        // dd($workspaceName);
         $workspace = Workspace::where('name',$workspaceName)->first();
 
-        // dd($workspace);
+        $currentWsName = WorkspaceHelper::getCurrentWorkspace()?->name;
+
+        if (!$currentWsName || $currentWsName !== $workspaceName) {
+            session()->forget('selected_workspace');
+            session()->put('selected_workspace', $workspace->id);
+        }
+
+
         if(!$workspace)
         {
             return redirect()->route('dashboard')->with('error', 'Workspace does not exists');
 
         }
-        // Retrieve the requested workspace ID from the route parameters or request input
         $workspaceId = $workspace->id;
-        // Alternatively, you can retrieve the workspace ID from request input, query parameters, etc.
-        // $workspaceId = $request->input('workspace_id');
 
-        // Check if the user has access to the requested workspace
         if (!WorkspaceHelper::checkUserHasAccessToWorkspace($workspaceId)) {
             // User is not authorized, return an error response or redirect
             return redirect()->route('dashboard')->with('error', 'You do not have access to this workspace.');

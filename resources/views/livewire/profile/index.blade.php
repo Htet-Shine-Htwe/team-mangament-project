@@ -13,8 +13,6 @@
         <div
             class="text-PrimaryText  border-b-[1px] max-w-full  border-SeparateBorder px-8 flex h-[60px]  items-center sm:px-18">
             <p class="whitespace-pre-wrap break-words w-80">
-
-                <pre>{{ $workspaces }}</pre>
             </p>
         </div>
 
@@ -32,7 +30,7 @@
                         <h3 class="text-lg">{{ $user->name }}</h3>
                         <p class="text-xs text-SecondaryText break-words">{{ $user->email }}</p>
                         @if(auth()->user()->email == $user->email)
-                        <a href="{{ route('profile.show',['email' => $user->email]) }}" class="text-xs text-PrimaryText hover:text-HoverText transition" >Edit Profile</a>
+                        <a href="{{ route('profile.show',['workspace_name'=>$workspace->name,'email' => $user->email]) }}" class="text-xs text-PrimaryText hover:text-HoverText transition" >Edit Profile</a>
                         @endif
                     </div>
                 </div>
@@ -59,8 +57,25 @@
                     </div>
                     <x-user-info-item text="User Name " :value="$user->name" />
 
+                    <x-user-info-item text="Bio " :value="$user->bio ?? '...'" />
+
+                    <x-user-info-item text="Status " :value="$user->status ?? '...'" />
 
                     <x-user-info-item text="Joined " :value="$user->created_at->diffForHumans()" />
+                </div>
+
+                <hr class="border-gray-400 mt-6" />
+
+                <div class="mt-2">
+                    <div class="flex items-center">
+                        <div class="w-3/6">
+                            <p class="text-SecondaryText text-sm">Workspace</p>
+                        </div>
+
+                            <div class="flex space-x-2 items-center">
+                                <p class="">{{ $workspace->name }}</p>
+                            </div>
+
                 </div>
             </div>
         </div>

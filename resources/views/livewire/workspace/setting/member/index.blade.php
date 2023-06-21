@@ -48,7 +48,7 @@
                                     id="member-{{ $user->id }}"
                                     class="flex {{ !$loop->first ? 'border-t-[1px] border-[#aaaaafbc] mt-4' : '' }} justify-between items-center pt-4">
                                     <div class="flex w-60">
-                                        <a href="{{ route('profile.index',['email' => $user->email]) }}" class="mr-3" >
+                                        <a href="{{ route('profile.index',['workspace_name'=>$workspace->name,'email' => $user->email]) }}" class="mr-3" >
                                             <x-user-profile-photo :user="$user" status="true" class="w-7 h-7" />
                                         </a>
                                         <div class="flex flex-col space-y-1">
