@@ -12,7 +12,6 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/f39d469662.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="croppie.css" />
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js" integrity="sha512-jNDtFf7qgU0eH/+Z42FG4fw3w7DM/9zbgNPe3wfJlCylVDTT3IgKW5r92Vy9IHa6U50vyMz5gRByIu4YIXFtaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="icon" type="image/jpeg" style="object-fit: contain;" href="{{ getLogo() }}"/>
@@ -32,7 +31,7 @@
 }"
 x-bind:class="'theme-' + color + ' ' + 'font-' + font" x-cloak>
     <div class="min-h-[100vh] overflow-hidden flex font-medium">
-        <div :class="sidebar == 'true' ? 'w-[20%] d-block' : 'w-[0%] d-none'" id="sidebar" class="border-r-[1px] transition-all text-PrimaryText bg-PrimaryBg border-SeparateBorder">
+        <div :class="sidebar == 'true' ? 'w-[20%] d-block' : 'w-[0%] hidden'" id="sidebar" class="border-r-[1px] transition-all text-PrimaryText bg-PrimaryBg border-SeparateBorder">
             <livewire:layouts.sidebar />
         </div>
 

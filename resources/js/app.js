@@ -60,12 +60,17 @@ sidebarSwitch.addEventListener('click', function (e) {
 
     if(next)
     {
-        sideBar.style.display = 'block';
-        sideBar.style.width = '20%';
+        sideBar.classList.add('d-block');
+        sideBar.classList.add('w-[20%]');
+        sideBar.classList.remove('hidden');
+        sideBar.classList.remove('w-[0%]');
+
     }
     else{
-        sideBar.style.display = 'none';
-        sideBar.style.width = '00%';
+        sideBar.classList.remove('d-block');
+        sideBar.classList.remove('w-[20%]');
+        sideBar.classList.add('hidden');
+        sideBar.classList.add('w-[0%]');
     }
 
 })

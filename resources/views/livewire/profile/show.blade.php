@@ -6,6 +6,8 @@
                 @include('profile.partials.update-profile-information-form')
             </div>
         </div>
+        <p class="hidden">{{ $currentWorkspace->name }}</p>
+        <p class="hidden">{{ $user->email}}</p>
         <div class="py-4  text-PrimaryText  sm:rounded-lg">
             <div class="px-8 pb-8 sm:px-24">
                 @include('profile.partials.delete-user-form')
@@ -17,6 +19,7 @@
 @push('js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -98,6 +101,7 @@
                     size: 'viewport',
                     dataType: 'json',
                 }).then(function(img) {
+                    const workspaceName = "{{ $currentWorkspace->name }}";
                     const blob = dataURLtoBlob(img);
                     const file = new File([blob], 'cropedp.jpeg', {
                         type: 'image/jpeg'
@@ -109,7 +113,7 @@
 
                     Livewire.emit('startLoading');
                     $.ajax({
-                            url: '{{ route('saveCropped',['workspace_name' => $currentWorkspace->name]) }}',
+                            url: '{{ route('saveCropped',["workspace_name" => "$currentWorkspace->name","email" => "$user->email"]) }}',
                             type: "POST",
                             data: formData,
                             processData: false, // Prevent jQuery from processing the formData

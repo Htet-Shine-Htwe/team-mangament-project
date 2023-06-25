@@ -89,7 +89,7 @@ class Show extends Component
         return $this->profileUpdateService->deleteAccount($this->confirm_user_name);
     }
 
-    public function saveCropped(Request $request) :void
+    public function saveCropped(Request $request)
     {
         $updated_user = User::where('id', Auth::id())->first();
 

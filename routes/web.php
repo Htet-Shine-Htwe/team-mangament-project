@@ -41,16 +41,19 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
         Route::prefix('/workspaces/{workspace_name}')->group(function () {
             $workSpace = "App\Http\Livewire\Workspace\\";
 
+            //profile
            Route::middleware(['workspace.checkMember'])->group(function(){
             Route::prefix('profile')->group(function()
             {
                 $profileClass = "App\Http\Livewire\Profile\\";
                 Route::get('/{email}', $profileClass.Index::class)->name('profile.index');
                 Route::get('/{email}/show',$profileClass.Show::class)->name('profile.show');
-                Route::post('/crop-image-store', [$profileClass.Show::class, 'saveCropped'])->name('saveCropped');
+                Route::post('/{email}/crop-image-store', [$profileClass.Show::class, 'saveCropped'])->name('saveCropped');
             });
            });
 
+
+            //setting
             Route::get('/',$workSpace.Index::class)->name('workspace.index');
             Route::get('/setting',$workSpace.'Setting\\'.Index::class)->name('workspace.setting.index');
             Route::get('/setting/members',$workSpace.'Setting\Member\\'.Index::class)->name('workspace.setting.member');
