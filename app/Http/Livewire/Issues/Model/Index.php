@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Issues;
+namespace App\Http\Livewire\Issues\Model;
 
 use App\Models\Issue;
 use App\Models\Status;
@@ -17,6 +17,8 @@ class Index extends Component
 
     public $currentWorkspace;
 
+    public $listeners = ['changeStatus'];
+
     protected $rules = [
         'title' => 'required|min:3',
         'description' => 'required|min:3',
@@ -26,15 +28,16 @@ class Index extends Component
     public function mount()
     {
         $this->currentWorkspace = WorkspaceHelper::getCurrentWorkspace();
-        $this->status = Status::select('id','title','color')->first();
+        $this->status = Status::select('id','title','color')->first()->toArray();
     }
 
     public function render()
     {
-        return view('livewire.issues.index');
+        return view('livewire.issues.model.index');
     }
 
-    public function createIssue(){
+    public function submit()
+    {
         $this->validate();
 
         Issue::create([
@@ -44,5 +47,10 @@ class Index extends Component
             'workspace_id' => $this->currentWorkspace->id,
             'creator_id' => auth()->id(),
         ]);
+    }
+
+    public function changeStatus($status)
+    {
+        $this->status = $status;
     }
 }

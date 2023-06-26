@@ -30,13 +30,14 @@
     sidebar: localStorage.getItem('sidebar') || false,
 }"
 x-bind:class="'theme-' + color + ' ' + 'font-' + font" x-cloak>
-    <div class="min-h-[100vh] overflow-hidden flex font-medium">
+    <div class="min-h-[100vh] overflow-hidden flex font-medium relative ">
+       @include('layouts.issue-modal')
         <div :class="sidebar == 'true' ? 'w-[20%] d-block' : 'w-[0%] hidden'" id="sidebar" class="border-r-[1px] transition-all text-PrimaryText bg-PrimaryBg border-SeparateBorder">
             <livewire:layouts.sidebar />
         </div>
 
         <main class="w-full bg-PrimaryBg text-PrimaryText relative">
-            <div class="absolute top-1/3 -left-5 z-[99]">
+            <div class="absolute top-1/3 -left-5 z-[70]">
                 <button id="sidebarToggle" class="bg-ButtonBg rounded-full flex items-center justify-center w-10 h-10 ">
                     <i class="fa-solid fa-gears"></i>
                 </button>
@@ -46,7 +47,16 @@ x-bind:class="'theme-' + color + ' ' + 'font-' + font" x-cloak>
 
     </div>
     @livewireScripts
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+                // $("#test").hide();
 
+                $("#closeIssue").click(function(){
+                    $("#test").hide();
+                });
+
+            });
+    </script>
     @stack('js')
 </body>
 

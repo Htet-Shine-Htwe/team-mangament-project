@@ -9,10 +9,12 @@
                 class="border-none w-full font-normal focus:outline-none focus:ring-0 focus:border-none hover:outline-none hover:ring-0 bg-PrimaryBg min-h-[80px] max-h-[300px] resize-y overflow-y-scroll"></textarea>
         </div>
 
+        <p>{{ $status['title'] }}</p>
+
 
         <div class="flex gap-x-2 items-center">
             <div class=" ">
-                <livewire:issues.tags.status-index :currentStatus="$status" />
+                <livewire:issues.tags.status-index :currentStatus="$status"/>
             </div>
 
             <div class="dropdown ">

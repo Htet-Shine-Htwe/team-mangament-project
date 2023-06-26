@@ -2,18 +2,14 @@
 
 use App\Aws\StorageCalculate;
 use App\Http\Controllers\Auth\SocialiteController;
-use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\Invitation\Accept;
+// use App\Http\Livewire\Issues\Search\Index;
 use App\Http\Livewire\SettingComponent;
-use App\Models\Invitation;
-use App\Models\User;
 use App\Services\RouteRedirectService;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\URL;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +47,10 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
                 Route::post('/{email}/crop-image-store', [$profileClass.Show::class, 'saveCropped'])->name('saveCropped');
             });
            });
+
+           //Search page
+            $searchClass = "App\Http\Livewire\Issues\Search\\";
+            Route::get('/search',$searchClass.Index::class)->name('workspace.search.index');
 
 
             //setting

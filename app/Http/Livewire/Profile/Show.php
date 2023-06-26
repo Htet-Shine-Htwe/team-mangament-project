@@ -20,7 +20,6 @@ class Show extends Component
     public $user;
     public string $user_name;
     public $profile_photo;
-    public $tmp_photo;
     public string $confirm_user_name;
     public $selectedEmoji;
     public $status = "";

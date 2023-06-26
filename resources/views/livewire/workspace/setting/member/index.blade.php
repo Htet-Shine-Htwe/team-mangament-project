@@ -64,7 +64,7 @@
 
                                     <div class="">
                                     @if($adminCheck)
-                                    <button wire:click="removeMember({{ $user }})" class="px-2 py-1 text-sm bg-red-600 hover:bg-red-800 transition-all rounded-lg">
+                                    <button wire:click="removeMember({{ $user }})" class="px-2 py-1 text-white text-sm bg-red-600 hover:bg-red-800 transition-all rounded-lg">
 
                                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
                                     </button>

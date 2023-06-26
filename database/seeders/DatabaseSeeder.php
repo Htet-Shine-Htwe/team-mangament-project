@@ -16,23 +16,28 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory(1000)->create();
+        // \App\Models\User::factory(1000)->create();
 
-        \App\Models\User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-        \App\Models\User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'hsh@gmail.com',
-            'password' => Hash::make('asdffdsa')
-        ]);
+        // \App\Models\User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
+        // \App\Models\User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'hsh@gmail.com',
+        //     'password' => Hash::make('asdffdsa')
+        // ]);
+
+        // $this->call([
+        //     RoleSeeder::class,
+        //     IconSeeder::class,
+        //     WorkspaceSeeder::class,
+        //     UserWorkspaceSeeder::class,
+        // ]);
 
         $this->call([
-            RoleSeeder::class,
-            IconSeeder::class,
-            WorkspaceSeeder::class,
-            UserWorkspaceSeeder::class,
+            StatusSeeder::class,
+            // IssueSeeder::class,
         ]);
 
         session()->flush();
