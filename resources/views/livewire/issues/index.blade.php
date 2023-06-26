@@ -1,3 +1,4 @@
+{{-- this is full screen view page  --}}
 <div class="">
     <form id="modalIssue" action="submit"></form>
     <div class="flex flex-col gap-y-1">

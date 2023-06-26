@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\UserWorkspace;
 use App\Models\Workspace;
 use App\Services\RouteRedirectService;
+use App\Services\WorkspaceHelper;
 use App\Storage\S3FileStorage;
 use App\View\Components\PlainLayout;
 use Exception;
@@ -100,7 +101,7 @@ class Accept extends Component
             return abort(403,'Something went wrong');
         }
 
-        return redirect()->route('profile.index',['email' => Auth::user()->email]);
+        return redirect()->route('profile.index',['workspace_name'=> WorkspaceHelper::getCurrentWorkspace()->name,'email' => Auth::user()->email]);
     }
 
 

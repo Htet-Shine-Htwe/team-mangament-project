@@ -5,16 +5,25 @@
             <!-- Modal content -->
             <div class="relative  bg-PrimaryBg rounded-lg shadow ">
                 <!-- Modal header -->
-                <div class="flex items-start justify-between px-7 py-4 border-b rounded-t ">
+                <div class="flex items-start justify-between px-7 py-4 border-b  border-SeparateBorder rounded-t ">
                     <h3 class="text-xl font-semibold">
                         Create Issue
                     </h3>
-                    <button id="closeIssue" type="button"
-                        class=" bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center transition-all hover:scale-150"
+                    <div class="flex gap-x-2">
+                        <a href="{{ route('workspace.issue.create',['workspace_name' => getCurrentWorkspaceName()]) }}"
+                        class="cursor-pointer bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center transition-all hover:scale-150"
+                        data-modal-hide="defaultModal">
+                        <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                        <span class="sr-only">Full Screen</span>
+                         </a>
+                        <button id="closeIssue" type="button"
+                        class="cursor-pointer bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center transition-all hover:scale-150"
                         data-modal-hide="defaultModal">
                         <i class="fa-solid fa-xmark"></i>
                         <span class="sr-only">Close modal</span>
                     </button>
+                    </div>
+
                 </div>
                 <!-- Modal body -->
                 <div class="px-6 py-2 ">

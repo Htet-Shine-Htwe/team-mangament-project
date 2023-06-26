@@ -12,9 +12,10 @@ class Issue extends Model
     protected $fillable = [
         'title',
         'description',
-        'label_id',
+        'status_id',
         'workspace_id',
         'creator_id',
+        'assign_id',
     ];
 
     public function status()

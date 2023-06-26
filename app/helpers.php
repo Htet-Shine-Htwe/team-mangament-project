@@ -187,4 +187,9 @@ if (!function_exists('checkWorkspaceAdmin'))
         }
         return false;
     }
+
+    function getCurrentWorkspaceName()
+    {
+        return WorkspaceHelper::getCurrentWorkspace()->name ?? 'null';
+    }
 }

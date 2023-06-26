@@ -76,7 +76,7 @@ class Show extends Component
         $updated_user->update();
 
         session()->flash('status', 'profile-updated');
-        return redirect()->route('profile.show',['workspace'=>$this->currentWorkspace->name,'email' => $updated_user->email]);
+        return redirect()->route('profile.show',['workspace_name'=>$this->currentWorkspace->name,'email' => $updated_user->email]);
     }
 
     public function deleteProfile()  :Redirector

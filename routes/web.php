@@ -52,6 +52,8 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
             $searchClass = "App\Http\Livewire\Issues\Search\\";
             Route::get('/search',$searchClass.Index::class)->name('workspace.search.index');
 
+            $issueClass = "App\Http\Livewire\Issues\\";
+            Route::get('/issues/create',$issueClass.Index::class)->name('workspace.issue.create');
 
             //setting
             Route::get('/',$workSpace.Index::class)->name('workspace.index');

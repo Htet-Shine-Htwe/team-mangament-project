@@ -21,7 +21,9 @@ return new class extends Migration
                 $table->foreignId('workspace_id')->constrained()->cascadeOnDelete();
                 $table->foreignId('status_id')->constrained()->cascadeOnDelete();
                 $table->unsignedBigInteger('creator_id');
+                $table->unsignedBigInteger('assign_id')->nullable();
                 $table->foreign('creator_id')->references('id')->on('users')->cascadeOnDelete();
+                $table->foreign('assign_id')->references('id')->on('users')->cascadeOnDelete();
                 $table->timestamps();
             });
 

@@ -1,34 +1,43 @@
-<div class="">
-    <form id="modalIssue" action="submit"></form>
+<div class="text-PrimaryText">
+    <form id="modalIssue" wire:submit.prevent='submit'></form>
     <div class="flex flex-col gap-y-1">
-        <input type="text" placeholder="Issue title"
-            class="border-full-none">
+        <input wire:model.defer="title" type="text" placeholder="Issue title" class="border-full-none" required>
 
-        <div class="mt-1">
-            <textarea placeholder="Add a description .."
+        @if ($errors->has('title'))
+            <p class="text-red-500 text-xs">{{ $errors->first('title') }}</p>
+        @endif
+        <div wire:model.defer="description" class="mt-1">
+            <textarea placeholder="Add a description .." required
                 class="border-none w-full font-normal focus:outline-none focus:ring-0 focus:border-none hover:outline-none hover:ring-0 bg-PrimaryBg min-h-[80px] max-h-[300px] resize-y overflow-y-scroll"></textarea>
         </div>
-
-        <p>{{ $status['title'] }}</p>
+        @if ($errors->has('description'))
+            <p class="text-red-500 text-xs">{{ $errors->first('description') }}</p>
+        @endif
 
 
         <div class="flex gap-x-2 items-center">
             <div class=" ">
-                <livewire:issues.tags.status-index :currentStatus="$status"/>
+                <livewire:issues.tags.status-index :currentStatus="$status" />
             </div>
 
-            <div class="dropdown ">
-                <button class="m-1 ">
-                    <div class="flex gap-x-1 items-center bg-gray-300 rounded-lg ">
-                        <i class="fa-solid fa-tag"></i>
-                        <span>status</span>
-                    </div>
-                </button>
-                <ul class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
-                    <li><a>Item 1</a></li>
-                    <li><a>Item 2</a></li>
-                </ul>
+            <div class="">
+                <livewire:issues.tags.assign-index :currentAssign="$assign" />
+
             </div>
         </div>
+    </div>
+
+    <hr class="border-[1px] border-SeparateBorder mt-3">
+
+    <div class="pt-6 pb-4 flex justify-between items-center">
+        <div class="">
+
+        </div>
+        <button form="modalIssue" type="submit" class="primary-btn ">
+            <div wire:loading wire:target='submit' class="animate-spin flex items-center ml-4">
+                <i class="fa-solid fa-spinner"></i>
+            </div>
+            <p>Create</p>
+        </button>
     </div>
 </div>

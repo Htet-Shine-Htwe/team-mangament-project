@@ -15,9 +15,10 @@ class Index extends Component
 
     public $status ;
 
+    public $assign;
     public $currentWorkspace;
 
-    public $listeners = ['changeStatus'];
+    public $listeners = ['changeStatus','changeAssign'];
 
     protected $rules = [
         'title' => 'required|min:3',
@@ -29,6 +30,7 @@ class Index extends Component
     {
         $this->currentWorkspace = WorkspaceHelper::getCurrentWorkspace();
         $this->status = Status::select('id','title','color')->first()->toArray();
+        $this->assign = $this->currentWorkspace->users->first()->toArray() ?? [];
     }
 
     public function render()
@@ -38,19 +40,28 @@ class Index extends Component
 
     public function submit()
     {
+        // dd('clicked');
         $this->validate();
 
-        Issue::create([
+        $issue = Issue::create([
             'title' => $this->title,
             'description' => $this->description,
-            'status_id' => $this->status,
+            'status_id' => $this->status['id'],
+            'assign_id' => $this->assign['id'],
             'workspace_id' => $this->currentWorkspace->id,
             'creator_id' => auth()->id(),
         ]);
+
+        dd($issue);
     }
 
     public function changeStatus($status)
     {
         $this->status = $status;
+    }
+
+    public function changeAssign($assign)
+    {
+        $this->assign = $assign;
     }
 }

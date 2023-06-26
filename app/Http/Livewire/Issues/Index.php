@@ -15,6 +15,8 @@ class Index extends Component
 
     public $status ;
 
+    public $assign;
+
     public $currentWorkspace;
 
     protected $rules = [
@@ -27,6 +29,7 @@ class Index extends Component
     {
         $this->currentWorkspace = WorkspaceHelper::getCurrentWorkspace();
         $this->status = Status::select('id','title','color')->first();
+        $this->assign = $this->currentWorkspace->users->first();
     }
 
     public function render()
