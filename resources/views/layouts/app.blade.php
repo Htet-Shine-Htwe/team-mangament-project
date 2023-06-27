@@ -49,7 +49,7 @@ x-bind:class="'theme-' + color + ' ' + 'font-' + font" x-cloak>
     @livewireScripts
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-                // $("#test").hide();
+                $("#test").hide();
 
                 $("#closeIssue").click(function(){
                     $("#test").hide();

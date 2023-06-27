@@ -2,7 +2,7 @@
     <label tabindex="0" class=" m-1 flex bg-SoftBg py-[6px] pl-3 pr-5 justify-start rounded-lg text-xs items-center gap-x-2  drop-shadow-lg cursor-pointer">
         {{-- p tag with tag icon --}}
             {{-- <i class="fa-solid fa-circle text-[{{ $currentAssign['color'] }}]"></i> --}}
-            <span class="text-SecondaryText text-[10px]">{{ $currentAssign['name'] }}</span>
+            <span class="text-SecondaryText text-[10px]">{{ niceTitle($currentAssign['name'],2) }}</span>
     </label>
     <ul tabindex="0" class="dropdown-content z-[1] menu p-2 bg-SoftBg drop-shadow-lg rounded-box w-40 max-h-40 overflow-y-scroll">
     @forelse ($users as $user)

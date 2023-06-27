@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Issues;
 
 use App\Models\Issue;
 use App\Models\Status;
+use App\Services\IssueCreateService;
 use App\Services\WorkspaceHelper;
 use Livewire\Component;
 
@@ -19,6 +20,8 @@ class Index extends Component
 
     public $currentWorkspace;
 
+    public $draftData ;
+
     protected $rules = [
         'title' => 'required|min:3',
         'description' => 'required|min:3',
@@ -30,6 +33,13 @@ class Index extends Component
         $this->currentWorkspace = WorkspaceHelper::getCurrentWorkspace();
         $this->status = Status::select('id','title','color')->first();
         $this->assign = $this->currentWorkspace->users->first();
+        if(empty(!$data = $this->getDraftData())){
+            $this->title = $data['title'];
+            $this->description = $data['description'];
+            $this->status = $data['status'];
+            $this->assign = $data['assign'];
+        }
+
     }
 
     public function render()
@@ -40,12 +50,14 @@ class Index extends Component
     public function createIssue(){
         $this->validate();
 
-        Issue::create([
-            'title' => $this->title,
-            'description' => $this->description,
-            'status_id' => $this->status,
-            'workspace_id' => $this->currentWorkspace->id,
-            'creator_id' => auth()->id(),
-        ]);
+        $data = $this->only(['title','description','assign','status','currentWorkspace']);
+        $issue = IssueCreateService::create($data);
+
+        dd($issue);
+    }
+
+    protected function getDraftData()
+    {
+       return session()->get('old_issue_create') ?? [];
     }
 }

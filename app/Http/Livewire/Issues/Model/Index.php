@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Issues\Model;
 
 use App\Models\Issue;
 use App\Models\Status;
+use App\Services\IssueCreateService;
 use App\Services\WorkspaceHelper;
 use Livewire\Component;
 
@@ -43,14 +44,8 @@ class Index extends Component
         // dd('clicked');
         $this->validate();
 
-        $issue = Issue::create([
-            'title' => $this->title,
-            'description' => $this->description,
-            'status_id' => $this->status['id'],
-            'assign_id' => $this->assign['id'],
-            'workspace_id' => $this->currentWorkspace->id,
-            'creator_id' => auth()->id(),
-        ]);
+        $data = $this->only(['title','description','assign','status','currentWorkspace']);
+        $issue = IssueCreateService::create($data);
 
         dd($issue);
     }
@@ -63,5 +58,15 @@ class Index extends Component
     public function changeAssign($assign)
     {
         $this->assign = $assign;
+    }
+
+    public function fullScreen(){
+        session()->put('old_issue_create',[
+            'title' => $this->title,
+            'description' => $this->description,
+            'status' => $this->status,
+            'assign' => $this->assign,
+        ]);
+        return redirect()->route('workspace.issue.create',['workspace_name' => getCurrentWorkspaceName()]);
     }
 }

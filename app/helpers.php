@@ -110,9 +110,9 @@ if (!function_exists('checkOnline'))
 }
 if (!function_exists('niceTitle'))
 {
-    function niceTitle($text): string
+    function niceTitle($text,$word=3): string
     {
-        return ucwords(Str::words($text, 3, '....'));
+        return ucwords(Str::words($text,$word, '....'));
     }
 }
 
