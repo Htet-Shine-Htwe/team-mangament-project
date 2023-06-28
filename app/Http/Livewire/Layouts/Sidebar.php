@@ -28,7 +28,7 @@ class Sidebar extends Component
 
     public function mount() :void
     {
-        $this->workspaces = Auth::user()->workspaces()->get(['name', 'logo_path','hax_color']);
+        $this->workspaces = WorkspaceHelper::getUserWorkspaces();
         $this->currentWorkspace = WorkspaceHelper::getCurrentWorkspace();
         $this->workspaceName = makeWorkspaceLogo($this->currentWorkspace?->name);
         $this->haxColor = $this->currentWorkspace?->hax_color;

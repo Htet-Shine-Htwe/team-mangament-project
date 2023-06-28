@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Workspace>
@@ -17,7 +18,7 @@ class WorkspaceFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->unique()->regexify("/^[a-z]{25}"),
+            'name' => Str::random(2).fake()->unique()->regexify("/^[a-z]{25}"),
             'hax_color' => fake()->hexColor(),
         ];
     }

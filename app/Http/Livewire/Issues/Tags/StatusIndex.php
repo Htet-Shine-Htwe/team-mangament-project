@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Issues\Tags;
 
 use App\Models\Status;
+use App\Services\IssueInfoHelper;
 use Livewire\Component;
 
 class StatusIndex extends Component
@@ -16,7 +17,7 @@ class StatusIndex extends Component
     public function mount($currentStatus)
     {
         $this->no = "red";
-        $this->statues = Status::select('id','title','color')->get();
+        $this->statues = IssueInfoHelper::getStatuses();
         $this->currentStatus =  $currentStatus ?? [];
     }
 

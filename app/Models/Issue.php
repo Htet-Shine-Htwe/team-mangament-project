@@ -22,4 +22,9 @@ class Issue extends Model
     {
         return $this->belongsTo(Status::class);
     }
+
+    public function issueImages()
+    {
+        return $this->hasMany(IssuePhoto::class);
+    }
 }

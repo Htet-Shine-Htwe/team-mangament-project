@@ -1,4 +1,4 @@
-<div class="relative flex  h-full bg-PrimaryBg rounded-lg w-full shadow ">
+<div class="relative flex  h-full bg-PrimaryBg rounded-lg w-full shadow pb-10">
     <!-- Modal header -->
     <div class="w-4/5 border-r-[1px] border-SeparateBorder h-full ">
         <div class="flex items-start justify-between px-7 py-6 border-b  border-SeparateBorder rounded-t ">
@@ -8,9 +8,11 @@
 
             <div class="flex gap-x-6 items-center">
                 <div class="mr-2">
-                    <button class="w-full h-full flex items-center">
+                    <button id="attachFile" class="w-full h-full flex items-center">
                         <i class="fa-solid fa-paperclip"></i>
                     </button>
+                    <input wire:model="fileUpload"  multiple type="file" id="fileUpload" class="hidden"
+                    accept=".jpe,.jpg,.jpeg,.png,.xml,.pdf,.csv"/>
                 </div>
                 <div class="border-r-[1px] border-SeparateBorder pr-5">
                      <button class="w-full h-full flex items-center">
@@ -22,7 +24,7 @@
                         <a href="{{ route('dashboard') }}">Cancel</a>
                 </div>
 
-                <div class="flex items-center w-full h-full">
+                <div wire:click="createIssue" class="flex items-center w-full h-full">
                     <button class="primary-btn">Save</button>
                 </div>
             </div>
@@ -33,17 +35,37 @@
             <div class="">
                 <form id="modalIssue" action="submit"></form>
                 <div class=" pl-24 pr-12 flex flex-col gap-y-1 ">
-                    <input type="text" wire:model.defer="title" placeholder="Issue title" class="border-full-none">
+                    <input type="text" wire:model.defer="title"  placeholder="Issue title" class="border-full-none">
+
+                    @if ($errors->has('title'))
+                    <p class="text-red-500 text-xs">{{ $errors->first('title') }}</p>
+                    @endif
 
                     <div class="mt-1">
-                        {{-- <textarea wire:model.defer="description" placeholder="Add a description .."
-                            class="border-none w-full font-normal focus:outline-none focus:ring-0 focus:border-none hover:outline-none hover:ring-0 bg-PrimaryBg min-h-[80px] max-h-[300px] resize-y overflow-y-scroll"></textarea> --}}
-                        <div contentEditable="true">
-                            some
+                    <textarea wire:model.defer="description" placeholder="Add a description .."
+                            class="border-none w-full font-normal focus:outline-none focus:ring-0 focus:border-none hover:outline-none hover:ring-0 bg-PrimaryBg min-h-[280px] resize-y overflow-y-scroll"></textarea>
+                            {{-- BBAN-179 --}}
                         </div>
+                     @if ($errors->has('description'))
+                        <p class="text-red-500 text-xs">{{ $errors->first('description') }}</p>
+                    @endif
+
+
+                    <div class="mt-4 flex flex-col items-center gap-y-4 w-5/6 h-5/6">
+
+                        @if ($fileUpload)
+
+                        @foreach ($fileUpload as $file)
+                        <img class="" src="{{ $file->temporaryUrl() }}">
+                        @endforeach
+                        @endif
                     </div>
 
                 </div>
+                <div wire:loading wire:target='fileUpload' class="animate-spin  mt-4">
+                    <i class="fa-solid fa-spinner"></i>
+                </div>
+
             </div>
 
         </div>
@@ -75,3 +97,15 @@
     <!-- Modal footer -->
 
 </div>
+
+@push('js')
+    <script>
+         document.addEventListener('DOMContentLoaded', function() {
+                $("#attachFile").click(function()
+                {
+                    $("#fileUpload").click();
+                })
+
+            });
+    </script>
+@endpush

@@ -28,24 +28,24 @@ class DatabaseSeeder extends Seeder
         //     'password' => Hash::make('asdffdsa')
         // ]);
 
-        // $this->call([
-        //     RoleSeeder::class,
-        //     IconSeeder::class,
-        //     WorkspaceSeeder::class,
-        //     UserWorkspaceSeeder::class,
-        // ]);
-
         $this->call([
-            StatusSeeder::class,
-            // IssueSeeder::class,
+            // RoleSeeder::class,
+            // IconSeeder::class,
+            WorkspaceSeeder::class,
+            UserWorkspaceSeeder::class,
         ]);
 
-        session()->flush();
+        // $this->call([
+        //     StatusSeeder::class,
+        //     // IssueSeeder::class,
+        // ]);
+
+        // session()->flush();
 
 
-        $file = new Filesystem;
-        $file->cleanDirectory('storage/app/public/');
+        // $file = new Filesystem;
+        // $file->cleanDirectory('storage/app/public/');
 
-        echo "\e[93mStorage Cleaned \n";
+        // echo "\e[93mStorage Cleaned \n";
     }
 }

@@ -2,7 +2,10 @@
 
 namespace App\Http\Livewire\Issues\Tags;
 
+use App\Models\UserWorkspace;
+use App\Services\IssueInfoHelper;
 use App\Services\WorkspaceHelper;
+use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
 class AssignIndex extends Component
@@ -13,10 +16,10 @@ class AssignIndex extends Component
 
     public function mount($currentAssign)
     {
-        $workspace = WorkspaceHelper::getCurrentWorkspace();
-        $this->users = $workspace->users;
+
+        $this->users = WorkspaceHelper::getCurrentWorkspaceUsers();
+
         $this->currentAssign = $currentAssign ?? [];
-        // dd($this->users);
     }
 
     public function render()
@@ -26,7 +29,8 @@ class AssignIndex extends Component
 
     public function changeAssign($id)
     {
-        $this->currentAssign = $this->users->find($id) ?? [];
+        $this->currentAssign = $this->users[$id] ?? [];
+        // dd($this->currentAssign);
         $this->emit('changeAssign', $this->currentAssign);
     }
 }

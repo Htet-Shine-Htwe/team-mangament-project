@@ -12,6 +12,8 @@ class WorkspaceHelper
     private static $currentWorkspace = null;
     private static $userWorkspaces = null;
 
+    private static $currentWorkspaceUsers = null;
+
     /**
      * Method to return current workpsace
      *
@@ -40,6 +42,7 @@ class WorkspaceHelper
         return self::$userWorkspaces;
     }
 
+    // Method to get the users of the current workspace
     private static function retrieveCurrentWorkspace() :Workspace|null
     {
         $workspace = getCurrentWorkspace(Session::get('selected_workspace') ?? null);
@@ -56,6 +59,21 @@ class WorkspaceHelper
         }
 
         return true;
+    }
+
+    //get the users of the current workspace
+    public static function getCurrentWorkspaceUsers()
+    {
+        if (self::$currentWorkspaceUsers === null) {
+            self::$currentWorkspaceUsers = self::getCurrentWorkspace()
+            ->users()
+            ->select('users.id','name','email','profile_photo_path','avatar')
+            ->get()
+            ->keyBy('id')
+            ->toArray();
+        }
+
+        return self::$currentWorkspaceUsers;
     }
 
 }

@@ -101,7 +101,7 @@ if (!function_exists('checkOnline'))
 {
     function checkOnline($user): bool
     {
-        if (Cache::has('user-online' . $user->id))
+        if (Cache::has('user-online' . $user['id']))
         {
             return true;
         }
@@ -148,7 +148,7 @@ if (!function_exists('getCurrentWorkspace'))
         if (!$workspace)
         {
             session()->forget('selected_workspace');
-            $workspace = Auth::user()->workspaces()->first();
+            $workspace = WorkspaceHelper::getUserWorkspaces()->first();
         }
 
         return $workspace;

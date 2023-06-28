@@ -42,7 +42,9 @@ class S3FileStorage extends StorageFilePath implements StorageConfigInterface
            foreach($photos as $key => $photo){
                $photoName = "photoImage".uniqid().'.'.$photo->getClientOriginalExtension();
                $nameCollection[$key] = $photoName;
-               $photo->storeAs($path,$photoName,'s3');
+               $resizedPhoto = $this->resizePhoto($photo);
+                Storage::disk('s3')->put($path.'/' . $photoName, (string) $resizedPhoto->encode());
+
 
            }
            return $nameCollection;
@@ -51,18 +53,24 @@ class S3FileStorage extends StorageFilePath implements StorageConfigInterface
     //    $photos->storeAs($path,$photoName,'s3');
 
         $photoName = "photoImage".uniqid().'.jpg';
-        $jpg = Image::make($photos);
-        $size = $jpg->filesize();
-        if($size > 1000000)
-        {
-            $jpg->resize(400, 200);
-        }
-        $jpg->fit(200, 200);
+        $resizedPhoto = $this->resizePhoto($photos);
 
-        Storage::disk('s3')->put($path.'/' . $photoName, (string) $jpg->encode());
-
+        Storage::disk('s3')->put($path.'/' . $photoName, (string) $resizedPhoto->encode());
 
        return $photoName;
+    }
+
+    protected function resizePhoto($photo)
+    {
+        $img = Image::make($photo);;
+        $size = $img->filesize();
+
+        if($size > 1000000)
+        {
+            $img->encode('jpg',80);
+            $img->resize(400, 200);
+        }
+        return $img->fit(200, 200);
     }
 
 

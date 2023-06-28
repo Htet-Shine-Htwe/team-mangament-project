@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Issues\Model;
 use App\Models\Issue;
 use App\Models\Status;
 use App\Services\IssueCreateService;
+use App\Services\IssueInfoHelper;
 use App\Services\WorkspaceHelper;
 use Livewire\Component;
 
@@ -30,8 +31,8 @@ class Index extends Component
     public function mount()
     {
         $this->currentWorkspace = WorkspaceHelper::getCurrentWorkspace();
-        $this->status = Status::select('id','title','color')->first()->toArray();
-        $this->assign = $this->currentWorkspace->users->first()->toArray() ?? [];
+        $this->status = IssueInfoHelper::getStatuses()->first()->toArray();
+        $this->assign = current(WorkspaceHelper::getCurrentWorkspaceUsers()) ?? [];
     }
 
     public function render()

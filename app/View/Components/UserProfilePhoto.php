@@ -16,24 +16,30 @@ class UserProfilePhoto extends Component
      */
     public function __construct($user,$status=false)
     {
-        $this->user= $user;
-        $this->status = $user->status;
+        if(!is_array($user))
+        {
+            $this->user = $user->toArray();
+        }
+        $this->user  = $user;
+
+
         $this->photo = $this->getPhoto($this->user);
     }
 
     protected function getPhoto($user)
     {
-        if($user->profile_photo_path == null && $user->avatar == null)
+
+        if($user['profile_photo_path'] == null && $user['avatar'] == null)
         {
-            $photo =  getPhoto($user->profile_photo_path,'profilePhoto') ;
+            $photo =  getPhoto($user['profile_photo_path'],'profilePhoto') ;
         }
-        elseif($user->profile_photo_path == null)
+        elseif($user['profile_photo_path'] == null)
         {
-            $photo = $user->avatar ;
+            $photo = $user['avatar'];
         }
         else
         {
-            $photo =  getPhoto($user->profile_photo_path,'profilePhoto') ;
+            $photo =  getPhoto($user['profile_photo_path'],'profilePhoto') ;
         }
        return $photo;
     }

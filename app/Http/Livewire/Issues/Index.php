@@ -5,11 +5,14 @@ namespace App\Http\Livewire\Issues;
 use App\Models\Issue;
 use App\Models\Status;
 use App\Services\IssueCreateService;
+use App\Services\IssueInfoHelper;
 use App\Services\WorkspaceHelper;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Index extends Component
 {
+    use WithFileUploads;
     public $title;
 
     public $description ;
@@ -22,17 +25,23 @@ class Index extends Component
 
     public $draftData ;
 
+    public $fileUpload;
+
+    public $listeners = ['changeStatus','changeAssign'];
+
+
     protected $rules = [
         'title' => 'required|min:3',
         'description' => 'required|min:3',
         'status' => 'required',
+        'fileUpload'  => 'nullable|file|mimes:png,jpg,max:3072'
     ];
 
     public function mount()
     {
         $this->currentWorkspace = WorkspaceHelper::getCurrentWorkspace();
-        $this->status = Status::select('id','title','color')->first();
-        $this->assign = $this->currentWorkspace->users->first();
+        $this->status = IssueInfoHelper::getStatuses();
+        $this->assign = current(WorkspaceHelper::getCurrentWorkspaceUsers());
         if(empty(!$data = $this->getDraftData())){
             $this->title = $data['title'];
             $this->description = $data['description'];
@@ -51,7 +60,7 @@ class Index extends Component
         $this->validate();
 
         $data = $this->only(['title','description','assign','status','currentWorkspace']);
-        $issue = IssueCreateService::create($data);
+        $issue = IssueCreateService::create($data,$this->fileUpload);
 
         dd($issue);
     }
@@ -59,5 +68,15 @@ class Index extends Component
     protected function getDraftData()
     {
        return session()->get('old_issue_create') ?? [];
+    }
+
+    public function changeStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    public function changeAssign($assign)
+    {
+        $this->assign = $assign;
     }
 }
