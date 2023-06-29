@@ -9,6 +9,9 @@ class Issue extends Model
 {
     use HasFactory;
 
+    protected $cast = [
+        'due_date' => 'datetime',
+    ];
     protected $fillable = [
         'title',
         'description',
@@ -16,6 +19,9 @@ class Issue extends Model
         'workspace_id',
         'creator_id',
         'assign_id',
+        'due_date',
+        'link_url',
+        'link_title',
     ];
 
     public function status()

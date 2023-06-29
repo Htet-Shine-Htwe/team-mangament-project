@@ -16,7 +16,7 @@ return new class extends Migration
 
             Schema::create('issues', function (Blueprint $table) {
                 $table->id();
-                $table->text('title');
+                $table->text('title')->index();
                 $table->longText('description')->nullable();
                 $table->foreignId('workspace_id')->constrained()->cascadeOnDelete();
                 $table->foreignId('status_id')->constrained()->cascadeOnDelete();

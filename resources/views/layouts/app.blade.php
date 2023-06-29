@@ -30,6 +30,11 @@
     sidebar: localStorage.getItem('sidebar') || false,
 }"
 x-bind:class="'theme-' + color + ' ' + 'font-' + font" x-cloak>
+<div id="loader" class="w-full h-full fixed block top-0 left-0 bg-PrimaryBg  z-50">
+    <span class="top-1/3 my-0 mx-auto block relative w-20 h-20">
+     <img src="{{ getLogo() }}"  alt="Loading_logo">
+    </span>
+  </div>
     <div class="min-h-[100vh] overflow-hidden flex font-medium relative ">
        @include('layouts.issue-modal')
         <div :class="sidebar == 'true' ? 'w-[20%] d-block' : 'w-[0%] hidden'" id="sidebar" class="border-r-[1px] transition-all text-PrimaryText bg-PrimaryBg border-SeparateBorder">
@@ -48,6 +53,11 @@ x-bind:class="'theme-' + color + ' ' + 'font-' + font" x-cloak>
     </div>
     @livewireScripts
     <script>
+        window.addEventListener('load', function() {
+    var loader = document.getElementById('loader');
+    loader.style.display = 'none';
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
                 $("#test").hide();
 

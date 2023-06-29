@@ -49,11 +49,12 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
            });
 
            //Search page
-            $searchClass = "App\Http\Livewire\Issues\Search\\";
-            Route::get('/search',$searchClass.Index::class)->name('workspace.search.index');
+            $IssueSearchClass = "App\Http\Livewire\Issues\Search\\";
+            Route::get('/search',$IssueSearchClass.Index::class)->name('workspace.search.index');
 
             $issueClass = "App\Http\Livewire\Issues\\";
-            Route::get('/issues/create',$issueClass.Index::class)->name('workspace.issue.create');
+            Route::get('/issues',$issueClass.Index::class)->name('workspace.issue.index');
+            Route::get('/issues/create',$issueClass.Show::class)->name('workspace.issue.create');
 
             //setting
             Route::get('/',$workSpace.Index::class)->name('workspace.index');

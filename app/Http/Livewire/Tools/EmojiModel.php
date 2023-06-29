@@ -26,7 +26,6 @@ class EmojiModel extends Component
 
         $this->selectedEmoji = $this->user->status_emoji !== null ? $this->user->status_emoji : '1F600';
 
-
         $this->emojis = $this->getCachedEmojis($this->loadedEmojis);
         // dd($this->profile_photo);
     }

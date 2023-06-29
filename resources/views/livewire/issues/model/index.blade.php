@@ -48,6 +48,8 @@
                         <livewire:issues.tags.assign-index :currentAssign="$assign" />
 
                     </div>
+
+                    <input datepicker type="datetime" >
                 </div>
             </div>
 

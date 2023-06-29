@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    <div class="flex flex-col  h-[400px] mt-6">
+    <div class="flex flex-col h-full mt-6 relative">
         <div class="my-5 flex pl-4 gap-x-2 w-full">
             <button id="newIssue" class="w-2/3 flex gap-x-1 drop-shadow-md items-center bg-SoftBg rounded-lg text-sm pl-3 pr-2 py-2
             hover:bg-HoverBg hover:text-HoverText transition-all
@@ -26,18 +26,29 @@
         </div>
 
         <div class="">
-            <a href="{{ route("workspace.setting.member",['workspace_name' => $currentWorkspace->name]) }}" class="flex gap-x-3 items-center w-full hover:bg-HoverBg capitalize transition pl-7 pr-2 py-2 mt-2 text-sm">
+            <a href="{{ route("workspace.issue.index",['workspace_name' => $currentWorkspace->name]) }}" class="flex gap-x-3 items-center w-full hover:bg-HoverBg capitalize transition pl-7 pr-2 py-2  mt-4 text-sm">
+                <i class="fa-solid fa-list-check"></i>
+                <p>My Issues</p>
+            </a>
+
+            <a href="{{ route("workspace.setting.member",['workspace_name' => $currentWorkspace->name]) }}" class="flex gap-x-3 items-center w-full hover:bg-HoverBg capitalize transition pl-7 pr-2 py-2 mt-3 text-sm">
                 <i class="fa-solid fa-users"></i>
                 <p>Members</p>
             </a>
 
-            <a href="{{ route("workspace.setting.index",['workspace_name' => $currentWorkspace->name]) }}" class="flex gap-x-3 items-center w-full hover:bg-HoverBg capitalize transition pl-7 pr-2 py-2  mt-4 text-sm">
+            <a href="{{ route("workspace.setting.index",['workspace_name' => $currentWorkspace->name]) }}" class="flex gap-x-3 items-center w-full hover:bg-HoverBg capitalize transition pl-7 pr-2 py-2  mt-3 text-sm">
                 <i class="fa-solid fa-gear"></i>
                 <p>Setting</p>
             </a>
 
         </div>
 
+        <div class="pl-7 bottom-20 absolute">
+            <a href="{{ route('workspace.setting.invite',['workspace_name' => getCurrentWorkspaceName()]) }}" class="text-SecondaryText flex items-center gap-x-2 text-xs">
+                <i class="fa-solid fa-plus"></i>
+                <p>Invite People</p>
+            </a>
+        </div>
     </div>
 </div>
 
