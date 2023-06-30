@@ -90,7 +90,7 @@ Route::get('/create/workspace',$workSpace.Create::class)->middleware('auth')->na
 
 Route::get('login/{provider}',[SocialiteController::class,'redirectToProvider'])->name('social.login');
 Route::get('login/{provider}/callback',[SocialiteController::class,'handleProviderCallback'])
-->middleware('workspace.invitation');
+->middleware('workspace.invitation')->name('social.callback');
 
 
 

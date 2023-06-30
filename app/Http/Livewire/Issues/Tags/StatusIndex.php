@@ -11,12 +11,8 @@ class StatusIndex extends Component
     public $statues ;
     public $currentStatus ;
 
-    public $no ;
-
-
     public function mount($currentStatus)
     {
-        $this->no = "red";
         $this->statues = IssueInfoHelper::getStatuses();
         $this->currentStatus =  $currentStatus ?? [];
     }

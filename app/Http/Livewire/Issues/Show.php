@@ -7,12 +7,13 @@ use App\Models\Status;
 use App\Services\IssueCreateService;
 use App\Services\IssueInfoHelper;
 use App\Services\WorkspaceHelper;
+use App\Traits\IssueTagsEvent;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class Show extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads,IssueTagsEvent;
     public $title;
 
     public $description ;
@@ -23,11 +24,15 @@ class Show extends Component
 
     public $currentWorkspace;
 
-    public $draftData ;
+    public $due_date;
 
     public $fileUpload;
 
-    public $listeners = ['changeStatus','changeAssign'];
+    public $draftData ;
+
+
+    public $listeners = ['changeStatus','changeAssign','changeDueDate'];
+
 
 
     protected $rules = [
@@ -58,8 +63,7 @@ class Show extends Component
 
     public function createIssue(){
         $this->validate();
-
-        $data = $this->only(['title','description','assign','status','currentWorkspace']);
+        $data = $this->only(['title','description','assign','status','currentWorkspace','due_date']);
         $issue = IssueCreateService::create($data,$this->fileUpload);
 
         dd($issue);
@@ -70,13 +74,5 @@ class Show extends Component
        return session()->get('old_issue_create') ?? [];
     }
 
-    public function changeStatus($status)
-    {
-        $this->status = $status;
-    }
 
-    public function changeAssign($assign)
-    {
-        $this->assign = $assign;
-    }
 }

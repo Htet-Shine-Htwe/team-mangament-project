@@ -97,6 +97,15 @@
                     <livewire:issues.tags.assign-index  :currentAssign="$assign" />
                 </div>
             </div>
+
+            <div class="flex items-center w-full">
+                <div class="w-2/6">
+                    <p class="text-SecondaryText text-xs">Due Date</p>
+                </div>
+                <div class="">
+                    <livewire:issues.tags.due-index  :index="2"/>
+                </div>
+            </div>
         </div>
     </div>
     <!-- Modal footer -->

@@ -2,6 +2,8 @@ import './bootstrap';
 
 import Alpine from 'alpinejs';
 
+import 'flowbite';
+
 import Croppie from 'croppie';
 
 window.Alpine = Alpine;

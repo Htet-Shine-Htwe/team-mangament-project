@@ -38,7 +38,6 @@
                     <p class="text-red-500 text-xs">{{ $errors->first('description') }}</p>
                 @endif
 
-
                 <div class="flex gap-x-2 items-center">
                     <div class=" ">
                         <livewire:issues.tags.status-index :currentStatus="$status" />
@@ -49,7 +48,9 @@
 
                     </div>
 
-                    <input datepicker type="datetime" >
+                    <div class="">
+                        <livewire:issues.tags.due-index :index="1" />
+                    </div>
                 </div>
             </div>
 
@@ -72,3 +73,6 @@
     <!-- Modal footer -->
 
 </div>
+
+
+
