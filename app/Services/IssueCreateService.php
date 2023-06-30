@@ -8,6 +8,7 @@ use App\Storage\S3FileStorage;
 use Carbon\Carbon;
 use DateInterval;
 use DateTime;
+use Illuminate\Support\Facades\Storage;
 
 class IssueCreateService
 {
@@ -41,9 +42,18 @@ class IssueCreateService
         ]);
 
         self::saveImages($files,$issue);
-
+        dd('ran');
+        $sessionData = session()->get('old_issue_create');
+        if(isset($sessionData))
+        {
+            $sessionPhotos = ['fileUpload'];
+            foreach($sessionPhotos as $photo)
+            {
+                //remove photo
+                Storage::delete('app/public/images/session_photo/'.$photo);
+            }
+        }
         session()->forget('old_issue_create');
-
         return 'suceess';
         // return $issue;
     }
@@ -70,5 +80,4 @@ class IssueCreateService
                 return $e->getMessage();
            }
     }
-
     }}

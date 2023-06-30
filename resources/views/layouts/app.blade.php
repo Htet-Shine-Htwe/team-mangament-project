@@ -32,7 +32,7 @@
     sidebar: localStorage.getItem('sidebar') || false,
 }"
 x-bind:class="'theme-' + color + ' ' + 'font-' + font" x-cloak>
-<div id="loader" class="w-full h-full fixed block top-0 left-0 bg-PrimaryBg  z-50">
+<div id="loader" class="w-full h-full fixed block top-0 left-0 bg-PrimaryBg  z-80">
     <span class="top-1/3 my-0 mx-auto block relative w-20 h-20">
      <img src="{{ getLogo() }}"  alt="Loading_logo">
     </span>

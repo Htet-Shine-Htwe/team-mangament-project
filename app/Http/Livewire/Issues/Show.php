@@ -8,6 +8,7 @@ use App\Services\IssueCreateService;
 use App\Services\IssueInfoHelper;
 use App\Services\WorkspaceHelper;
 use App\Traits\IssueTagsEvent;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -28,6 +29,7 @@ class Show extends Component
 
     public $fileUpload;
 
+    public $sessionPhotos;
     public $draftData ;
 
 
@@ -39,7 +41,7 @@ class Show extends Component
         'title' => 'required|min:3',
         'description' => 'required|min:3',
         'status' => 'required',
-        'fileUpload'  => 'nullable|file|mimes:png,jpg,max:3072'
+        // 'fileUpload'  => 'nullable|file|mimes:png,jpg,max:3072'
     ];
 
     public function mount()
@@ -47,11 +49,22 @@ class Show extends Component
         $this->currentWorkspace = WorkspaceHelper::getCurrentWorkspace();
         $this->status = IssueInfoHelper::getStatuses();
         $this->assign = current(WorkspaceHelper::getCurrentWorkspaceUsers());
+        // dd($this->getDraftData());
         if(empty(!$data = $this->getDraftData())){
             $this->title = $data['title'];
             $this->description = $data['description'];
             $this->status = $data['status'];
             $this->assign = $data['assign'];
+            $this->due_date = $data['due_date'];
+            if(isset($data['fileUpload']))
+            {
+                $files = $data['fileUpload'];
+                $this->sessionPhotos = $files;
+                forEach($files as $file)
+                {
+                    $this->fileUpload[] = asset($file);
+                }
+            }
         }
 
     }

@@ -1,4 +1,4 @@
-<div class="relative  bg-PrimaryBg rounded-lg shadow ">
+<div class="relative  bg-PrimaryBg rounded-lg shadow min-h-[40vh] max-h-[80vh] ">
     <!-- Modal header -->
     <div class="flex items-start justify-between px-7 py-4 border-b  border-SeparateBorder rounded-t ">
         <h3 class="text-xl font-semibold">
@@ -25,7 +25,8 @@
         <div class="text-PrimaryText">
             <form id="modalIssue" wire:submit.prevent='submit'></form>
             <div class="flex flex-col gap-y-1">
-                <input wire:model.lazy="title" type="text" placeholder="Issue title" class="border-full-none" required>
+                <input wire:model.lazy="title" type="text" placeholder="Issue title" class="border-full-none"
+                    required>
 
                 @if ($errors->has('title'))
                     <p class="text-red-500 text-xs">{{ $errors->first('title') }}</p>
@@ -56,9 +57,27 @@
 
             <hr class="border-[1px] border-SeparateBorder mt-3">
 
+
+            @if ($fileUpload)
+                <div class="flex flex-col items-center gap-y-8 w-full  h-[35vh] overflow-y-scroll pt-6">
+
+                    @foreach ($fileUpload as $file)
+                        <img class="w-5/6 h-5/6 rounded-lg" src="{{ $file->temporaryUrl() }}">
+                    @endforeach
+                </div>
+                <hr class="border-[1px] border-SeparateBorder mt-3">
+
+            @endif
+
+
+
             <div class="pt-6 pb-4 flex justify-between items-center">
                 <div class="">
-
+                    <button id="attachFile" class="w-full h-full flex items-center">
+                        <i class="fa-solid fa-paperclip"></i>
+                    </button>
+                    <input wire:model="fileUpload" multiple type="file" id="fileUpload" class="hidden"
+                        accept=".jpe,.jpg,.jpeg,.png,.xml,.pdf,.csv" />
                 </div>
                 <button form="modalIssue" type="submit" class="primary-btn ">
                     <div wire:loading wire:target='submit' class="animate-spin flex items-center ml-4">
@@ -75,4 +94,13 @@
 </div>
 
 
+@push('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            $("#attachFile").click(function() {
+                $("#fileUpload").click();
+            })
 
+        });
+    </script>
+@endpush

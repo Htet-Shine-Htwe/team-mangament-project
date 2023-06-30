@@ -8,10 +8,15 @@
     @forelse ($statues as $status)
       <li>
         <button wire:click='changeStatus({{$status->id}})'>
-        <div class="w-5 h-5 flex justify-center items-center rounded-full border-[1px] border-[{{ $status->color }}]">
-            <i class="fa-solid fa-circle text-[10px] text-[{{ $status->color }}]"></i>
+        <div
+        style="border-color: {{ $status->color }}"
+        class="w-5 h-5 flex justify-center items-center rounded-full border-[1px] ">
+            <i
+            style="color:{{ $status->color }}"
+            class="fa-solid fa-circle text-[10px] status-circle "></i>
         </div>
-        <p class="text-SecondaryText text-xs">{{$status->title}}</p></button>
+        <p
+        class="text-SecondaryText text-xs">{{$status->title}}</p></button>
       </li>
     @empty
        <p>No statues </p>
@@ -19,3 +24,15 @@
 
     </ul>
   </div>
+
+  @push('js')
+  <script>
+      document.addEventListener('readystatechange', function() {
+        // $(".status-circle").each(function(){
+        //     $(this).addClass("text-[{{ $status->color }}]");
+        // })
+      })
+  </script>
+@endpush
+
+

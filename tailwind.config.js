@@ -9,7 +9,13 @@ module.exports = {
         './resources/views/**/*.blade.php',
         "./node_modules/flowbite/**/*.js"
     ],
-
+    safelist : [
+        'text-[#87807a]',
+        'text-[#ed7105]',
+        'text-[#eded05]',
+        'text-[#00d103]',
+        'text-[#FF5733]',
+    ],
     theme: {
         extend: {
             fontFamily: {

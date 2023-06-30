@@ -8,25 +8,28 @@
 
             <div class="flex gap-x-6 items-center">
                 <div class="mr-2">
-                    <button id="attachFile" class="w-full h-full flex items-center">
+                    <button id="FullPageAttachFile" class="w-full h-full flex items-center">
                         <i class="fa-solid fa-paperclip"></i>
                     </button>
-                    <input wire:model="fileUpload"  multiple type="file" id="fileUpload" class="hidden"
-                    accept=".jpe,.jpg,.jpeg,.png,.xml,.pdf,.csv"/>
+                    <input wire:model="fileUpload" multiple type="file" id="FullPageFileUpload" class="hidden"
+                        accept=".jpe,.jpg,.jpeg,.png,.xml,.pdf,.csv" />
                 </div>
                 <div class="border-r-[1px] border-SeparateBorder pr-5">
-                     <button class="w-full h-full flex items-center">
+                    <button class="w-full h-full flex items-center">
                         <i class="fa-solid fa-ellipsis"></i>
-                     </button>
+                    </button>
                 </div>
 
                 <div class="w-full h-full flex items-center">
-                        <a href="{{ route('dashboard') }}">Cancel</a>
+                    <a href="{{ route('dashboard') }}">Cancel</a>
                 </div>
 
-                <div wire:click="createIssue" class="flex items-center w-full h-full">
-                    <button class="primary-btn">Save</button>
-                </div>
+                <button wire:click="createIssue" class="primary-btn flex items-center justify-center">
+                    <div wire:loading wire:target='createIssue' class="animate-spin">
+                        <i class="fa-solid fa-spinner"></i>
+                    </div>
+                    <span>Save</span>
+                </button>
             </div>
         </div>
         <!-- Modal body -->
@@ -35,29 +38,36 @@
             <div class="">
                 <form id="modalIssue" action="submit"></form>
                 <div class=" pl-24 pr-12 flex flex-col gap-y-1 ">
-                    <input type="text" wire:model.defer="title"  placeholder="Issue title" class="border-full-none">
+                    <input type="text" wire:model.defer="title" placeholder="Issue title" class="border-full-none">
 
                     @if ($errors->has('title'))
-                    <p class="text-red-500 text-xs">{{ $errors->first('title') }}</p>
+                        <p class="text-red-500 text-xs">{{ $errors->first('title') }}</p>
                     @endif
 
                     <div class="mt-1">
-                    <textarea wire:model.defer="description" placeholder="Add a description .."
+                        <textarea wire:model.defer="description" placeholder="Add a description .."
                             class="border-none w-full font-normal focus:outline-none focus:ring-0 focus:border-none hover:outline-none hover:ring-0 bg-PrimaryBg min-h-[280px] resize-y overflow-y-scroll"></textarea>
-                            {{-- BBAN-179 --}}
-                        </div>
-                     @if ($errors->has('description'))
+                        {{-- BBAN-179 --}}
+                    </div>
+                    @if ($errors->has('description'))
                         <p class="text-red-500 text-xs">{{ $errors->first('description') }}</p>
                     @endif
 
 
                     <div class="mt-4 flex flex-col items-center gap-y-4 w-5/6 h-5/6">
 
-                        @if ($fileUpload)
-
-                        @foreach ($fileUpload as $file)
-                        <img class="" src="{{ $file->temporaryUrl() }}">
-                        @endforeach
+                        @if (!empty($sessionPhotos))
+                            @foreach ($sessionPhotos as $file)
+                                <img class="rounded-lg" src="{{ asset($file) }}">
+                            @endforeach
+                        @elseif (isset($fileUpload))
+                            @foreach ($fileUpload as $f)
+                                @if (!is_string($f))
+                                    {
+                                    <img class="rounded-lg" src="{{ $f?->temporaryUrl() }}">
+                                    }
+                                @endif
+                            @endforeach
                         @endif
                     </div>
 
@@ -94,7 +104,7 @@
                     <p class="text-SecondaryText text-xs">Assign</p>
                 </div>
                 <div class="">
-                    <livewire:issues.tags.assign-index  :currentAssign="$assign" />
+                    <livewire:issues.tags.assign-index :currentAssign="$assign" />
                 </div>
             </div>
 
@@ -103,7 +113,7 @@
                     <p class="text-SecondaryText text-xs">Due Date</p>
                 </div>
                 <div class="">
-                    <livewire:issues.tags.due-index  :index="2"/>
+                    <livewire:issues.tags.due-index :index="2" :due_date="$due_date" />
                 </div>
             </div>
         </div>
@@ -114,12 +124,12 @@
 
 @push('js')
     <script>
-         document.addEventListener('DOMContentLoaded', function() {
-                $("#attachFile").click(function()
-                {
-                    $("#fileUpload").click();
-                })
+        document.addEventListener('DOMContentLoaded', function() {
+            $("#FullPageAttachFile").click(function() {
+                console.log('clicked')
+                $("#FullPageFileUpload").click();
+            })
 
-            });
+        });
     </script>
 @endpush
