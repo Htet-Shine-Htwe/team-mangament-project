@@ -11,11 +11,14 @@ use App\Traits\IssueTagsEvent;
 use Carbon\Carbon;
 use DateInterval;
 use DateTime;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Index extends Component
 {
-    use IssueTagsEvent;
+    use WithFileUploads,IssueTagsEvent;
     public $title;
 
     public $description ;
@@ -27,13 +30,18 @@ class Index extends Component
     public $due_date;
     public $currentWorkspace;
 
+    public $fileUpload;
+
     public $listeners = ['changeStatus','changeAssign','changeDueDate'];
 
     protected $rules = [
         'title' => 'required|min:3',
         'description' => 'required|min:3',
         'status' => 'required',
+        'fileUpload'  => 'nullable|file|mimes:png,jpg,max:3072,count:3'
+
     ];
+
 
     public function mount()
     {
@@ -68,12 +76,28 @@ class Index extends Component
     }
 
     public function fullScreen(){
+
+        $sessionImages = [];
+        if(! empty($this->fileUpload))
+        {
+
+            $path = storageCreate('session_photo') . '/';
+            forEach($this->fileUpload as $file)
+            {
+                $photoName = "photoImage".uniqid().'.'.$file->getClientOriginalExtension();
+                $file->storeAs($path,$photoName,'local');
+                $sessionImages[] = Storage::url($path.$photoName);
+
+            }
+        }
+        // dd($sessionImages);
         session()->put('old_issue_create',[
             'title' => $this->title,
             'description' => $this->description,
             'status' => $this->status,
             'assign' => $this->assign,
-            'dueDate' => $this->due_date,
+            'due_date' => $this->due_date,
+            'fileUpload' => $sessionImages,
         ]);
         return redirect()->route('workspace.issue.create',['workspace_name' => getCurrentWorkspaceName()]);
     }
