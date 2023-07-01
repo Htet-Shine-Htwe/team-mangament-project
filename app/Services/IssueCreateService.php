@@ -42,19 +42,13 @@ class IssueCreateService
         ]);
 
         self::saveImages($files,$issue);
-        dd('ran');
-        $sessionData = session()->get('old_issue_create');
-        if(isset($sessionData))
-        {
-            $sessionPhotos = ['fileUpload'];
-            foreach($sessionPhotos as $photo)
-            {
-                //remove photo
-                Storage::delete('app/public/images/session_photo/'.$photo);
-            }
-        }
+
+        self::deleteSessionImage();
+
         session()->forget('old_issue_create');
-        return 'suceess';
+
+
+        return redirect()->route('workspace.issue.index',['workspace_name' => getCurrentWorkspaceName()]);
         // return $issue;
     }
 
@@ -77,7 +71,30 @@ class IssueCreateService
             }
            catch(\Exception $e)
            {
-                return $e->getMessage();
+                return  "image Saving error " . $e->getMessage();
            }
     }
-    }}
+    }
+    public static function deleteSessionImage()
+    {
+        $sessionData = session()->get('old_issue_create');
+
+        if(isset($sessionData))
+        {
+            try{
+                $sessionPhotos = ['fileUpload'];
+                foreach($sessionPhotos as $photo)
+                {
+                    //remove photo
+                    Storage::delete('app/public/images/session_photo/'.$photo);
+                }
+            }
+            catch(\Exception $e)
+            {
+                return  "image Deleting error " . $e->getMessage();
+            }
+
+        }
+    }
+
+}

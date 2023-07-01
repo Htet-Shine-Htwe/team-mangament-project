@@ -48,15 +48,16 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
             });
            });
 
-           //Search page
+           //Search Section
             $IssueSearchClass = "App\Http\Livewire\Issues\Search\\";
             Route::get('/search',$IssueSearchClass.Index::class)->name('workspace.search.index');
 
+            //Issue Section
             $issueClass = "App\Http\Livewire\Issues\\";
             Route::get('/issues',$issueClass.Index::class)->name('workspace.issue.index');
             Route::get('/issues/create',$issueClass.Show::class)->name('workspace.issue.create');
 
-            //setting
+            //setting Section
             Route::get('/',$workSpace.Index::class)->name('workspace.index');
             Route::get('/setting',$workSpace.'Setting\\'.Index::class)->name('workspace.setting.index');
             Route::get('/setting/members',$workSpace.'Setting\Member\\'.Index::class)->name('workspace.setting.member');

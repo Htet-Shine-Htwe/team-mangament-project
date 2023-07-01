@@ -2,24 +2,25 @@
 
 namespace App\Console\Commands;
 
+use App\Services\IssueCreateService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
-class CleanUpTemporaryPhoto extends Command
+class CleanUpSessionPhotos extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'cleanup:temporary-photo';
+    protected $signature = 'cleanup:session-photo';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Cleaning the tmp files';
+    protected $description = 'Clean the photo from session temp photo';
 
     /**
      * Execute the console command.
@@ -28,8 +29,9 @@ class CleanUpTemporaryPhoto extends Command
      */
     public function handle()
     {
-        $this->info('Cleaning up the tmp files');
-        $files = Storage::disk('local')->listContents('livewire-tmp');
+        $this->info('Cleaning up the session temp photo');
+
+        $files = Storage::disk('local')->listContents('public/images/session_photo');
 
         $totalFiles = collect($files)
             // ->filter(function($file){
@@ -40,6 +42,7 @@ class CleanUpTemporaryPhoto extends Command
             })->count();
         // dump(count($files));
          $this->info("$totalFiles files deleted successfully at " .now());
+
         return Command::SUCCESS;
     }
 }
