@@ -56,6 +56,8 @@ class S3FileStorage extends StorageFilePath implements StorageConfigInterface
                 $file = file_get_contents($filePath);
                 $resizedPhoto = $this->resizePhoto($file);
                 Storage::disk('s3')->put($path.'/' .  $photoImage,(string) $resizedPhoto->encode());
+
+
             }
            }
            dd('near');
