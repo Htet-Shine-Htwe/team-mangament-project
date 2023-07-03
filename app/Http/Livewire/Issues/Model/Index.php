@@ -57,22 +57,11 @@ class Index extends Component
 
     public function submit()
     {
-        // dd('clicked');
         $this->validate();
 
-        $date = Carbon::createFromFormat('d/m/Y', $this->due_date)->toDateTimeString();
-        $today = new DateTime();
-        $tenYearsLater = (new DateTime())->add(new DateInterval('P10Y'));
-        // if ($date <= $today || $date >= $tenYearsLater) {
-        //     $this->addError('due_Date', 'Date should between today and 10 years later');
-        //     dd('dde');
-        //     return back();
-        // }
-
         $data = $this->only(['title','description','assign','status','currentWorkspace','due_date']);
-        $issue = IssueCreateService::create($data);
+        return IssueCreateService::create($data);
 
-        dd($issue);
     }
 
     public function fullScreen(){

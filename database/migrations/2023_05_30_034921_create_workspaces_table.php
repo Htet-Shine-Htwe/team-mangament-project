@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('workspaces', function (Blueprint $table) {
             $table->id();
-            $table->string("name")->unique();
+            $table->string("name")->index()->unique();
             $table->string("logo_path")->nullable();
             $table->string("hax_color")->nullable();
             $table->timestamps();

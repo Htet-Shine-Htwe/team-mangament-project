@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Workspace;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 
 class WorkspaceHelper
@@ -36,7 +37,9 @@ class WorkspaceHelper
     public static function getUserWorkspaces() :Collection
     {
         if (self::$userWorkspaces === null) {
-            self::$userWorkspaces = Auth::user()->workspaces()->get();
+            self::$userWorkspaces = Cache::remember('authWorkspaces', 120, function () {
+               return Auth::user()->workspaces()->get();
+            });
         }
 
         return self::$userWorkspaces;

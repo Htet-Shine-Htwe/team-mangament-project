@@ -4,6 +4,7 @@ namespace App\Traits;
 
 trait IssueTagsEvent
 {
+
     public function changeStatus($status)
     {
         $this->status = $status;

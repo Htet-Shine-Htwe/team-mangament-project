@@ -6,8 +6,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\Invitation\Accept;
 // use App\Http\Livewire\Issues\Search\Index;
 use App\Http\Livewire\SettingComponent;
+use App\Models\Status;
 use App\Services\RouteRedirectService;
-
+use App\Services\WorkspaceHelper;
 use Illuminate\Support\Facades\Route;
 
 
@@ -55,7 +56,8 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
             //Issue Section
             $issueClass = "App\Http\Livewire\Issues\\";
             Route::get('/issues',$issueClass.Index::class)->name('workspace.issue.index');
-            Route::get('/issues/create',$issueClass.Show::class)->name('workspace.issue.create');
+            Route::get('/issues/{slug}',$issueClass.Issue::class)->name('workspace.issue.show');
+            Route::get('/create/issue/',$issueClass.Show::class)->name('workspace.issue.create');
 
             //setting Section
             Route::get('/',$workSpace.Index::class)->name('workspace.index');
@@ -78,7 +80,15 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
 
 Route::get('/sample',function()
 {
-   dd(RouteRedirectService::getRoute());
+        $issues = Status::select('id','title','color')
+        ->with(['issues' => function($query){
+            $query->select('id','title','description','status_id','creator_id','assign_id','due_date','created_at')
+            ->where('workspace_id',6001)
+            ->with('user:id,name,avatar,profile_photo_path,email');
+
+        }])
+        ->get();
+   return $issues;
 });
 
 Route::get('/invitations/{invitationId}',Accept::class)->middleware(['auth','workspace.checkInvitation'])

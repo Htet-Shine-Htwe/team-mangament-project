@@ -19,7 +19,7 @@ class PhotoTotalCleanUp extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Cleaning up the all the photo that are not static';
 
     /**
      * Execute the console command.

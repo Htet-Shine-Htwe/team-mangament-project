@@ -50,17 +50,14 @@ class S3FileStorage extends StorageFilePath implements StorageConfigInterface
             if(is_string($photo))
             {
                 $photoImage = basename($photo);
-                // $nameCollection[$key] = $photoName;
                 $filePath = storage_path('app/public/images/session_photo/'.$photoImage);
-                // dd($filePath);
                 $file = file_get_contents($filePath);
                 $resizedPhoto = $this->resizePhoto($file);
                 Storage::disk('s3')->put($path.'/' .  $photoImage,(string) $resizedPhoto->encode());
-
+                $nameCollection[$key] = $photoName;
 
             }
            }
-           dd('near');
            return $nameCollection;
        }
     //    $photoName = "photoImage" . uniqid() . '.' . pathinfo($photos->getClientOriginalName(), PATHINFO_EXTENSION);

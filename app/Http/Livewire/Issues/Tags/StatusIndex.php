@@ -24,7 +24,7 @@ class StatusIndex extends Component
 
     public function changeStatus($id)
     {
-        $this->currentStatus = $this->statues->find($id) ?? [];
+        $this->currentStatus = $this->statues->find($id) ?? $this->statuses->first();
         $this->emit('changeStatus', $this->currentStatus);
     }
 }

@@ -24,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
             \SocialiteProviders\GitHub\GitHubExtendSocialite::class.'@handle',
             \SocialiteProviders\Google\GoogleExtendSocialite::class.'@handle',
         ],
+        'Illuminate\Queue\Events\JobFailed' => [
+            'App\Listeners\HandleFailedJob',
+        ],
     ];
 
     /**

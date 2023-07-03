@@ -16,27 +16,15 @@ class Show extends Component
 {
     use WithFileUploads,IssueTagsEvent;
     public $title;
-
     public $description ;
-
-    public $status ;
-
+    public $status;
     public $assign;
-
-    public $currentWorkspace;
-
     public $due_date;
-
+    public $currentWorkspace;
     public $fileUpload;
-
     public $sessionPhotos;
     public $draftData ;
-
-
     public $listeners = ['changeStatus','changeAssign','changeDueDate'];
-
-
-
     protected $rules = [
         'title' => 'required|min:3',
         'description' => 'required|min:3',
@@ -47,14 +35,14 @@ class Show extends Component
     public function mount()
     {
         $this->currentWorkspace = WorkspaceHelper::getCurrentWorkspace();
-        $this->status = IssueInfoHelper::getStatuses();
+        $this->status = IssueInfoHelper::getStatuses()->first();
         $this->assign = current(WorkspaceHelper::getCurrentWorkspaceUsers());
         // dd($this->getDraftData());
         if(empty(!$data = $this->getDraftData())){
             $this->title = $data['title'];
             $this->description = $data['description'];
-            $this->status = $data['status'];
-            $this->assign = $data['assign'];
+            $this->status = $data['status'] ?? IssueInfoHelper::getStatuses()->first();
+            $this->assign = $data['assign'] ?? current(WorkspaceHelper::getCurrentWorkspaceUsers());
             $this->due_date = $data['due_date'];
             if(isset($data['fileUpload']))
             {
@@ -68,18 +56,15 @@ class Show extends Component
         }
 
     }
-
     public function render()
     {
         return view('livewire.issues.show');
     }
-
     public function createIssue(){
         $this->validate();
         $data = $this->only(['title','description','assign','status','currentWorkspace','due_date']);
-        $issue = IssueCreateService::create($data,$this->fileUpload);
 
-        dd($issue);
+        return IssueCreateService::create($data,$this->fileUpload);
     }
 
     protected function getDraftData()
