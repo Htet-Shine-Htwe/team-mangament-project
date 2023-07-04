@@ -1,4 +1,4 @@
-<div class="relative flex flex-col h-full bg-PrimaryBg rounded-lg w-ful  shadow pb-10">
+<div class="relative flex flex-col h-[100vh] bg-PrimaryBg rounded-lg w-ful  shadow pb-10 overflow-y-scroll">
     <!-- Modal header -->
     <header class="w-full block">
         <div class="flex w-full items-center justify-between px-12 py-6 shadow-lg border-b border-SeparateBorder ">
@@ -31,45 +31,63 @@
         </div>
     </header>
 
-    <div class=" h-full w-full">
-        <div data-layout="column" id="issue-container" class="flex h-full w-full flex-col gap-x-3  overflow-x-scroll ">
+    <div class=" w-full">
+        <div data-layout="column" id="issue-container" class="flex w-full flex-col gap-x-3 overflow-x-scroll pb-10">
 
             @foreach ($issues as $status)
-            {{-- col start --}}
-                <div
-                    class="issues-title-col px-12 py-4  w-full flex justify-between bg-SoftBg items-center border-b-[1px] border-SeparateBorder ">
-                    <div class="flex items-center gap-x-2">
-                        <i style="color: {{ $status->color }}" class="fa-solid fa-circle text-gray-300"></i>
-                        <p class="font-medium text-sm">{{ $status->title }}</p>
-                        <span class="badge">{{ $status->issues_count }}</span>
-                    </div>
-                    <div class="flex items-center">
-                        <i class="fa-solid fa-plus"></i></i>
-                    </div>
-                </div>
-            {{-- col end --}}
-            <div id="issue-box" class="flex flex-col ">
 
-                {{-- row start --}}
+                <div class="max-h-[60vh] overflow-y-scroll relative">
+                    <div wire:key='status-{{ $status['id'] }}' wire:ignore
+                        class="issues-title-col px-12 py-4  w-full flex justify-between bg-SoftBg items-center border-b-[1px] border-SeparateBorder ">
+                        <div class="flex items-center gap-x-2">
+                            <i style="color: {{ $status['color'] }}" class="fa-solid fa-circle text-gray-300"></i>
+                            <p class="font-medium text-sm">{{ $status['title'] }}</p>
+                            {{-- <span class="badge">{{ $status['status_count']}}</span> --}}
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-plus"></i>
+                            <div wire:loading wire:target='loadMore'
+                                class="animate-spin flex items-center justify-center  ml-28">
+                                <i class="fa-solid fa-spinner "></i>
+                            </div>
+                        </div>
+                    </div>
+                    @php
+                        $color = $status['color'];
+                    @endphp
+
+                    @forelse ($status['issues'] as $issue)
+                        @include('livewire.issues.column-view')
+
+                    @empty
+                    @endforelse
+
+                    <button class="absolute bottom-0 left-1/2" wire:key='status-{{ $status['id'] }}'
+                    wire:click="loadMore('{{ $status['title'] }}','{{ $status['id'] }}')">
+                    loadmore
+                </button>
+                </div>
+
+                {{-- col end --}}
+                <div wire:key='status-{{ $status['id'] }}' id="issue-box" class="flex flex-col">
+
+                    {{-- row start --}}
                     <div
                         class="issues-row px-12 py-4  w-[300px] flex justify-between bg-SoftBg items-center border-b-[1px] border-SeparateBorder ">
                         <div class="flex items-center gap-x-2">
-                            <i style="color: {{ $status->color }}" class="fa-solid fa-circle text-gray-300"></i>
-                            <p class="font-medium text-sm">{{ $status->title }}</p>
-                            <span class="badge">{{ $status->issues_count }}</span>
+                            <i style="color: {{ $status['color'] }}" class="fa-solid fa-circle text-gray-300"></i>
+                            <p class="font-medium text-sm">{{ $status['title'] }}</p>
+                            {{-- <span class="badge">{{ $status->issues_count }}</span> --}}
                         </div>
                         <div class="flex items-center">
                             <i class="fa-solid fa-plus"></i>
                         </div>
                     </div>
-                 {{-- row end --}}
+                    {{-- row end --}}
                     @php
-                        $color = $status->color;
+                        $color = $status['color'];
                     @endphp
-                    @forelse ($status->issues as $issue)
-                        @include('livewire.issues.column-view')
-
-
+                    @forelse ($status['issues'] as $issue)
                         @include('livewire.issues.row-view')
                     @empty
                     @endforelse
@@ -85,9 +103,16 @@
 
 @push('js')
     <script>
+        window.addEventListener('initSomething', event => {
+            $(".issues-row").removeClass("flex").addClass("hidden")
+
+            // anything you want to initialize
+        })
+
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('issue-container');
             const buttons = document.querySelectorAll('button[data-layout]');
+
             $(".issues-row").removeClass("flex").addClass("hidden")
 
             buttons.forEach(button => {

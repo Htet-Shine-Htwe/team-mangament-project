@@ -53,4 +53,9 @@ class Issue extends Model
     {
         return $this->belongsTo(User::class, 'creator_id');
     }
+
+    public function assigner()
+    {
+        return $this->belongsTo(User::class, 'assign_id');
+    }
 }

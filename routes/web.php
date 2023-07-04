@@ -9,7 +9,9 @@ use App\Http\Livewire\SettingComponent;
 use App\Models\Status;
 use App\Services\RouteRedirectService;
 use App\Services\WorkspaceHelper;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use App\Models\Issue as Is;
 
 
 /*
@@ -81,20 +83,68 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
 Route::get('/sample',function()
 {
     $currentWorkspaceId = 6001;
-    $issues = Status::select('id','title','color')
-    ->with(['issues' => function($query) use ($currentWorkspaceId){
-        $query->select('id','title','description','status_id','creator_id','assign_id','due_date','created_at')
-        ->where('workspace_id',$currentWorkspaceId)
-        ->with('user:id,name,avatar,profile_photo_path,email')
-        ->orderBy("created_at",'desc')
-        ->limit(10);
+            // $issues =  Status::select('statuses.id', 'statuses.title', 'statuses.color', 'i.id AS issue_id', 'i.title AS issue_title', 'i.status_id', 'i.creator_id', 'i.assign_id', 'i.created_at')
+            // ->leftJoin('issues AS i', function ($join) {
+            //     $join->on('statuses.id', '=', 'i.status_id')
+            //         ->where('i.workspace_id', 6001);
+            // })
+            // ->whereIn('i.id', function ($query) {
+            //     $query->select('id')
+            //         ->from(function ($subquery) {
+            //             $subquery->select('id', 'status_id', 'created_at')
+            //                 ->from('issues')
+            //                 ->whereRaw('status_id = statuses.id')
+            //                 ->orderBy('created_at', 'desc')
+            //                 ->limit(10);
 
-    }])
-    ->withCount(['issues' => function($query) use ($currentWorkspaceId){
-        $query->where('workspace_id',$currentWorkspaceId);
-    }])
-    ->get();
-   return $issues;
+            //         });
+            // })
+            // ->withCount('issues')
+            // ->orderBy('statuses.id')
+            // ->orderBy('i.created_at', 'desc')
+            // ->get();
+
+    $io = [];
+   Status::select('id','title','color')->get()->each(function($status) use(&$io) {
+   $status->issues=
+            Is::select('id','title','status_id','creator_id','assign_id','created_at')
+            ->where('status_id',$status->id)
+            ->where('workspace_id',6001)
+            ->with('user:id,name,avatar,profile_photo_path,email')
+            ->orderBy("created_at",'desc')
+            ->take(10)
+            ->get();
+
+    $io[] = $status;
+        });
+
+
+        return  Is::query()
+        ->select('id', 'title', 'status_id', 'creator_id', 'assign_id', 'created_at')
+        ->where('status_id', 16)
+        ->where('workspace_id', $currentWorkspaceId)
+        ->with('user:id,name,avatar,profile_photo_path')
+        ->orderBy('created_at', 'desc')
+        ->chunk(5, function ($issues) {
+            foreach ($issues as $issue) {
+                // Process each issue here
+                $id = $issue->id;
+                $title = $issue->title;
+                $statusId = $issue->status_id;
+                $creatorId = $issue->creator_id;
+                $assignId = $issue->assign_id;
+                $createdAt = $issue->created_at;
+
+                // Access related user data
+                $user = $issue->user;
+                $userId = $user->id;
+                $userName = $user->name;
+                $userAvatar = $user->avatar;
+                $userProfilePhotoPath = $user->profile_photo_path;
+
+                // Perform any required operations or computations on the issue and user data
+            }
+        });
 });
 
 Route::get('/invitations/{invitationId}',Accept::class)->middleware(['auth','workspace.checkInvitation'])

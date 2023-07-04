@@ -15,36 +15,65 @@ use Livewire\WithFileUploads;
 class Index extends Component
 {
 
-    public $issues;
+    public $issues = [];
 
+    public $statuses;
+    public $currentWorkspaceId;
 
+    public function dehydrate()
+{
+    $this->dispatchBrowserEvent('initSomething');
+}
     public function mount()
     {
-        $currentWorkspaceId = WorkspaceHelper::getCurrentWorkspace()->id;
-        $this->issues =  Status::select('id','title','color')
-        ->with(['issues' => function($query) use ($currentWorkspaceId){
-            $query->select('id','title','status_id','creator_id','assign_id','created_at')
-            ->where('workspace_id',$currentWorkspaceId)
-            ->with('user:id,name,avatar,profile_photo_path,email')
-            ->orderBy("created_at",'desc')
-            ->limit(10)
-            ;
-
-        }])
-
-        ->withCount(['issues' => function($query) use ($currentWorkspaceId){
-            $query->where('workspace_id',$currentWorkspaceId);
-        }])
-        ->get();
-
-        // var_dump($this->issues);
-
-        //
-        // ->get();
+        $this->currentWorkspaceId = WorkspaceHelper::getCurrentWorkspace()->id;
+        $this->statuses = IssueInfoHelper::getStatuses();
+        $this->issues =  $this->getIssues();
+        // dd($this->issues);
     }
     public function render()
     {
         return view('livewire.issues.index');
+    }
+
+    protected function getIssues()
+    {
+        $issues = [];
+
+        $this->statuses->each(function ($status) use (&$issues) {
+            $status->issues = $this->getIssuesByStatus($status->id,5);
+
+            $issues[] = $status;
+
+        });
+
+        return $issues;
+    }
+
+    protected function getIssuesByStatus(?int $id,int $amount = 10 )
+    {
+        return Issue::query()
+        ->select('id', 'title', 'status_id', 'creator_id', 'assign_id', 'created_at')
+        ->where('status_id', $id)
+        ->where('workspace_id', $this->currentWorkspaceId)
+        ->orderBy('created_at', 'desc')
+        ->limit($amount)
+        ->get()
+        ;
+    }
+
+    public function loadMore( $name,$id)
+    {
+        // dd($name,(int) $id);
+        foreach($this->issues as &$issue)
+        {
+            if($issue['title'] === $name){
+                $issue['issues'] = $this->getIssuesByStatus((int) $id, 10);
+            }
+            // dd($issue);
+        }
+        // dd($this->issues);
+        // $this->issues[$name]['issues'] =
     }
 
 }
