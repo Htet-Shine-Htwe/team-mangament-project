@@ -14,6 +14,7 @@ const themeSwitch = document.querySelectorAll('.theme-switch');
 const fontSwitch = document.querySelectorAll('.font-switch');
 
 const sidebarSwitch = document.getElementById('sidebarToggle');
+const mainLayout = document.getElementById('mainLayout');
 const sideBar = document.getElementById('sidebar');
 
 let themes = ['theme-light', 'theme-dark'];
@@ -66,6 +67,8 @@ sidebarSwitch.addEventListener('click', function (e) {
         sideBar.classList.add('w-[20%]');
         sideBar.classList.remove('hidden');
         sideBar.classList.remove('w-[0%]');
+        mainLayout.classList.add('w-[80%]');
+        mainLayout.classList.remove('w-[100%]');
 
     }
     else{
@@ -73,6 +76,8 @@ sidebarSwitch.addEventListener('click', function (e) {
         sideBar.classList.remove('w-[20%]');
         sideBar.classList.add('hidden');
         sideBar.classList.add('w-[0%]');
+        mainLayout.classList.remove('w-[80%]');
+        mainLayout.classList.add('w-[100%]');
     }
 
 })

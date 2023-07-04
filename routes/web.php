@@ -80,14 +80,20 @@ Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(fun
 
 Route::get('/sample',function()
 {
-        $issues = Status::select('id','title','color')
-        ->with(['issues' => function($query){
-            $query->select('id','title','description','status_id','creator_id','assign_id','due_date','created_at')
-            ->where('workspace_id',6001)
-            ->with('user:id,name,avatar,profile_photo_path,email');
+    $currentWorkspaceId = 6001;
+    $issues = Status::select('id','title','color')
+    ->with(['issues' => function($query) use ($currentWorkspaceId){
+        $query->select('id','title','description','status_id','creator_id','assign_id','due_date','created_at')
+        ->where('workspace_id',$currentWorkspaceId)
+        ->with('user:id,name,avatar,profile_photo_path,email')
+        ->orderBy("created_at",'desc')
+        ->limit(10);
 
-        }])
-        ->get();
+    }])
+    ->withCount(['issues' => function($query) use ($currentWorkspaceId){
+        $query->where('workspace_id',$currentWorkspaceId);
+    }])
+    ->get();
    return $issues;
 });
 

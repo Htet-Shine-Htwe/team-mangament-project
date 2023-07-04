@@ -1,6 +1,4 @@
-
-
-<div class="relative flex  flex-col h-full bg-PrimaryBg rounded-lg w-full shadow pb-10">
+<div class="relative flex flex-col h-full bg-PrimaryBg rounded-lg w-ful  shadow pb-10">
     <!-- Modal header -->
     <header class="w-full block">
         <div class="flex w-full items-center justify-between px-12 py-6 shadow-lg border-b border-SeparateBorder ">
@@ -33,58 +31,50 @@
         </div>
     </header>
 
-    <div class="w-full ">
-        <div data-layout="column" id="issue-container" class="flex flex-col  ">
+    <div class=" h-full w-full">
+        <div data-layout="column" id="issue-container" class="flex h-full w-full flex-col gap-x-3  overflow-x-scroll ">
 
-            @foreach ($issues as  $status)
-            <div class="px-12 py-4  w-full flex justify-between bg-SoftBg items-center border-b-[1px] border-SeparateBorder">
-                <div class="flex items-center gap-x-2">
-                    <i style="color: {{ $status->color }}" class="fa-solid fa-circle text-gray-300"></i>
-                    <p class="font-medium text-sm">{{ $status->title }}</p>
-                </div>
-                <div class="flex items-center">
-                   <i class="fa-solid fa-plus"></i></i>
-                </div>
-            </div>
-            @php
-                $color = $status->color
-            @endphp
-                @forelse ($status->issues as $issue)
-                <div class="px-12 py-6  w-full flex justify-between items-center border-b-[1px] border-SeparateBorder">
+            @foreach ($issues as $status)
+            {{-- col start --}}
+                <div
+                    class="issues-title-col px-12 py-4  w-full flex justify-between bg-SoftBg items-center border-b-[1px] border-SeparateBorder ">
                     <div class="flex items-center gap-x-2">
-                        <p class="text-SecondaryText text-xs">NOV - {{$issue->id}}</p>
-                        <i style="color: {{ $color }}"  class="fa-solid fa-circle "></i>
-                        <p class="font-medium text-sm">{{ $issue->title }}</p>
+                        <i style="color: {{ $status->color }}" class="fa-solid fa-circle text-gray-300"></i>
+                        <p class="font-medium text-sm">{{ $status->title }}</p>
+                        <span class="badge">{{ $status->issues_count }}</span>
                     </div>
-                    <div class="flex gap-x-2 items-center">
-                        <p class="text-xs text-SecondaryText">{{$issue->created_at->format('M d')}}</p>
-                        <div
-                            class="hover:ring-indigo-500 hover:border-indigo-500 border-2 rounded-full w-fit border-SecondaryBg transition-all relative">
+                    <div class="flex items-center">
+                        <i class="fa-solid fa-plus"></i></i>
+                    </div>
+                </div>
+            {{-- col end --}}
+            <div id="issue-box" class="flex flex-col ">
 
-                            <x-user-profile-photo :user="$issue->user" status="true" class="w-6 h-6" />
+                {{-- row start --}}
+                    <div
+                        class="issues-row px-12 py-4  w-[300px] flex justify-between bg-SoftBg items-center border-b-[1px] border-SeparateBorder ">
+                        <div class="flex items-center gap-x-2">
+                            <i style="color: {{ $status->color }}" class="fa-solid fa-circle text-gray-300"></i>
+                            <p class="font-medium text-sm">{{ $status->title }}</p>
+                            <span class="badge">{{ $status->issues_count }}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-plus"></i>
                         </div>
                     </div>
-                </div>
-                @empty
+                 {{-- row end --}}
+                    @php
+                        $color = $status->color;
+                    @endphp
+                    @forelse ($status->issues as $issue)
+                        @include('livewire.issues.column-view')
 
-                @endforelse
+
+                        @include('livewire.issues.row-view')
+                    @empty
+                    @endforelse
+                </div>
             @endforeach
-
-
-            <div class="px-12 py-6  w-full flex justify-between items-center border-b-[1px] border-SeparateBorder">
-                <div class="flex items-center gap-x-2">
-                    <p class="text-SoftText text-xs">NOV - 1 </p>
-                    <i class="fa-solid fa-circle text-gray-300"></i>
-                    <p class="font-medium text-sm">TItle</p>
-                </div>
-                <div class="flex gap-x-2 items-center">
-                    <p class="text-xs text-SecondaryText">Apr 26</p>
-                    <div
-                        class="hover:ring-indigo-500 hover:border-indigo-500 border-2 rounded-full w-fit border-SecondaryBg transition-all relative">
-                        <img src="{{ getLogo() }}" class='object-cover rounded-full w-4 h-4' />
-                    </div>
-                </div>
-            </div>
 
 
         </div>
@@ -98,6 +88,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('issue-container');
             const buttons = document.querySelectorAll('button[data-layout]');
+            $(".issues-row").removeClass("flex").addClass("hidden")
 
             buttons.forEach(button => {
                 button.addEventListener('click', () => {
@@ -107,16 +98,29 @@
 
                     $("button[data-layout='" + layout + "']").addClass("active-btn");
 
-                    if(layout == 'column'){
+                    if (layout == 'column') {
                         $("#issue-container").removeClass("flex-row").addClass("flex-col");
-                    }
-                    else{
+                        $(".issues-row").removeClass("flex").addClass("hidden")
+                        $(".issues-col").removeClass("hidden").addClass("flex")
+                        $(".issues-title-col").removeClass("hidden").addClass("flex")
+                    } else {
                         $("#issue-container").removeClass("flex-col").addClass("flex-row");
+                        $("#issue-box").removeClass("flex").removeClass("flex-col")
+                        $(".issues-row").removeClass("hidden").addClass("flex")
+                        $(".issues-col").removeClass("flex").addClass("hidden")
+                        $(".issues-title-col").removeClass("flex").addClass("hidden")
+
                     }
 
                 });
 
             });
+
+            $(".issues-title-col").each(function() {
+                $(this).click(function() {
+                    $(this).nextUntil('.issues-title-col').slideToggle(300);
+                })
+            })
 
         });
     </script>

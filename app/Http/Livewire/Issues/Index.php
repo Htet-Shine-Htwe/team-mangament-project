@@ -23,10 +23,17 @@ class Index extends Component
         $currentWorkspaceId = WorkspaceHelper::getCurrentWorkspace()->id;
         $this->issues =  Status::select('id','title','color')
         ->with(['issues' => function($query) use ($currentWorkspaceId){
-            $query->select('id','title','description','status_id','creator_id','assign_id','due_date','created_at')
+            $query->select('id','title','status_id','creator_id','assign_id','created_at')
             ->where('workspace_id',$currentWorkspaceId)
-            ->with('user:id,name,avatar,profile_photo_path,email');
+            ->with('user:id,name,avatar,profile_photo_path,email')
+            ->orderBy("created_at",'desc')
+            ->limit(10)
+            ;
 
+        }])
+
+        ->withCount(['issues' => function($query) use ($currentWorkspaceId){
+            $query->where('workspace_id',$currentWorkspaceId);
         }])
         ->get();
 

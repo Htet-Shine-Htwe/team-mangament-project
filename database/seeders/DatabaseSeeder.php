@@ -29,10 +29,11 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            RoleSeeder::class,
+            // RoleSeeder::class,
             // IconSeeder::class,
             // WorkspaceSeeder::class,
             // UserWorkspaceSeeder::class,
+            IssueSeeder::class,
         ]);
 
         // $this->call([
