@@ -9,3 +9,16 @@
     </div>
 
 </div>
+
+@push('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            Livewire.on('refreshIssues', postId => {
+                $("#test").hide();
+            console.log('refreshIssues')
+            })
+
+    });
+    </script>
+@endpush

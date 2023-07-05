@@ -63,8 +63,10 @@ class Show extends Component
     public function createIssue(){
         $this->validate();
         $data = $this->only(['title','description','assign','status','currentWorkspace','due_date']);
+         IssueCreateService::create($data,$this->fileUpload);
 
-        return IssueCreateService::create($data,$this->fileUpload);
+        return redirect()->route('workspace.issue.index',['workspace_name' => getCurrentWorkspaceName()]);
+
     }
 
     protected function getDraftData()

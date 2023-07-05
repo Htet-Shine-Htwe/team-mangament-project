@@ -14,7 +14,7 @@ class Status extends Model
         'color',
     ];
 
-    public function issues()
+    public function statusIssues()
     {
         return $this->hasMany(Issue::class);
     }

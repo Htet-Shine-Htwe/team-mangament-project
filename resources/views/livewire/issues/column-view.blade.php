@@ -7,7 +7,7 @@ class="issues-col px-12 py-6  w-full flex justify-between items-center border-b-
     <p class="font-medium text-sm">{{ $issue['title'] }}</p>
 </div>
 <div class="flex gap-x-2 items-center">
-    <p class="text-xs text-SecondaryText">{{ $issue['created_at']}}</p>
+    <p class="text-xs text-SecondaryText">{{ \Carbon\Carbon::parse($issue['created_at'])->format('M d')}}</p>
     <div
         class="hover:ring-indigo-500 hover:border-indigo-500 border-2 rounded-full w-fit border-SecondaryBg transition-all relative">
 

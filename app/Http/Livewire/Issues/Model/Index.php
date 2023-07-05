@@ -11,6 +11,7 @@ use App\Traits\IssueTagsEvent;
 use Carbon\Carbon;
 use DateInterval;
 use DateTime;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -60,7 +61,14 @@ class Index extends Component
         $this->validate();
 
         $data = $this->only(['title','description','assign','status','currentWorkspace','due_date']);
-        return IssueCreateService::create($data);
+        IssueCreateService::create($data);
+
+        $name = 'status-'.$this->status['title'];
+
+        Cache::forget($name);
+        $this->emit('refreshIssues');
+
+        $this->reset(['title','description','due_date','fileUpload']);
 
     }
 

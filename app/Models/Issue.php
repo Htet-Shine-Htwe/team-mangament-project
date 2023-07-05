@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -39,6 +40,11 @@ class Issue extends Model
         return Str::slug($this->title);
     }
 
+    // public function getCreatedAtAttribute($value)
+    // {
+    //     return Carbon::parse($value)->format('M d');
+    // }
+
     public function status()
     {
         return $this->belongsTo(Status::class);
@@ -58,4 +64,5 @@ class Issue extends Model
     {
         return $this->belongsTo(User::class, 'assign_id');
     }
+
 }

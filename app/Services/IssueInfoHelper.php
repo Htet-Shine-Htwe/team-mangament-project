@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Status;
 use App\Models\UserWorkspace;
+use Illuminate\Support\Facades\Cache;
 
 class IssueInfoHelper
 {
@@ -28,7 +29,13 @@ class IssueInfoHelper
     {
         if(self::$statues == null)
         {
-            self::$statues = Status::select('id','title','color')->get();
+            self::$statues =
+            Cache::remember('statuses-'.auth()->id(), 60, function ()
+                {
+                 return   Status::select('id','title','color')->get();
+
+                }
+            );
         }
        return  self::$statues ;
     }

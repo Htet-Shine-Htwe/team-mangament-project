@@ -42,7 +42,6 @@ class IssueCreateService
 
         self::fullIssueProcess($data,$files);
 
-        return redirect()->route('workspace.issue.index',['workspace_name' => getCurrentWorkspaceName()]);
     }
 
     protected static function fullIssueProcess(array $data , $files = null) :void
