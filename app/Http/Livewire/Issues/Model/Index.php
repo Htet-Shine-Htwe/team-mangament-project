@@ -49,7 +49,7 @@ class Index extends Component
         $this->currentWorkspace = WorkspaceHelper::getCurrentWorkspace();
         $this->status = IssueInfoHelper::getStatuses()->first()->toArray();
         $this->assign = current(WorkspaceHelper::getCurrentWorkspaceUsers()) ?? [];
-    }
+    }//
 
     public function render()
     {
