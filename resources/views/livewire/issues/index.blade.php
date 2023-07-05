@@ -36,7 +36,7 @@
 
             @foreach ($issues as $status)
 
-                    <div wire:key='status-{{ $status['id'] }}' wire:ignore
+                    <div wire:key='status-{{ $status['id'] }}'
                         class="issues-title-col px-12 py-4  w-full flex justify-between bg-SoftBg items-center border-b-[1px] border-SeparateBorder ">
                         <div class="flex items-center gap-x-2">
                             <i style="color: {{ $status['color'] }}" class="fa-solid fa-circle text-gray-300"></i>

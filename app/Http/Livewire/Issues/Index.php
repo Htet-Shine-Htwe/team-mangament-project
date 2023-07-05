@@ -7,6 +7,7 @@ use App\Models\Status;
 use App\Services\IssueCreateService;
 use App\Services\IssueInfoHelper;
 use App\Services\WorkspaceHelper;
+use App\Traits\CacheModify;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -16,7 +17,7 @@ use Livewire\WithFileUploads;
 
 class Index extends Component
 {
-
+    use CacheModify;
     public $issues = [];
 
     public $statuses;
@@ -47,9 +48,10 @@ class Index extends Component
             $status->issue_count =DB::table('issues')
             ->selectRaw('count(*) as count')
             ->where('status_id', $status->id)
+            ->where('workspace_id',$this->currentWorkspaceId)
             ->value('count');
 
-            $name = 'status-'.$status->title;
+            $name = $this->getCacheName($this->currentWorkspaceId,$status['title'],'status');
             $status->issues = $this->cacheIssue($name,$this->getIssuesByStatus($status->id, 10));
             $issues[] = $status;
 
@@ -76,7 +78,7 @@ class Index extends Component
         {
             if($issue['title'] === $name){
                 $total = count($issue['issues']) + 10;
-                $name = 'status-'.$issue['title'];
+                $name = $this->getCacheName($this->currentWorkspaceId,$issue['title'],'status');
                 $issue['issues'] = $this->cacheIssue($name,$this->getIssuesByStatus((int) $id, $total));
             }
             // dd($issue);

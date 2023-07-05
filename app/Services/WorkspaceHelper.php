@@ -37,9 +37,7 @@ class WorkspaceHelper
     public static function getUserWorkspaces() :Collection
     {
         if (self::$userWorkspaces === null) {
-            self::$userWorkspaces = Cache::remember('authWorkspaces', 120, function () {
-               return Auth::user()->workspaces()->get();
-            });
+            self::$userWorkspaces =  Auth::user()->workspaces()->get();
         }
 
         return self::$userWorkspaces;

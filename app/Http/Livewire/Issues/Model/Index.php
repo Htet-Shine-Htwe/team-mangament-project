@@ -7,19 +7,15 @@ use App\Models\Status;
 use App\Services\IssueCreateService;
 use App\Services\IssueInfoHelper;
 use App\Services\WorkspaceHelper;
+use App\Traits\CacheModify;
 use App\Traits\IssueTagsEvent;
-use Carbon\Carbon;
-use DateInterval;
-use DateTime;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class Index extends Component
 {
-    use WithFileUploads,IssueTagsEvent;
+    use WithFileUploads,IssueTagsEvent,CacheModify;
     public $title;
 
     public $description ;
@@ -63,9 +59,8 @@ class Index extends Component
         $data = $this->only(['title','description','assign','status','currentWorkspace','due_date']);
         IssueCreateService::create($data);
 
-        $name = 'status-'.$this->status['title'];
+        $this->clearCache($this->currentWorkspace->id,$this->status['title'],'status');
 
-        Cache::forget($name);
         $this->emit('refreshIssues');
 
         $this->reset(['title','description','due_date','fileUpload']);
