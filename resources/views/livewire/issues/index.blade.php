@@ -10,21 +10,12 @@
                 <div class="flex items-center bg-SoftBg rounded-lg">
                     <button id="showColumn" data-layout="column"
                         class=" w-8 h-8 flex active-btn items-center justify-center rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" id="column">
-                            <path fill="#576d7e"
-                                d="m7.824 2-2.246.115c.815.815.731.735.8.807L4.298 5.004l.707.707 2.08-2.08c.07.073-.013-.01.799.803h.002L8 2.176A.166.166 0 0 0 7.824 2zM11.5 2c-.277 0-.5.223-.5.5v9c0 .277.223.5.5.5h2c.277 0 .5-.223.5-.5v-9c0-.277-.223-.5-.5-.5h-2zm-4 3c-.277 0-.5.223-.5.5v6c0 .277.223.5.5.5h2c.277 0 .5-.223.5-.5v-6c0-.277-.223-.5-.5-.5h-2zM3.625 7A.624.624 0 0 0 3 7.625v3.75c0 .346.279.625.625.625h1.75A.624.624 0 0 0 6 11.375v-3.75A.624.624 0 0 0 5.375 7h-1.75zM2.4 13a.5.5 0 0 0 .051 1h12.041a.5.5 0 1 0 0-1H2.452a.5.5 0 0 0-.052 0z">
-                            </path>
-                        </svg>
+                        @include('components.svgs.column-svg')
                     </button>
 
                     <button id="showRow" data-layout="row"
                         class=" bg-SoftBg w-8 h-8 flex items-center justify-center rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 32 32"
-                            id="menu-list">
-                            <path fill="#576d7e"
-                                d="M28 9.25H4a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h24a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2zm0 7H4a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h24a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2zm0 7H4a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h24a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2zm0-21H4a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h24a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2z">
-                            </path>
-                        </svg>
+                        @include('components.svgs.row-svg')
                     </button>
                 </div>
             </div>
@@ -35,35 +26,33 @@
         <div data-layout="column" id="issue-container" class="flex w-full flex-col gap-x-3 overflow-x-scroll pb-10">
 
             @foreach ($issues as $status)
+                <div wire:key='status-{{ $status['id'] }}'
+                    class="issues-title-col px-12 py-4  w-full flex justify-between bg-SoftBg items-center border-b-[1px] border-SeparateBorder ">
+                    <div class="flex items-center gap-x-2">
+                        <i style="color: {{ $status['color'] }}" class="fa-solid fa-circle text-gray-300"></i>
+                        <p class="font-medium text-sm">{{ $status['title'] }}</p>
+                        <span class="badge">{{ $status['issue_count'] }}</span>
+                    </div>
+                    <div class="flex items-center gap-x-4">
 
-                    <div wire:key='status-{{ $status['id'] }}'
-                        class="issues-title-col px-12 py-4  w-full flex justify-between bg-SoftBg items-center border-b-[1px] border-SeparateBorder ">
-                        <div class="flex items-center gap-x-2">
-                            <i style="color: {{ $status['color'] }}" class="fa-solid fa-circle text-gray-300"></i>
-                            <p class="font-medium text-sm">{{ $status['title'] }}</p>
-                            <span class="badge">{{ $status['issue_count']}}</span>
-                        </div>
-                        <div class="flex items-center gap-x-4">
-
-                            <button class="flex w-full justify-center" wire:key='status-{{ $status['id'] }}'
+                        <button class="flex w-full justify-center" wire:key='status-{{ $status['id'] }}'
                             wire:click="loadMore('{{ $status['title'] }}','{{ $status['id'] }}')">
-                            <div wire:loading wire:target='loadMore'
-                                        class="animate-spin ">
-                            <i  class="fa-solid fa-arrows-rotate"></i>
+                            <div wire:loading wire:target='loadMore' class="animate-spin ">
+                                <i class="fa-solid fa-arrows-rotate"></i>
                             </div>
                             <div wire:loading.remove wire:target='loadMore' class="">
-                            <i  class="fa-solid fa-arrows-rotate"></i>
+                                <i class="fa-solid fa-arrows-rotate"></i>
                             </div>
-                            </button>
+                        </button>
 
 
-                            <i class="fa-solid fa-plus"></i>
+                        <i class="fa-solid fa-plus"></i>
 
-                        </div>
                     </div>
-                    @php
-                        $color = $status['color'];
-                    @endphp
+                </div>
+                @php
+                    $color = $status['color'];
+                @endphp
                 <div class="max-h-[60vh] overflow-y-scroll relative">
 
                     @forelse ($status['issues'] as $issue)
@@ -85,7 +74,16 @@
                             <p class="font-medium text-sm">{{ $status['title'] }}</p>
                             <span class="badge">{{ $status['issue_count'] }}</span>
                         </div>
-                        <div class="flex items-center">
+                        <div class="flex items-center gap-x-4">
+                            <button class="flex w-full justify-center" wire:key='status-{{ $status['id'] }}'
+                                wire:click="loadMore('{{ $status['title'] }}','{{ $status['id'] }}')">
+                                <div wire:loading wire:target='loadMore' class="animate-spin ">
+                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                </div>
+                                <div wire:loading.remove wire:target='loadMore' class="">
+                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                </div>
+                            </button>
                             <i class="fa-solid fa-plus"></i>
                         </div>
                     </div>
@@ -114,6 +112,7 @@
 
             // anything you want to initialize
         })
+
 
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('issue-container');
@@ -148,11 +147,29 @@
             });
 
             $(".issues-title-col").each(function() {
-                $(this).click(function() {
-                    $(this).nextUntil('.issues-title-col').slideToggle(300);
+                $(this).click(function(event) {
+                    if (event.target === this) {
+                        event.stopPropagation();
+                        $(this).nextUntil('.issues-title-col').slideToggle(300);
+                    }
                 })
             })
 
+/
+            $.ajax({
+                url: '/api/issues',
+                type: 'GET',
+                dataType: 'json',
+
+                success: function(response) {
+                    // Handle the successful response
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    // Handle the error
+                    console.log(error);
+                }
+            });
         });
     </script>
 @endpush

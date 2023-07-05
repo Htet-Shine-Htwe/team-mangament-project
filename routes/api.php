@@ -37,3 +37,11 @@ Route::get('/pendingInvitations', function () {
     ]);
 });
 
+
+Route::middleware(['workspace.has','workspace.checkSelected'])->group(function () {
+
+    Route::middleware(['workspace.access'])->group(function () {
+    });
+});
+Route::post('/issues/{id}',[\App\Http\Controllers\Api\Issues\IssueController::class,'update'])->name('issue.update');
+Route::get('/issues',[\App\Http\Controllers\Api\Issues\IssueController::class,'index'])->name('issue.index');

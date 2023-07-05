@@ -17,18 +17,12 @@ class Index extends Component
 {
     use WithFileUploads,IssueTagsEvent,CacheModify;
     public $title;
-
     public $description ;
-
     public $status ;
-
     public $assign;
-
     public $due_date;
     public $currentWorkspace;
-
     public $fileUpload;
-
     public $listeners = ['changeStatus','changeAssign','changeDueDate'];
 
     protected $rules = [
@@ -68,11 +62,9 @@ class Index extends Component
     }
 
     public function fullScreen(){
-
         $sessionImages = [];
         if(! empty($this->fileUpload))
         {
-
             $path = storageCreate('session_photo') . '/';
             forEach($this->fileUpload as $file)
             {
@@ -82,7 +74,6 @@ class Index extends Component
 
             }
         }
-        // dd($sessionImages);
         session()->put('old_issue_create',[
             'title' => $this->title,
             'description' => $this->description,

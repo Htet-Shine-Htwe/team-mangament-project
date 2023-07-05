@@ -33,9 +33,6 @@ Route::get('/users',[ProfileController::class,'users'])->name('users');
 
 Route::middleware(['auth','workspace.has','workspace.checkSelected'])->group(function () {
 
-    //profile
-
-    //workspace
     Route::middleware(['workspace.access'])->group(function () {
         Route::prefix('/workspaces/{workspace_name}')->group(function () {
             $workSpace = "App\Http\Livewire\Workspace\\";

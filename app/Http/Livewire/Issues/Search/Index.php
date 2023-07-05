@@ -18,7 +18,6 @@ class Index extends Component
 
     public function updatedSearch()
     {
-        sleep(1);
         if($this->search != ''){
             $this->issues = Issue::where('title','like','%'.$this->search.'%')
             ->where('workspace_id',WorkspaceHelper::getCurrentWorkspace()->id)

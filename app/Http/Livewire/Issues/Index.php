@@ -10,8 +10,10 @@ use App\Services\WorkspaceHelper;
 use App\Traits\CacheModify;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -30,6 +32,7 @@ class Index extends Component
 }
     public function mount()
     {
+
         $this->currentWorkspaceId = WorkspaceHelper::getCurrentWorkspace()->id;
         $this->statuses = IssueInfoHelper::getStatuses();
         $this->issues =  $this->getIssues();
@@ -93,6 +96,7 @@ class Index extends Component
 
     protected function cacheIssue($name,$callback)
     {
+        Cache::forget($name);
         return Cache::remember($name,60,function() use ($callback){
             return $callback;
         });
